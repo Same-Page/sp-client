@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import "./Chat.css"
 
 import { Tabs, Button } from "antd"
@@ -9,63 +9,65 @@ import RoomList from "Tab/RoomList"
 
 const { TabPane } = Tabs
 
-class Chat extends React.Component {
-	constructor(props) {
-		super(props)
-		this.newTabIndex = 0
-		const panes = [
-			{ title: "Tab 1", content: "Content of Tab Pane 1", key: "1" },
-			{ title: "Tab 2", content: "Content of Tab Pane 2", key: "2" }
-		]
-		this.state = {
-			activeKey: panes[0].key,
-			panes
-		}
+const initPanes = [
+	{ title: "请选择房间 1", key: "1" },
+	{ title: "请选择房间 2", key: "2" }
+]
+
+let newTabIndex = 0
+
+function Chat() {
+	const [panes, setPanes] = useState(initPanes)
+	const [activeKey, setActiveKey] = useState(initPanes[0].key)
+
+	const onChange = activeKey => {
+		setActiveKey(activeKey)
 	}
 
-	onChange = activeKey => {
-		this.setState({ activeKey })
+	const add = () => {
+		const key = `newTab${newTabIndex++}`
+		panes.push({ title: "选择房间", key: key })
+		setPanes(panes)
+		setActiveKey(key)
 	}
 
-	onEdit = (targetKey, action) => {
-		this[action](targetKey)
-	}
-
-	add = () => {
-		const { panes } = this.state
-		const activeKey = `newTab${this.newTabIndex++}`
-		panes.push({ title: "选择房间", key: activeKey })
-		this.setState({ panes, activeKey })
-	}
-
-	remove = targetKey => {
-		let { activeKey } = this.state
+	const remove = targetKey => {
 		let lastIndex
-		this.state.panes.forEach((pane, i) => {
+		panes.forEach((pane, i) => {
 			if (pane.key === targetKey) {
 				lastIndex = i - 1
 			}
 		})
-		const panes = this.state.panes.filter(pane => pane.key !== targetKey)
-		if (panes.length && activeKey === targetKey) {
+		const newPanes = panes.filter(pane => pane.key !== targetKey)
+		if (newPanes.length && activeKey === targetKey) {
+			// Update activeKey if removed the active pane
+			// Use the pane before or after if no before ones
+			let newActiveKey = -1
 			if (lastIndex >= 0) {
-				activeKey = panes[lastIndex].key
+				newActiveKey = newPanes[lastIndex].key
 			} else {
-				activeKey = panes[0].key
+				newActiveKey = newPanes[0].key
 			}
+			setActiveKey(newActiveKey)
 		}
-		this.setState({ panes, activeKey })
+		setPanes(newPanes)
 	}
-
-	setRoom = (room, paneIndex) => {
+	const onEdit = (targetKey, action) => {
+		if (action === "add") {
+			add(targetKey)
+		} else if (action === "remove") {
+			remove(targetKey)
+		} else {
+			console.error(action)
+		}
+	}
+	const setRoom = (room, paneIndex) => {
 		// If room already open, set it to be active
-		const panes = this.state.panes
-
 		const existingPane = panes.filter(
 			pane => pane.room && pane.room.id === room.id
 		)
 		if (existingPane.length) {
-			this.setState({ activeKey: existingPane[0].key })
+			setActiveKey(existingPane[0].key)
 			return
 		}
 
@@ -74,55 +76,58 @@ class Chat extends React.Component {
 			room: room,
 			key: panes[paneIndex].key
 		}
-		// Need a new list or it's ok to just replace the pane
 		panes[paneIndex] = pane
-		this.setState({ panes })
+		console.log(panes)
+		setPanes([...panes])
 	}
 
-	render() {
-		return (
-			<div>
-				{/* <div className="sp-tab-header">{"实时聊天"}</div> */}
+	return (
+		<div>
+			{/* <div className="sp-tab-header">{"实时聊天"}</div> */}
 
-				<div className="sp-chat-tabs">
-					<Tabs
-						tabBarExtraContent={
-							<Button
-								// type="primary"
-								onClick={this.add}
-							>
-								<PlusOutlined />
-							</Button>
-						}
-						hideAdd
-						onChange={this.onChange}
-						activeKey={this.state.activeKey}
-						// type="editable-card" commented out otherwise style is a mess
-						onEdit={this.onEdit}
-						tabPosition="left"
-					>
-						{this.state.panes.map((pane, paneIndex) => (
-							<TabPane tab={pane.title} key={pane.key}>
-								<div className="sp-room-tab">
-									{!pane.room && (
-										<RoomList setRoom={this.setRoom} paneIndex={paneIndex} />
-									)}
+			<div className="sp-chat-tabs">
+				<Tabs
+					tabBarExtraContent={
+						<Button
+							// type="primary"
+							onClick={add}
+						>
+							<PlusOutlined />
+						</Button>
+					}
+					hideAdd
+					onChange={onChange}
+					activeKey={activeKey}
+					// type="editable-card" commented out otherwise style is a mess
+					onEdit={onEdit}
+					tabPosition="left"
+				>
+					{panes.map((pane, paneIndex) => (
+						<TabPane tab={pane.title} key={pane.key}>
+							<div className="sp-room-tab">
+								{!pane.room && (
+									<RoomList
+										setRoom={room => {
+											setRoom(room, paneIndex)
+										}}
+									/>
+								)}
 
-									{pane.room && (
-										<RoomTab
-											room={pane.room}
-											exit={this.remove}
-											paneKey={pane.key}
-										/>
-									)}
-								</div>
-							</TabPane>
-						))}
-					</Tabs>
-				</div>
+								{pane.room && (
+									<RoomTab
+										room={pane.room}
+										exit={() => {
+											remove(pane.key)
+										}}
+									/>
+								)}
+							</div>
+						</TabPane>
+					))}
+				</Tabs>
 			</div>
-		)
-	}
+		</div>
+	)
 }
 
 export default Chat

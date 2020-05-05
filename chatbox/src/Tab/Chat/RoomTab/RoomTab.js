@@ -26,7 +26,7 @@ const chatBodyStyle = {
 	scrollBehavior: "smooth"
 }
 
-function RoomTab({ room, exit, paneKey }) {
+function RoomTab({ room, exit }) {
 	useEffect(() => {
 		console.log("join room " + room.name)
 		joinRoom(room)
@@ -35,7 +35,7 @@ function RoomTab({ room, exit, paneKey }) {
 			// TODO: leave room
 			console.log("remove room " + room.name)
 		}
-	}, [])
+	}, [room])
 
 	const [messages, setMessages] = useState([])
 	const bodyRef = useRef(null)
@@ -137,11 +137,7 @@ function RoomTab({ room, exit, paneKey }) {
 	return (
 		<div>
 			<div className="sp-tab-header">
-				<LogoutOutlined
-					onClick={() => {
-						exit(paneKey)
-					}}
-				/>
+				<LogoutOutlined onClick={exit} />
 			</div>
 
 			<div ref={bodyRef} style={{ ...bodyStyle }}>

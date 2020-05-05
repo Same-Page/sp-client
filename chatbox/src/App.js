@@ -16,7 +16,7 @@ function App({ setAccount }) {
 			setAccount(account)
 		})
 		// createSocket()
-	}, [])
+	}, [setAccount])
 	return <Tab />
 }
 

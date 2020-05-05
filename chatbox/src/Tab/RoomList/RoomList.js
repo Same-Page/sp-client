@@ -31,7 +31,7 @@ const title = (
 		创建房间<span style={{ color: "gray" }}>（需10积分）</span>
 	</span>
 )
-function RoomList({ back, showCreateRoomBtn, setRoom, paneIndex }) {
+function RoomList({ back, showCreateRoomBtn, setRoom }) {
 	const [loadingRooms, setLoadingRooms] = useState(false)
 	// rooms here mean room list returned from backend
 	// do not confuse with state.rooms
@@ -140,7 +140,7 @@ function RoomList({ back, showCreateRoomBtn, setRoom, paneIndex }) {
 								title={r.about}
 								key={r.id}
 								onClick={() => {
-									setRoom(r, paneIndex)
+									setRoom(r)
 									//   joinManMadeRoom(r)
 									//   // setDiscoveryRoom(r)
 									//   socketManager.joinRoom(r)
