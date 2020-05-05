@@ -4,7 +4,7 @@ import { connect } from "react-redux"
 import storageManager from "storage"
 import Tab from "Tab"
 import { setAccount } from "redux/actions"
-import { createSocket } from "socket"
+// import { createSocket } from "socket"
 
 function App({ setAccount }) {
 	useEffect(() => {
@@ -15,7 +15,7 @@ function App({ setAccount }) {
 		storageManager.get("account", account => {
 			setAccount(account)
 		})
-		createSocket()
+		// createSocket()
 	}, [])
 	return <Tab />
 }

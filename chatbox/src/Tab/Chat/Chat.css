@@ -2,7 +2,7 @@
 	border: none;
 }
 .sp-chat-tabs .ant-tabs-bar.ant-tabs-left-bar {
-	margin-top: 10px;
+	/* margin-top: 10px; */
 	min-width: 80px;
 }
 .sp-chat-tabs .ant-tabs-extra-content {
@@ -13,13 +13,13 @@
 }
 .sp-chat-tabs .ant-tabs .ant-tabs-left-bar .ant-tabs-ink-bar {
 	/* width: 5px; */
-	width: 100%;
+	/* width: 100%; */
 }
 .sp-chat-tabs .ant-tabs-nav .ant-tabs-tab-active {
-	color: white;
+	/* color: white; */
 }
 .sp-chat-tabs .ant-tabs .ant-tabs-left-bar .ant-tabs-tab {
-	padding: 5px 18px;
+	padding: 9px 18px;
 	z-index: 2;
 }
 .sp-chat-tabs {

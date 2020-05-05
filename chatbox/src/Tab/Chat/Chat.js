@@ -5,6 +5,7 @@ import { Tabs, Button } from "antd"
 import { PlusOutlined } from "@ant-design/icons"
 
 import RoomTab from "./RoomTab"
+import RoomList from "Tab/RoomList"
 
 const { TabPane } = Tabs
 
@@ -57,7 +58,16 @@ class Chat extends React.Component {
 	}
 
 	setRoom = (room, paneIndex) => {
+		// If room already open, set it to be active
 		const panes = this.state.panes
+
+		const existingPane = panes.filter(
+			pane => pane.room && pane.room.id === room.id
+		)
+		if (existingPane.length) {
+			this.setState({ activeKey: existingPane[0].key })
+			return
+		}
 
 		const pane = {
 			title: room.name,
@@ -72,12 +82,15 @@ class Chat extends React.Component {
 	render() {
 		return (
 			<div>
-				<div className="sp-tab-header">{"实时聊天"}</div>
+				{/* <div className="sp-tab-header">{"实时聊天"}</div> */}
 
 				<div className="sp-chat-tabs">
 					<Tabs
 						tabBarExtraContent={
-							<Button type="primary" onClick={this.add}>
+							<Button
+								// type="primary"
+								onClick={this.add}
+							>
 								<PlusOutlined />
 							</Button>
 						}
@@ -91,11 +104,17 @@ class Chat extends React.Component {
 						{this.state.panes.map((pane, paneIndex) => (
 							<TabPane tab={pane.title} key={pane.key}>
 								<div className="sp-room-tab">
-									<RoomTab
-										setRoom={this.setRoom}
-										paneIndex={paneIndex}
-										room={pane.room}
-									/>
+									{!pane.room && (
+										<RoomList setRoom={this.setRoom} paneIndex={paneIndex} />
+									)}
+
+									{pane.room && (
+										<RoomTab
+											room={pane.room}
+											exit={this.remove}
+											paneKey={pane.key}
+										/>
+									)}
 								</div>
 							</TabPane>
 						))}
