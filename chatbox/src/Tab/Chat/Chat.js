@@ -71,32 +71,36 @@ class Chat extends React.Component {
 
 	render() {
 		return (
-			<div className="sp-chat-tabs">
-				<Tabs
-					tabBarExtraContent={
-						<Button onClick={this.add}>
-							<PlusOutlined />
-						</Button>
-					}
-					hideAdd
-					onChange={this.onChange}
-					activeKey={this.state.activeKey}
-					// type="editable-card" commented out otherwise style is a mess
-					onEdit={this.onEdit}
-					tabPosition="left"
-				>
-					{this.state.panes.map((pane, paneIndex) => (
-						<TabPane tab={pane.title} key={pane.key}>
-							<div className="sp-room-tab">
-								<RoomTab
-									setRoom={this.setRoom}
-									paneIndex={paneIndex}
-									room={pane.room}
-								/>
-							</div>
-						</TabPane>
-					))}
-				</Tabs>
+			<div>
+				<div className="sp-tab-header">{"实时聊天"}</div>
+
+				<div className="sp-chat-tabs">
+					<Tabs
+						tabBarExtraContent={
+							<Button type="primary" onClick={this.add}>
+								<PlusOutlined />
+							</Button>
+						}
+						hideAdd
+						onChange={this.onChange}
+						activeKey={this.state.activeKey}
+						// type="editable-card" commented out otherwise style is a mess
+						onEdit={this.onEdit}
+						tabPosition="left"
+					>
+						{this.state.panes.map((pane, paneIndex) => (
+							<TabPane tab={pane.title} key={pane.key}>
+								<div className="sp-room-tab">
+									<RoomTab
+										setRoom={this.setRoom}
+										paneIndex={paneIndex}
+										room={pane.room}
+									/>
+								</div>
+							</TabPane>
+						))}
+					</Tabs>
+				</div>
 			</div>
 		)
 	}

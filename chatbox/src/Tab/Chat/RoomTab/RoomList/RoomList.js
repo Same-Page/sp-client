@@ -66,25 +66,26 @@ function RoomList({ back, showCreateRoomBtn, setRoom, paneIndex }) {
 	return (
 		<span>
 			<div>
-				<div className="sp-tab-header">
-					{back && (
-						<Button onClick={back} size="small" className="sp-back-btn">
-							<ArrowLeftOutlined />
-						</Button>
-					)}
-					{!back && loadingRooms && (
-						<Button size="small" className="sp-back-btn">
-							<LoadingOutlined />
-						</Button>
-					)}
-					{/* {!back && !loadingRooms && (
+				{false && (
+					<div className="sp-tab-header">
+						{back && (
+							<Button onClick={back} size="small" className="sp-back-btn">
+								<ArrowLeftOutlined />
+							</Button>
+						)}
+						{!back && loadingRooms && (
+							<Button size="small" className="sp-back-btn">
+								<LoadingOutlined />
+							</Button>
+						)}
+						{/* {!back && !loadingRooms && (
 						<Button size="small" onClick={loadRooms} className="sp-back-btn">
 							{" "}
 							<ReloadOutlined />
 						</Button>
 					)} */}
-					<span>{headerTitle}</span>
-					{/* {showCreateRoomBtn && (
+						<span>{headerTitle}</span>
+						{/* {showCreateRoomBtn && (
 						<span style={{ position: "absolute", right: 10 }}>
 							<Button
 								type="primary"
@@ -98,11 +99,12 @@ function RoomList({ back, showCreateRoomBtn, setRoom, paneIndex }) {
 							</Button>
 						</span>
 					)} */}
-				</div>
+					</div>
+				)}
 				<div
 					style={{
-						padding: 0,
-						background: "#e6d8d8"
+						padding: 0
+						// background: "#e6d8d8"
 					}}
 					className="sp-tab-body discovery"
 				>
@@ -128,6 +130,7 @@ function RoomList({ back, showCreateRoomBtn, setRoom, paneIndex }) {
 						}
 						const style = {
 							backgroundColor: color
+							// backgroundColor: "white"
 						}
 						if (r.cover) {
 							style.backgroundImage = `url('${r.cover}')`

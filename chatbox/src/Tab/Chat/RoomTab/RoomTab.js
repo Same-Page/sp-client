@@ -7,7 +7,11 @@ function RoomTab({ room, paneIndex, setRoom }) {
 	if (!room) {
 		return <RoomList setRoom={setRoom} paneIndex={paneIndex} />
 	}
-	return <>hi</>
+	return (
+		<div>
+			<div>content</div>
+		</div>
+	)
 }
 
 export default RoomTab
