@@ -1,0 +1,19 @@
+.sp-chat-tabs .ant-tabs .ant-tabs-left-bar {
+	border: none;
+}
+.sp-chat-tabs .ant-tabs-bar.ant-tabs-left-bar {
+	margin-top: 10px;
+	min-width: 80px;
+}
+.sp-chat-tabs .ant-tabs-extra-content {
+	margin-top: 20px;
+}
+.sp-chat-tabs .ant-tabs .ant-tabs-left-content {
+	padding: 0;
+}
+.sp-chat-tabs .ant-tabs .ant-tabs-left-bar .ant-tabs-ink-bar {
+	width: 5px;
+}
+.sp-chat-tabs .ant-tabs .ant-tabs-left-bar .ant-tabs-tab {
+	padding: 5px 18px;
+}

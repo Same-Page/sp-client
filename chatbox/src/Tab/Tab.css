@@ -1,4 +1,5 @@
-.ant-tabs-nav .ant-tabs-tab .anticon {
+/* Only override tab style for card type (.ant-tabs-card) */
+.ant-tabs.ant-tabs-card .ant-tabs-nav .ant-tabs-tab .anticon {
 	margin-right: 0;
 	font-size: 17px;
 }
@@ -11,16 +12,18 @@
 .ant-tabs.ant-tabs-card .ant-tabs-card-bar .ant-tabs-nav-wrap {
 	background: #1890ff;
 }
-.ant-tabs.ant-tabs-card .ant-tabs-card-bar .ant-tabs-tab-active {
+
+.ant-tabs.ant-tabs-card .ant-tabs-card-bar .ant-tabs-tab:hover {
+	background: #40a9ff;
+}
+.ant-tabs.ant-tabs-card .ant-tabs-card-bar .ant-tabs-tab.ant-tabs-tab-active {
 	background: white;
 	color: #1890ff;
 }
-.ant-tabs-nav .ant-tabs-tab:hover {
-	background: #40a9ff !important;
-}
-.ant-tabs-bar {
+.ant-tabs.ant-tabs-card .ant-tabs-bar {
 	margin: 0;
 }
+/* Only override tab style for card type (.ant-tabs-card) END*/
 
 .sp-tab-header {
 	border-bottom: 1px solid lightgray;

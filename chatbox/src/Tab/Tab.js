@@ -7,10 +7,11 @@ import {
 	MailOutlined,
 	UserOutlined,
 	SettingOutlined,
-	EditOutlined,
+	EditOutlined
 } from "@ant-design/icons"
 
 import Account from "./Account"
+import Chat from "./Chat"
 
 const { TabPane } = Tabs
 
@@ -20,23 +21,25 @@ function callback(key) {
 
 function Tab() {
 	return (
-		<Tabs onChange={callback} type="card">
-			<TabPane tab={<MessageOutlined />} key="1">
-				hi
-			</TabPane>
-			<TabPane tab={<EditOutlined />} key="comment">
-				comment
-			</TabPane>
-			<TabPane tab={<MailOutlined />} key="2">
-				Content of Tab Pane 2
-			</TabPane>
-			<TabPane tab={<UserOutlined />} key="user">
-				<Account />
-			</TabPane>
-			<TabPane tab={<SettingOutlined />} key="settings">
-				Content of Tab Pane 4
-			</TabPane>
-		</Tabs>
+		<div className="card-container">
+			<Tabs onChange={callback} type="card">
+				<TabPane tab={<MessageOutlined />} key="chat">
+					<Chat />
+				</TabPane>
+				<TabPane tab={<EditOutlined />} key="comment">
+					comment
+				</TabPane>
+				<TabPane tab={<MailOutlined />} key="inbox">
+					Content of Tab Pane 2
+				</TabPane>
+				<TabPane tab={<UserOutlined />} key="account">
+					<Account />
+				</TabPane>
+				<TabPane tab={<SettingOutlined />} key="settings">
+					Content of Tab Pane 4
+				</TabPane>
+			</Tabs>
+		</div>
 	)
 }
 
