@@ -1,9 +1,13 @@
 .sp-chat-tabs .ant-tabs .ant-tabs-left-bar {
 	border: none;
+	/* transition: 1s; */
 }
 .sp-chat-tabs .ant-tabs-bar.ant-tabs-left-bar {
-	/* margin-top: 10px; */
-	min-width: 80px;
+	/* width: 120px; */
+}
+.sp-chat-tabs.minimized .ant-tabs-bar.ant-tabs-left-bar {
+	width: 49px;
+	max-width: 49px;
 }
 .sp-chat-tabs .ant-tabs-extra-content {
 	margin-top: 20px;
@@ -19,8 +23,14 @@
 	/* color: white; */
 }
 .sp-chat-tabs .ant-tabs .ant-tabs-left-bar .ant-tabs-tab {
-	padding: 9px 18px;
-	z-index: 2;
+	padding: 9px 15px;
+	/* z-index: 2; */
+}
+.sp-chat-tabs.minimized .ant-tabs .ant-tabs-left-bar .ant-tabs-tab {
+	padding: 9px 5px;
+}
+.sp-chat-tabs .ant-tabs .ant-tabs-left-bar .ant-tabs-tab {
+	margin: 0px;
 }
 .sp-chat-tabs {
 	/* background: lightgray; */

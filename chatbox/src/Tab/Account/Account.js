@@ -10,7 +10,8 @@ function Account({ account }) {
 	if (account) {
 		return (
 			<>
-				<Profile account={account} />
+				<div style={{ marginTop: 50 }}></div>
+				<Profile user={account} />
 				<AccountButtons />
 			</>
 		)

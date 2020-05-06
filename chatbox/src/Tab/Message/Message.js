@@ -3,8 +3,8 @@ import "./Message.css"
 import React from "react"
 
 import MessageBody from "./Body"
-// import AvatarWithHoverCard from "containers/OtherProfile/AvatarWithHoverCard"
-import { Avatar } from "antd"
+
+import AvatarWithModal from "Tab/AvatarWithModal"
 
 /*
 This is used by chat messages and direct messages
@@ -13,6 +13,8 @@ props includes:
   content
   type: text/sticker
   self
+
+TODO: deconstruct props
 */
 
 function ChatMessage(props) {
@@ -23,16 +25,6 @@ function ChatMessage(props) {
 
 	let userInfo = ""
 
-	let avatar = <Avatar size="large" src={user.avatarSrc} />
-	// if (!data.self && props.withHoverCard) {
-	//   avatar = (
-	//     <AvatarWithHoverCard
-	//       className="sp-chat-message-avatar"
-	//       size="large"
-	//       user={user}
-	//     />
-	//   )
-	// }
 	let messageTime = ""
 	if (timeDisplay) {
 		messageTime = (
@@ -53,13 +45,14 @@ function ChatMessage(props) {
 			userInfo = (
 				<div style={{ marginTop: 20 }}>
 					<span className="sp-message-username">{user.name}</span>
-					{avatar}
+
+					<AvatarWithModal user={user} />
 				</div>
 			)
 		} else {
 			userInfo = (
 				<div style={{ marginTop: 20 }}>
-					{avatar}
+					<AvatarWithModal user={user} />
 					<span className="sp-message-username">{user.name}</span>
 				</div>
 			)

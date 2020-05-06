@@ -1,8 +1,30 @@
 .sp-room-tab {
 	/* background-color: rgb(243, 243, 243); */
-	width: 100%;
-	height: 100%;
-	min-height: 500px;
+	/* width: 100%; */
+	/* height: 100%; */
+	/* min-height: 500px; */
 	/* padding: 5px; */
 	/* padding-top: 15px; */
+}
+.sp-room-top-bar {
+	line-height: 40px;
+	border-bottom: 1px solid lightgray;
+	padding: 0 10px;
+	text-align: right;
+}
+.sp-room-top-bar .ant-btn:not(.ant-btn-primary) {
+	background: none;
+	border: none;
+	box-shadow: none;
+}
+
+.sp-room-alert.sp-alert-float.ant-alert {
+	position: absolute;
+	width: 100%;
+	z-index: 1;
+	border-bottom: 1px solid #ffe58f;
+}
+.sp-room-alert .ant-alert-message {
+	color: gray;
+	/* text-align: center; */
 }

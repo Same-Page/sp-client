@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react"
 import "./Chat.css"
 
 import { Tabs, Button, message } from "antd"
-import { PlusOutlined } from "@ant-design/icons"
+import { PlusOutlined, LeftOutlined, RightOutlined } from "@ant-design/icons"
 import config from "config"
 
 import RoomTab from "./RoomTab"
@@ -21,6 +21,7 @@ function Chat({ account }) {
 	const [panes, setPanes] = useState(initPanes)
 	const [activeKey, setActiveKey] = useState(initPanes[0].key)
 	const [socket, setSocket] = useState(null)
+	const [minSideBar, setMinSideBar] = useState(false)
 	useEffect(() => {
 		const createSocket = () => {
 			console.debug("creating socket")
@@ -104,20 +105,31 @@ function Chat({ account }) {
 		panes[paneIndex] = pane
 		setPanes([...panes])
 	}
+	const wrapperClassName = "sp-chat-tabs" + (minSideBar ? " minimized" : "")
 
 	return (
 		<div>
 			{/* <div className="sp-tab-header">{"实时聊天"}</div> */}
 
-			<div className="sp-chat-tabs">
+			<div className={wrapperClassName}>
 				<Tabs
 					tabBarExtraContent={
-						<Button
-							// type="primary"
-							onClick={add}
-						>
-							<PlusOutlined />
-						</Button>
+						<span>
+							<Button onClick={add}>
+								<PlusOutlined />
+							</Button>
+							<br />
+							<Button
+								onClick={() => {
+									setMinSideBar(prev => {
+										return !prev
+									})
+								}}
+							>
+								{!minSideBar && <LeftOutlined />}
+								{minSideBar && <RightOutlined />}
+							</Button>
+						</span>
 					}
 					hideAdd
 					onChange={onChange}

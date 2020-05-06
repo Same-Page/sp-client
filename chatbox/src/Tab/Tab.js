@@ -1,7 +1,7 @@
 import "antd/dist/antd.css"
 import "./Tab.css"
 import React from "react"
-import { Tabs } from "antd"
+import { Tabs, message } from "antd"
 import {
 	MessageOutlined,
 	MailOutlined,
@@ -16,9 +16,13 @@ import Chat from "./Chat"
 const { TabPane } = Tabs
 
 function callback(key) {
-	console.log(key)
+	// console.log(key)
 }
-
+message.config({
+	top: 100,
+	duration: 2,
+	maxCount: 3
+})
 function Tab({ account }) {
 	return (
 		<div className="sp-main-tabs">

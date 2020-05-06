@@ -2,11 +2,13 @@ import React, { useState, useRef, useEffect, useCallback } from "react"
 import "./RoomTab.css"
 
 import moment from "moment"
-import { message } from "antd"
+import { message, Button, Alert } from "antd"
 import {
 	LogoutOutlined,
 	LoadingOutlined,
-	DisconnectOutlined
+	// DisconnectOutlined,
+	InfoCircleOutlined,
+	TeamOutlined
 } from "@ant-design/icons"
 
 import Message from "Tab/Message"
@@ -30,8 +32,12 @@ const chatBodyStyle = {
 	scrollBehavior: "smooth"
 }
 
-function RoomTab({ socket, account, sendSocketEvent, room, exit }) {
+function RoomTab({ socket, account, room, exit }) {
 	const bodyStyle = { ...chatBodyStyle }
+	if (room.background) {
+		bodyStyle.backgroundImage = `url('${room.background}')`
+		bodyStyle.backgroundSize = "cover"
+	}
 	const imageLoadedCb = () => {
 		scrollToBottomIfNearBottom(10)
 	}
@@ -41,7 +47,6 @@ function RoomTab({ socket, account, sendSocketEvent, room, exit }) {
 	const bodyRef = useRef(null)
 
 	const scrollToBottomIfNearBottom = useCallback(timeout => {
-		console.debug("scroll " + timeout)
 		timeout = timeout || 100
 
 		const bodyDiv = bodyRef.current
@@ -172,7 +177,7 @@ function RoomTab({ socket, account, sendSocketEvent, room, exit }) {
 				content: payload,
 				token: account.token
 			}
-			console.debug(data)
+
 			const socketPayload = {
 				action: "message",
 				data: data
@@ -187,12 +192,26 @@ function RoomTab({ socket, account, sendSocketEvent, room, exit }) {
 
 	return (
 		<div>
-			<div className="sp-tab-header">
-				{joining && <LoadingOutlined />}
-				{!socket && <DisconnectOutlined />}
-				<LogoutOutlined onClick={exit} />
-			</div>
+			<div className="sp-room-top-bar">
+				<span style={{ float: "left", wordBreak: "keep-all" }}>
+					房间: {room.name}
+					{/* <InfoCircleOutlined /> */}
+				</span>
+				{/* <span style={{ float: "right" }}> */}
+				<Button icon={<TeamOutlined />}>12</Button>
 
+				<Button title="离开房间" onClick={exit} icon={<LogoutOutlined />} />
+				{/* </span> */}
+			</div>
+			{(joining || !socket) && (
+				<Alert
+					className="sp-room-alert sp-alert-float"
+					message={<span style={{ marginLeft: 10 }}>连接中。。。</span>}
+					icon={<LoadingOutlined />}
+					banner
+					type="warning"
+				/>
+			)}
 			<div ref={bodyRef} style={{ ...bodyStyle }}>
 				{res}
 			</div>

@@ -4,8 +4,7 @@ import { UserOutlined } from "@ant-design/icons"
 
 const avatarStyle = {
 	display: "block",
-	margin: "auto",
-	marginTop: 30
+	margin: "auto"
 	// width: "100%",
 	// height: "auto",
 	// borderRadius: 0
@@ -25,28 +24,28 @@ const aboutStyle = {
 	marginTop: 20
 }
 
-function Profile({ account }) {
+function Profile({ user }) {
 	return (
 		<div>
-			<div className="sp-tab-header">{account.name}</div>
-
+			{/* <div className="sp-tab-header">{user.name}</div> */}
 			<Avatar
 				style={avatarStyle}
 				size={128}
 				// shape="square"
-				src={account.avatarSrc}
+				src={user.avatarSrc}
 				icon={<UserOutlined />}
 			/>
+			<center style={{ margin: 20 }}>{user.name}</center>
 
-			<div style={{ width: 200, margin: "auto", marginTop: 30 }}>
+			<div style={{ width: 200, margin: "auto" }}>
 				<Row gutter={50} style={{ textAlign: "center" }}>
 					<Col style={{ textAlign: "center" }} span={12}>
 						ID <br />
-						<b>{account.id}</b>
+						<b>{user.id}</b>
 					</Col>
 					<Col style={{ textAlign: "center" }} span={12}>
 						积分 <br />
-						<b>{account.credit}</b>
+						<b>{user.credit}</b>
 					</Col>
 				</Row>
 
@@ -57,7 +56,7 @@ function Profile({ account }) {
 							// onClick={props.showFollowings}
 						>
 							关注了
-							<br /> <b>{account.followingCount}</b>
+							<br /> <b>{user.followingCount}</b>
 						</span>
 					</Col>
 					<Col style={{ textAlign: "center" }} span={12}>
@@ -66,7 +65,7 @@ function Profile({ account }) {
 							// onClick={props.showFollowers}
 						>
 							关注者
-							<br /> <b>{account.followerCount}</b>
+							<br /> <b>{user.followerCount}</b>
 						</span>
 					</Col>
 				</Row>
@@ -79,7 +78,7 @@ function Profile({ account }) {
 							}}
 						>
 							房间
-							<br /> <b>{account.rooms && account.rooms.length}</b>
+							<br /> <b>{user.rooms && user.rooms.length}</b>
 						</span>
 					</Col>
 					<Col style={{ textAlign: "center" }} span={12}>
@@ -94,7 +93,7 @@ function Profile({ account }) {
 						</span>
 					</Col>
 				</Row>
-				<div style={aboutStyle}>{account.about}</div>
+				{user.about && <div style={aboutStyle}>{user.about}</div>}
 			</div>
 		</div>
 	)
