@@ -1,5 +1,4 @@
 import React, { useState } from "react"
-import { connect } from "react-redux"
 
 import Profile from "Tab/Profile"
 import Login from "./Login"
@@ -36,9 +35,4 @@ function Account({ account }) {
 	)
 }
 
-const stateToProps = state => {
-	return {
-		account: state.account
-	}
-}
-export default connect(stateToProps)(Account)
+export default Account

@@ -1,8 +1,9 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import "./Chat.css"
 
-import { Tabs, Button } from "antd"
+import { Tabs, Button, message } from "antd"
 import { PlusOutlined } from "@ant-design/icons"
+import config from "config"
 
 import RoomTab from "./RoomTab"
 import RoomList from "Tab/RoomList"
@@ -16,9 +17,33 @@ const initPanes = [
 
 let newTabIndex = 0
 
-function Chat() {
+function Chat({ account }) {
 	const [panes, setPanes] = useState(initPanes)
 	const [activeKey, setActiveKey] = useState(initPanes[0].key)
+	const [socket, setSocket] = useState(null)
+	useEffect(() => {
+		const createSocket = () => {
+			console.debug("creating socket")
+			const s = new WebSocket(config.socketUrl)
+			s.addEventListener("open", function (event) {
+				console.debug("socket connected")
+				message.success("聊天服务器连接成功！")
+				setSocket(s)
+			})
+			s.addEventListener("close", e => {
+				message.error("聊天服务器连接断开！")
+
+				console.debug("socket closed, recreate in 5 seconds...")
+				setSocket(null)
+				setTimeout(createSocket, 5 * 1000)
+			})
+			// No need to remove open/close listener from s because
+			// s will be replaced by a new object when connection close
+		}
+		createSocket()
+		// not writing clean up methods since Chat component
+		// should never be unmounted
+	}, [])
 
 	const onChange = activeKey => {
 		setActiveKey(activeKey)
@@ -77,7 +102,6 @@ function Chat() {
 			key: panes[paneIndex].key
 		}
 		panes[paneIndex] = pane
-		console.log(panes)
 		setPanes([...panes])
 	}
 
@@ -115,6 +139,8 @@ function Chat() {
 
 								{pane.room && (
 									<RoomTab
+										socket={socket}
+										account={account}
 										room={pane.room}
 										exit={() => {
 											remove(pane.key)

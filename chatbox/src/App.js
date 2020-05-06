@@ -6,7 +6,7 @@ import Tab from "Tab"
 import { setAccount } from "redux/actions"
 // import { createSocket } from "socket"
 
-function App({ setAccount }) {
+function App({ account, setAccount }) {
 	useEffect(() => {
 		storageManager.addEventListener("account", account => {
 			setAccount(account)
@@ -17,7 +17,7 @@ function App({ setAccount }) {
 		})
 		// createSocket()
 	}, [setAccount])
-	return <Tab />
+	return <Tab account={account} />
 }
 
 const stateToProps = state => {

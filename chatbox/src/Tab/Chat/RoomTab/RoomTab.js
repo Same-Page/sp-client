@@ -1,13 +1,16 @@
-import React, { useState, useRef, useEffect } from "react"
+import React, { useState, useRef, useEffect, useCallback } from "react"
 import "./RoomTab.css"
 
 import moment from "moment"
 import { message } from "antd"
-import { LogoutOutlined } from "@ant-design/icons"
+import {
+	LogoutOutlined,
+	LoadingOutlined,
+	DisconnectOutlined
+} from "@ant-design/icons"
 
 import Message from "Tab/Message"
 import InputWithPicker from "Tab/InputWithPicker"
-import { joinRoom, sendMessage } from "socket"
 
 const AUTO_SCROLL_TRESHOLD_DISTANCE = 300
 const MESSAGE_TIME_GAP = 2 * 1000
@@ -17,7 +20,8 @@ const chatBodyStyle = {
 	// height: "calc(100% - 114px)",
 	overflowY: "auto",
 	overflowX: "hidden",
-	minHeight: 300,
+	minHeight: 500,
+	maxHeight: 500, // some people may not want to set it
 	width: "100%",
 	// position: "fixed",
 	background: "rgb(243, 243, 243)",
@@ -26,43 +30,86 @@ const chatBodyStyle = {
 	scrollBehavior: "smooth"
 }
 
-function RoomTab({ room, exit }) {
-	useEffect(() => {
-		console.log("join room " + room.name)
-		joinRoom(room)
-		// TODO: show joining spinner
-		return () => {
-			// TODO: leave room
-			console.log("remove room " + room.name)
-		}
-	}, [room])
-
-	const [messages, setMessages] = useState([])
-	const bodyRef = useRef(null)
+function RoomTab({ socket, account, sendSocketEvent, room, exit }) {
 	const bodyStyle = { ...chatBodyStyle }
-
 	const imageLoadedCb = () => {
 		scrollToBottomIfNearBottom(10)
 	}
-	const scrollToBottomIfNearBottom = timeout => {
+
+	const [messages, setMessages] = useState([])
+	const [joining, setJoining] = useState(false)
+	const bodyRef = useRef(null)
+
+	const scrollToBottomIfNearBottom = useCallback(timeout => {
+		console.debug("scroll " + timeout)
+		timeout = timeout || 100
+
 		const bodyDiv = bodyRef.current
-		if (!bodyDiv) return
+		if (!bodyDiv) {
+			console.error("no chat body div to scroll to bottom")
+			return
+		}
 		if (
 			bodyDiv.scrollHeight - bodyDiv.scrollTop - bodyDiv.offsetHeight <
 			AUTO_SCROLL_TRESHOLD_DISTANCE
 		) {
-			scrollToBottom(timeout)
+			setTimeout(() => {
+				bodyDiv.scrollTop = bodyDiv.scrollHeight
+			}, timeout)
 		}
-	}
-	const scrollToBottom = timeout => {
-		const bodyDiv = bodyRef.current
-		if (!bodyDiv) return
-		timeout = timeout || 100
+	}, [])
+	useEffect(() => {
+		if (!socket) {
+			return
+		}
+		console.log("joining room " + room.name)
+		setJoining(true)
+		// TODO: set timeout for join
+		const socketPayload = {
+			action: "join_single",
+			data: {
+				token: account && account.token,
+				room: room
+			}
+		}
+		socket.send(JSON.stringify(socketPayload))
+		// TODO: show joining spinner
 
-		setTimeout(() => {
-			bodyDiv.scrollTop = bodyDiv.scrollHeight
-		}, timeout)
-	}
+		// register event listeners for this room
+		const socketMessageHandler = e => {
+			const msg = JSON.parse(e.data)
+			const data = msg.data
+			if (!data || data.roomId !== room.id) return
+			if (msg.name === "chat message") {
+				data.self = account && data.user.id.toString() === account.id.toString()
+				data.time = moment()
+				setMessages(prevMessages => {
+					return [...prevMessages, data]
+				})
+			} else if (msg.name === "room info") {
+				setJoining(false)
+				if (data.chatHistory) {
+					data.chatHistory.forEach(msg => {
+						msg.self =
+							account && msg.user.id.toString() === account.id.toString()
+						msg.time = moment.utc(msg.timestamp)
+					})
+					setMessages(data.chatHistory)
+				}
+			}
+		}
+
+		socket.addEventListener("message", socketMessageHandler)
+
+		return () => {
+			// TODO: leave room
+			console.log("remove room " + room.name)
+			socket.removeEventListener("message", socketMessageHandler)
+		}
+	}, [room, socket, account])
+	useEffect(() => {
+		scrollToBottomIfNearBottom(10)
+	}, [messages.length, scrollToBottomIfNearBottom])
 	let res = []
 	let lastMsg = null
 	messages.forEach(msg => {
@@ -122,11 +169,15 @@ function RoomTab({ room, exit }) {
 				id: Math.ceil(Math.random() * 100000),
 				roomType: "site",
 				roomId: room.id,
-				content: payload
+				content: payload,
+				token: account.token
 			}
 			console.debug(data)
-			sendMessage(data)
-
+			const socketPayload = {
+				action: "message",
+				data: data
+			}
+			socket.send(JSON.stringify(socketPayload))
 			return true
 		} else {
 			message.warn("您慢点儿")
@@ -137,14 +188,15 @@ function RoomTab({ room, exit }) {
 	return (
 		<div>
 			<div className="sp-tab-header">
+				{joining && <LoadingOutlined />}
+				{!socket && <DisconnectOutlined />}
 				<LogoutOutlined onClick={exit} />
 			</div>
 
 			<div ref={bodyRef} style={{ ...bodyStyle }}>
 				{res}
 			</div>
-
-			<InputWithPicker send={send} />
+			{socket && <InputWithPicker send={send} />}
 		</div>
 	)
 }

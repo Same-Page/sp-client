@@ -19,12 +19,12 @@ function callback(key) {
 	console.log(key)
 }
 
-function Tab() {
+function Tab({ account }) {
 	return (
-		<div className="card-container">
+		<div className="sp-main-tabs">
 			<Tabs onChange={callback} type="card">
 				<TabPane tab={<MessageOutlined />} key="chat">
-					<Chat />
+					<Chat account={account} />
 				</TabPane>
 				<TabPane tab={<EditOutlined />} key="comment">
 					comment
@@ -33,7 +33,7 @@ function Tab() {
 					Content of Tab Pane 2
 				</TabPane>
 				<TabPane tab={<UserOutlined />} key="account">
-					<Account />
+					<Account account={account} />
 				</TabPane>
 				<TabPane tab={<SettingOutlined />} key="settings">
 					Content of Tab Pane 4
