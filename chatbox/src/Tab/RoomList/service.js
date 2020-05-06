@@ -1,5 +1,5 @@
 import axios from "axios"
-import config from "config"
+// import config from "config"
 
 export const getRooms = params => {
 	return axios.get("https://api-v3.yiyechat.com/api/room", {

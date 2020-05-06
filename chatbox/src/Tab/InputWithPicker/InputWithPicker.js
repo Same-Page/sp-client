@@ -15,10 +15,6 @@ function InputWithPicker(props) {
 	const [uploading, setUploading] = useState(false)
 	// const intl = useIntl()
 	const inputRef = useRef()
-	// show emoji is one step slower than will show emoji
-	// so that we can show a loading icon
-	const [showEmoji, setShowEmoji] = useState(false)
-	const [willShowEmoji, setWillShowEmoji] = useState(false)
 
 	const sending = props.sending
 	const autoFocus = props.autoFocus || false
@@ -67,13 +63,8 @@ function InputWithPicker(props) {
 		}
 	}, [sending, autoFocus])
 
-	useEffect(() => {
-		setShowEmoji(willShowEmoji)
-	}, [willShowEmoji])
-
 	const handleKeyDown = e => {
 		if (e.key === "Enter") {
-			setWillShowEmoji(false)
 			const payload = {
 				text: input,
 				type: "text"

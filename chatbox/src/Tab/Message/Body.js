@@ -1,6 +1,6 @@
 import "./Body.css"
 
-import React, { useState } from "react"
+import React from "react"
 import { Popover, Button } from "antd"
 // import { useIntl } from "react-intl"
 import { connect } from "react-redux"
@@ -91,44 +91,10 @@ function MessageBody(props) {
 		//   invitationData.purpose === "chat" ? "message" : "question-circle"
 		// const iconType = "link"
 		content = (
-			<div
-			// title="点击打开网页"
-			// className={"sp-invitation-" + invitationData.purpose}
-			>
-				{/* <Icon style={{ marginRight: 5, color: "#1890ff" }} type="link" /> */}
-
-				<a
-				// onClick={() => {
-				// 	// if (data.htmlContent) {
-				// 	//   props.setMessageDetail(data.htmlContent)
-				// 	//   return
-				// 	// }
-				// 	if (data.dataSrc) {
-				// 		props.setMessageDetail(intl.formatMessage({ id: "loading" }))
-
-				// 		getData(data.dataSrc)
-				// 			.then(resp => {
-				// 				// window.foo = resp
-				// 				// console.log(resp)
-				// 				props.setMessageDetail(resp.data)
-				// 			})
-				// 			.catch(err => {
-				// 				props.setMessageDetail(
-				// 					intl.formatMessage({ id: "load.failed" })
-				// 				)
-				// 			})
-				// 			.then(() => {})
-				// 		return
-				// 	}
-
-				// 	props.setIframeUrl(data.iframe_url || data.url)
-				// }}
-				>
-					{data.title}
+			<div>
+				<a target="_blank" rel="noopener noreferrer" href={data.url}>
+					{data.url}
 				</a>
-				{/* <a target="_blank" rel="noopener noreferrer" href={data.url}>
-          <Icon style={{ marginLeft: 5, color: "black" }} type={iconType} />
-        </a> */}
 			</div>
 		)
 	}
@@ -136,14 +102,14 @@ function MessageBody(props) {
 		<div>
 			<Button
 				onClick={() => {
-					const payload = {
-						action: "delete_message",
-						data: {
-							messageId: props.data.id,
-							roomId: props.room.id,
-							token: props.account.token
-						}
-					}
+					// const payload = {
+					// 	action: "delete_message",
+					// 	data: {
+					// 		messageId: props.data.id,
+					// 		roomId: props.room.id,
+					// 		token: props.account.token
+					// 	}
+					// }
 					// socketManager.sendEvent(payload)
 				}}
 			>
