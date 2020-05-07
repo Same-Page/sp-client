@@ -27,19 +27,19 @@ function Tab({ account }) {
 	return (
 		<div className="sp-main-tabs">
 			<Tabs onChange={callback} type="card">
-				<TabPane tab={<MessageOutlined />} key="chat">
+				<TabPane tab={<MessageOutlined title="实时聊天" />} key="chat">
 					<Chat account={account} />
 				</TabPane>
-				<TabPane tab={<EditOutlined />} key="comment">
+				<TabPane tab={<EditOutlined title="网页留言" />} key="comment">
 					comment
 				</TabPane>
-				<TabPane tab={<MailOutlined />} key="inbox">
+				<TabPane tab={<MailOutlined title="收件箱" />} key="inbox">
 					Content of Tab Pane 2
 				</TabPane>
-				<TabPane tab={<UserOutlined />} key="account">
+				<TabPane tab={<UserOutlined title="个人资料" />} key="account">
 					<Account account={account} />
 				</TabPane>
-				<TabPane tab={<SettingOutlined />} key="settings">
+				<TabPane tab={<SettingOutlined title="设置" />} key="settings">
 					Content of Tab Pane 4
 				</TabPane>
 			</Tabs>
