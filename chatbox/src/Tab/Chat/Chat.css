@@ -36,13 +36,22 @@
 .sp-chat-tabs .ant-tabs .ant-tabs-left-bar .ant-tabs-tab span {
 	/* style for the span of tab name */
 	padding: 15px;
+	transition-duration: 1s;
 }
 
-.sp-chat-tabs.minimized .ant-tabs .ant-tabs-left-bar .ant-tabs-tab {
-	/* padding: 9px 5px; */
+.sp-chat-tabs.minimized .ant-tabs .ant-tabs-left-bar .ant-tabs-tab span {
+	/* style for the span of tab name, less padding so 
+	1. fit two characters
+	2. still some padding on left and right
+	*/
+	padding: 15px 5px;
 }
 .sp-chat-tabs .ant-tabs .ant-tabs-left-bar .ant-tabs-tab {
 	margin: 0px;
+}
+.sp-icon-transition-duration-1 svg {
+	transition-delay: 0.7s;
+	transition-duration: 0.5s;
 }
 .sp-chat-tabs {
 	/* background: lightgray; */

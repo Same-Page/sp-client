@@ -126,8 +126,10 @@ function Chat({ account }) {
 									})
 								}}
 							>
-								{!minSideBar && <LeftOutlined />}
-								{minSideBar && <RightOutlined />}
+								<LeftOutlined
+									className="sp-icon-transition-duration-1"
+									rotate={minSideBar ? 180 : 0}
+								/>
 							</Button>
 						</span>
 					}
