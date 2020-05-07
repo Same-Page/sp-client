@@ -35,7 +35,9 @@ function Profile({ user }) {
 				src={user.avatarSrc}
 				icon={<UserOutlined />}
 			/>
-			<center style={{ margin: 20 }}>{user.name}</center>
+			<center style={{ margin: 20 }}>
+				<b>{user.name}</b>
+			</center>
 
 			<div style={{ width: 200, margin: "auto" }}>
 				<Row gutter={50} style={{ textAlign: "center" }}>

@@ -3,19 +3,18 @@
 	/* width: 100%; */
 	/* height: 100%; */
 	/* min-height: 500px; */
-	/* padding: 5px; */
-	/* padding-top: 15px; */
 }
 .sp-room-top-bar {
 	line-height: 40px;
 	border-bottom: 1px solid lightgray;
-	padding: 0 10px;
-	/* text-align: right; */
+	padding: 0 5px;
 }
 .sp-room-top-bar .ant-btn:not(.ant-btn-primary) {
 	background: none;
 	border: none;
 	box-shadow: none;
+	font-size: 13px;
+	padding: 0px 10px;
 }
 .sp-room-top-bar .ant-btn-dangerous {
 	color: unset;

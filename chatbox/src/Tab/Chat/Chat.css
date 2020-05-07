@@ -3,7 +3,7 @@
 	transition: 1s;
 }
 .sp-chat-tabs .ant-tabs-bar.ant-tabs-left-bar {
-	max-width: 150px;
+	max-width: 120px;
 }
 .sp-chat-tabs.minimized .ant-tabs-bar.ant-tabs-left-bar {
 	/* have to use max-width so that transition animation works 
@@ -25,12 +25,19 @@
 	/* color: white; */
 }
 .sp-chat-tabs .ant-tabs .ant-tabs-left-bar .ant-tabs-tab {
-	padding: 9px 15px;
+	padding: 0px;
+	font-size: 13px;
+	line-height: 40px;
 	/* z-index: 2; */
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
 }
+.sp-chat-tabs .ant-tabs .ant-tabs-left-bar .ant-tabs-tab span {
+	/* style for the span of tab name */
+	padding: 10px;
+}
+
 .sp-chat-tabs.minimized .ant-tabs .ant-tabs-left-bar .ant-tabs-tab {
 	/* padding: 9px 5px; */
 }
