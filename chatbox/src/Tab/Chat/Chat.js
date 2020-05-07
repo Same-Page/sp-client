@@ -2,7 +2,12 @@ import React, { useState, useEffect } from "react"
 import "./Chat.css"
 
 import { Tabs, Button, message } from "antd"
-import { PlusOutlined, LeftOutlined, RightOutlined } from "@ant-design/icons"
+import {
+	PlusOutlined,
+	LeftOutlined,
+	CloseOutlined,
+	MenuOutlined
+} from "@ant-design/icons"
 import config from "config"
 
 import RoomTab from "./RoomTab"
@@ -22,6 +27,7 @@ function Chat({ account }) {
 	const [activeKey, setActiveKey] = useState(initPanes[0].key)
 	const [socket, setSocket] = useState(null)
 	const [minSideBar, setMinSideBar] = useState(false)
+	const [closeSideBar, setCloseSideBar] = useState(false)
 	useEffect(() => {
 		const createSocket = () => {
 			console.debug("creating socket")
@@ -105,7 +111,10 @@ function Chat({ account }) {
 		panes[paneIndex] = pane
 		setPanes([...panes])
 	}
-	const wrapperClassName = "sp-chat-tabs" + (minSideBar ? " minimized" : "")
+	const wrapperClassName =
+		"sp-chat-tabs" +
+		(minSideBar ? " minimized" : "") +
+		(closeSideBar ? " closed" : "")
 
 	return (
 		<div>
@@ -115,9 +124,7 @@ function Chat({ account }) {
 				<Tabs
 					tabBarExtraContent={
 						<span>
-							<Button onClick={add}>
-								<PlusOutlined />
-							</Button>
+							<Button icon={<PlusOutlined />} onClick={add} />
 							<br />
 							<Button
 								onClick={() => {
@@ -125,12 +132,22 @@ function Chat({ account }) {
 										return !prev
 									})
 								}}
-							>
-								<LeftOutlined
-									className="sp-icon-transition-duration-1"
-									rotate={minSideBar ? 180 : 0}
-								/>
-							</Button>
+								icon={
+									<LeftOutlined
+										className="sp-icon-transition-duration-1"
+										rotate={minSideBar ? 180 : 0}
+									/>
+								}
+							/>
+
+							<br />
+							<Button
+								danger
+								onClick={() => {
+									setCloseSideBar(true)
+								}}
+								icon={<CloseOutlined />}
+							/>
 						</span>
 					}
 					hideAdd
@@ -150,16 +167,31 @@ function Chat({ account }) {
 									<RoomList
 										setRoom={room => {
 											setRoom(room, paneIndex)
+											setMinSideBar(true)
 										}}
 									/>
 								)}
 
 								{pane.room && (
 									<RoomTab
+										extraButton={
+											closeSideBar && (
+												<Button
+													onClick={() => {
+														setCloseSideBar(false)
+														setMinSideBar(false)
+													}}
+												>
+													<MenuOutlined />
+												</Button>
+											)
+										}
 										socket={socket}
 										account={account}
 										room={pane.room}
 										exit={() => {
+											setMinSideBar(false)
+											setCloseSideBar(false)
 											remove(pane.key)
 										}}
 									/>

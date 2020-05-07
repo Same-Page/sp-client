@@ -33,7 +33,7 @@ const chatBodyStyle = {
 	scrollBehavior: "smooth"
 }
 
-function RoomTab({ socket, account, room, exit }) {
+function RoomTab({ socket, account, room, exit, extraButton }) {
 	const bodyStyle = { ...chatBodyStyle }
 	if (room.background) {
 		bodyStyle.backgroundImage = `url('${room.background}')`
@@ -224,6 +224,7 @@ function RoomTab({ socket, account, room, exit }) {
 				setShowModal={setShowModal}
 			/>
 			<div className="sp-room-top-bar">
+				{extraButton}
 				<Button
 					onClick={() => {
 						setShowModal(true)

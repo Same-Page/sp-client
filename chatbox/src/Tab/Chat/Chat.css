@@ -11,6 +11,9 @@
 	*/
 	max-width: 49px;
 }
+.sp-chat-tabs.closed .ant-tabs-bar.ant-tabs-left-bar {
+	display: none;
+}
 .sp-chat-tabs .ant-tabs-extra-content {
 	margin-top: 20px;
 }
@@ -36,11 +39,11 @@
 .sp-chat-tabs .ant-tabs .ant-tabs-left-bar .ant-tabs-tab span {
 	/* style for the span of tab name */
 	padding: 15px;
-	/* transition-duration: 0.1s; */
+	transition-duration: 0.1s;
 }
 .sp-chat-tabs .ant-tabs .ant-tabs-left-bar .ant-tabs-tab span:hover {
 	/* style for the span of tab name, on hover change color right away */
-	/* transition-duration: 0s; */
+	transition-duration: 0s;
 }
 
 .sp-chat-tabs.minimized .ant-tabs .ant-tabs-left-bar .ant-tabs-tab span {
@@ -57,6 +60,13 @@
 	transition-delay: 0.5s;
 	transition-duration: 0.5s;
 }
+.sp-icon-transition-duration-1:hover {
+	transition-delay: 0s;
+	transition-duration: 0s;
+}
 .sp-chat-tabs {
 	/* background: lightgray; */
+}
+.sp-chat-tabs .ant-tabs .ant-tabs-left-bar .ant-btn {
+	font-size: 15px;
 }
