@@ -139,7 +139,10 @@ function Chat({ account }) {
 					tabPosition="left"
 				>
 					{panes.map((pane, paneIndex) => (
-						<TabPane tab={pane.title} key={pane.key}>
+						<TabPane
+							tab={<span title={pane.title}>{pane.title}</span>}
+							key={pane.key}
+						>
 							<div className="sp-room-tab">
 								{!pane.room && (
 									<RoomList

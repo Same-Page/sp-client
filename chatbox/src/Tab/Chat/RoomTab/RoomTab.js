@@ -258,7 +258,12 @@ function RoomTab({ socket, account, room, exit }) {
 						</Button>
 					</Popover>
 
-					<Button title="离开房间" onClick={exit} icon={<LogoutOutlined />}>
+					<Button
+						danger
+						title="离开房间"
+						onClick={exit}
+						icon={<LogoutOutlined />}
+					>
 						<Space />
 						<span>离开</span>
 					</Button>

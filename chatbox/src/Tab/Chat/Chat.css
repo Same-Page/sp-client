@@ -1,12 +1,14 @@
 .sp-chat-tabs .ant-tabs .ant-tabs-left-bar {
 	border: none;
-	/* transition: 1s; */
+	transition: 1s;
 }
 .sp-chat-tabs .ant-tabs-bar.ant-tabs-left-bar {
-	/* width: 120px; */
+	max-width: 150px;
 }
 .sp-chat-tabs.minimized .ant-tabs-bar.ant-tabs-left-bar {
-	width: 49px;
+	/* have to use max-width so that transition animation works 
+	 because we want to use max-width above
+	*/
 	max-width: 49px;
 }
 .sp-chat-tabs .ant-tabs-extra-content {
@@ -25,9 +27,12 @@
 .sp-chat-tabs .ant-tabs .ant-tabs-left-bar .ant-tabs-tab {
 	padding: 9px 15px;
 	/* z-index: 2; */
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 .sp-chat-tabs.minimized .ant-tabs .ant-tabs-left-bar .ant-tabs-tab {
-	padding: 9px 5px;
+	/* padding: 9px 5px; */
 }
 .sp-chat-tabs .ant-tabs .ant-tabs-left-bar .ant-tabs-tab {
 	margin: 0px;
