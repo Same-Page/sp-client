@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect, useCallback } from "react"
 import "./RoomTab.css"
 
 import moment from "moment"
-import { message, Button, Alert, Space, Popover } from "antd"
+import { message, Button, Alert, Space, Popover, Popconfirm } from "antd"
 import {
 	LogoutOutlined,
 	LoadingOutlined,
@@ -48,7 +48,6 @@ function RoomTab({ socket, account, room, exit }) {
 	const bodyRef = useRef(null)
 	const [showModal, setShowModal] = useState(false)
 	const [users, setUsers] = useState([])
-	const [showUsers, setShowUsers] = useState(false)
 	const scrollToBottomIfNearBottom = useCallback(timeout => {
 		timeout = timeout || 100
 
@@ -238,35 +237,28 @@ function RoomTab({ socket, account, room, exit }) {
 					<Popover
 						overlayClassName="sp-room-users-popover"
 						content={<Users users={users} />}
-						visible={showUsers}
 						trigger="click"
 						title="在线用户"
-						onVisibleChange={show => {
-							setShowUsers(show)
-						}}
 					>
-						<Button
-							onClick={() => {
-								setShowUsers(prev => {
-									return !prev
-								})
-							}}
-							icon={<TeamOutlined />}
-						>
+						<Button icon={<TeamOutlined />}>
 							<Space />
 							<span>{users.length}</span>
 						</Button>
 					</Popover>
-
-					<Button
-						danger
-						title="离开房间"
-						onClick={exit}
-						icon={<LogoutOutlined />}
+					<Popconfirm
+						onConfirm={exit}
+						title="确认离开？"
+						okText="是的"
+						cancelText="取消"
+						placement="bottomRight"
+						okButtonProps={{ danger: true }}
 					>
-						<Space />
-						<span>离开</span>
-					</Button>
+						{/* don't need a button for clicking, just like its animation, same above */}
+						<Button danger title="离开房间" icon={<LogoutOutlined />}>
+							<Space />
+							<span>离开</span>
+						</Button>
+					</Popconfirm>
 				</span>
 				<div style={{ clear: "both" }} />
 			</div>
