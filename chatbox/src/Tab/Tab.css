@@ -1,37 +1,38 @@
 /* Only override tab style for card type (.ant-tabs-card) */
-.ant-tabs.ant-tabs-card .ant-tabs-nav .ant-tabs-tab .anticon {
+.ant-tabs.ant-tabs-card > .ant-tabs-bar .ant-tabs-nav .ant-tabs-tab .anticon {
 	margin-right: 0;
 	font-size: 17px;
 }
-.ant-tabs.ant-tabs-card .ant-tabs-card-bar .ant-tabs-tab {
+.ant-tabs.ant-tabs-card > .ant-tabs-bar .ant-tabs-tab {
 	margin-right: 0;
 	border: none;
 	background: #1890ff;
 	color: white;
 }
-.ant-tabs.ant-tabs-card .ant-tabs-card-bar .ant-tabs-nav-wrap {
+.ant-tabs.ant-tabs-card > .ant-tabs-bar .ant-tabs-nav-wrap {
 	background: #1890ff;
 }
 
-.ant-tabs.ant-tabs-card .ant-tabs-card-bar .ant-tabs-tab:hover {
+.ant-tabs.ant-tabs-card > .ant-tabs-bar .ant-tabs-tab:hover {
 	background: #40a9ff;
 }
-.ant-tabs.ant-tabs-card .ant-tabs-card-bar .ant-tabs-tab.ant-tabs-tab-active {
+.ant-tabs.ant-tabs-card > .ant-tabs-bar .ant-tabs-tab.ant-tabs-tab-active {
 	background: white;
 	color: #1890ff;
 }
 .ant-tabs.ant-tabs-card .ant-tabs-bar {
 	margin: 0;
 }
-.ant-tabs.ant-tabs-card .ant-tabs-tab-arrow-show {
+.ant-tabs.ant-tabs-card > .ant-tabs-bar .ant-tabs-tab-arrow-show {
+	/* > .ant-tabs-bar to only apply to this tab bar, not child ones */
 	background: #1890ff;
 	color: lightgray;
 }
-.ant-tabs.ant-tabs-card .ant-tabs-tab-arrow-show:hover {
+.ant-tabs.ant-tabs-card > .ant-tabs-bar .ant-tabs-tab-arrow-show:hover {
 	background: #40a9ff;
 	color: white;
 }
-.ant-tabs.ant-tabs-card .ant-tabs-tab-next {
+.ant-tabs.ant-tabs-card > .ant-tabs-bar .ant-tabs-tab-next {
 	right: 0px;
 }
 /* Only override tab style for card type (.ant-tabs-card) END*/

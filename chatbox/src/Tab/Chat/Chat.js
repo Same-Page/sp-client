@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react"
 import "./Chat.css"
 
-import { Tabs, Button, message } from "antd"
+import { Tabs, Button, message, Space } from "antd"
 import {
 	PlusOutlined,
 	LeftOutlined,
@@ -111,6 +111,12 @@ function Chat({ account }) {
 		panes[paneIndex] = pane
 		setPanes([...panes])
 	}
+	const panelName = name => {
+		if (minSideBar) {
+			name = name.substring(0, 2)
+		}
+		return name
+	}
 	const wrapperClassName =
 		"sp-chat-tabs" +
 		(minSideBar ? " minimized" : "") +
@@ -159,7 +165,22 @@ function Chat({ account }) {
 				>
 					{panes.map((pane, paneIndex) => (
 						<TabPane
-							tab={<span title={pane.title}>{pane.title}</span>}
+							tab={
+								<span className="sp-chat-tab-title" title={pane.title}>
+									{pane.room && pane.room.cover && (
+										<img
+											alt={pane.title}
+											src={pane.room.cover}
+											className="sp-loadable-img"
+											onError={ev => {
+												ev.target.style = "display:none;"
+												ev.target.className = "sp-bad-img"
+											}}
+										/>
+									)}
+									<span>{panelName(pane.title)}</span>
+								</span>
+							}
 							key={pane.key}
 						>
 							<div className="sp-room-tab">
@@ -183,6 +204,8 @@ function Chat({ account }) {
 													}}
 												>
 													<MenuOutlined />
+													<Space />
+													<span>列表</span>
 												</Button>
 											)
 										}

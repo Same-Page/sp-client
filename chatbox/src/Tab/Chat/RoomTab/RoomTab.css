@@ -9,6 +9,9 @@
 	border-bottom: 1px solid lightgray;
 	padding: 0 5px;
 }
+.sp-room-top-bar .ant-btn > .anticon + span {
+	/* margin-left: 3px; */
+}
 .sp-room-top-bar .ant-btn:not(.ant-btn-primary),
 .sp-room-top-bar .ant-btn-icon-only > *,
 .sp-chat-tabs .ant-tabs .ant-tabs-left-bar .ant-btn:not(.ant-btn-primary) {
