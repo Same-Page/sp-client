@@ -6,13 +6,12 @@ import { message, Button, Alert } from "antd"
 import {
 	LogoutOutlined,
 	LoadingOutlined,
-	// DisconnectOutlined,
-	InfoCircleOutlined,
 	TeamOutlined
 } from "@ant-design/icons"
 
 import Message from "Tab/Message"
 import InputWithPicker from "Tab/InputWithPicker"
+import RoomInfoModal from "Tab/RoomInfoModal/RoomInfoModal"
 
 const AUTO_SCROLL_TRESHOLD_DISTANCE = 300
 const MESSAGE_TIME_GAP = 2 * 1000
@@ -45,6 +44,7 @@ function RoomTab({ socket, account, room, exit }) {
 	const [messages, setMessages] = useState([])
 	const [joining, setJoining] = useState(false)
 	const bodyRef = useRef(null)
+	const [showModal, setShowModal] = useState(false)
 
 	const scrollToBottomIfNearBottom = useCallback(timeout => {
 		timeout = timeout || 100
@@ -192,16 +192,25 @@ function RoomTab({ socket, account, room, exit }) {
 
 	return (
 		<div>
+			<RoomInfoModal
+				room={room}
+				showModal={showModal}
+				setShowModal={setShowModal}
+			/>
 			<div className="sp-room-top-bar">
-				<span style={{ float: "left", wordBreak: "keep-all" }}>
+				<Button
+					onClick={() => {
+						setShowModal(true)
+					}}
+				>
 					房间: {room.name}
-					{/* <InfoCircleOutlined /> */}
-				</span>
-				{/* <span style={{ float: "right" }}> */}
-				<Button icon={<TeamOutlined />}>12</Button>
+				</Button>
+				<span style={{ float: "right" }}>
+					<Button icon={<TeamOutlined />}>12</Button>
 
-				<Button title="离开房间" onClick={exit} icon={<LogoutOutlined />} />
-				{/* </span> */}
+					<Button title="离开房间" onClick={exit} icon={<LogoutOutlined />} />
+				</span>
+				<div style={{ clear: "both" }} />
 			</div>
 			{(joining || !socket) && (
 				<Alert
