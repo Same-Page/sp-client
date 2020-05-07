@@ -4,7 +4,7 @@ import React from "react"
 import { Popover, Button } from "antd"
 // import { useIntl } from "react-intl"
 import { connect } from "react-redux"
-
+import { DeleteOutlined } from "@ant-design/icons"
 // import socketManager from "socket"
 // import Iframe from "components/Iframe"
 // import { getData } from "services"
@@ -113,12 +113,7 @@ function MessageBody(props) {
 					// socketManager.sendEvent(payload)
 				}}
 			>
-				{/* <a */}
-
-				{/* // style={{ border: "none" }}
-      // icon="delete"
-      > */}
-				{/* <Icon type="delete" /> */}
+				<DeleteOutlined />
 			</Button>
 			{contentType === "media" && (
 				<div>
