@@ -35,7 +35,7 @@
 }
 .sp-chat-tabs .ant-tabs .ant-tabs-left-bar .ant-tabs-tab span {
 	/* style for the span of tab name */
-	padding: 10px;
+	padding: 15px;
 }
 
 .sp-chat-tabs.minimized .ant-tabs .ant-tabs-left-bar .ant-tabs-tab {
