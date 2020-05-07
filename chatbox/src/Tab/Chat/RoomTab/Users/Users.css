@@ -1,0 +1,14 @@
+.sp-online-user {
+	display: inline-block;
+	margin: 5px;
+}
+.sp-online-user-username {
+	font-size: 10px;
+	max-width: 64px;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+	text-align: center;
+	line-height: 10px;
+	padding-top: 5px;
+}

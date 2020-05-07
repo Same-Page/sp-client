@@ -1,3 +1,4 @@
+import "./RoomInfoModal.css"
 import React from "react"
 
 import { Modal } from "antd"
@@ -14,27 +15,22 @@ function RoomInfoModal({ room, showModal, setShowModal }) {
 			footer={null}
 			className="sp-profile-modal"
 		>
-			<>
+			<div className="sp-room-info-row">
 				<h4>房间名</h4> {room.name}
-			</>
+			</div>{" "}
 			{room.about && (
-				<>
-					<br />
-					<br />
+				<div className="sp-room-info-row">
 					<h4>房间介绍</h4> {room.about}
-				</>
+				</div>
 			)}
 			{room.owner && (
-				<>
-					<br />
-					<br />
-
+				<div className="sp-room-info-row">
 					<h4>房主</h4>
 					<div>
 						<AvatarWithModal user={room.owner} />
 						<span style={{ marginLeft: 10 }}>{room.owner.name}</span>
 					</div>
-				</>
+				</div>
 			)}
 		</Modal>
 	)

@@ -2,16 +2,18 @@ import React, { useState, useRef, useEffect, useCallback } from "react"
 import "./RoomTab.css"
 
 import moment from "moment"
-import { message, Button, Alert } from "antd"
+import { message, Button, Alert, Space, Popover } from "antd"
 import {
 	LogoutOutlined,
 	LoadingOutlined,
-	TeamOutlined
+	TeamOutlined,
+	HomeOutlined
 } from "@ant-design/icons"
 
 import Message from "Tab/Message"
 import InputWithPicker from "Tab/InputWithPicker"
 import RoomInfoModal from "Tab/RoomInfoModal/RoomInfoModal"
+import Users from "./Users"
 
 const AUTO_SCROLL_TRESHOLD_DISTANCE = 300
 const MESSAGE_TIME_GAP = 2 * 1000
@@ -45,7 +47,8 @@ function RoomTab({ socket, account, room, exit }) {
 	const [joining, setJoining] = useState(false)
 	const bodyRef = useRef(null)
 	const [showModal, setShowModal] = useState(false)
-
+	const [users, setUsers] = useState([])
+	const [showUsers, setShowUsers] = useState(false)
 	const scrollToBottomIfNearBottom = useCallback(timeout => {
 		timeout = timeout || 100
 
@@ -78,7 +81,6 @@ function RoomTab({ socket, account, room, exit }) {
 			}
 		}
 		socket.send(JSON.stringify(socketPayload))
-		// TODO: show joining spinner
 
 		// register event listeners for this room
 		const socketMessageHandler = e => {
@@ -101,15 +103,40 @@ function RoomTab({ socket, account, room, exit }) {
 					})
 					setMessages(data.chatHistory)
 				}
+				if (data.users) {
+					setUsers(data.users)
+				}
+			} else if (msg.name === "other join") {
+				setUsers(users => {
+					const user = data.user
+					// in case of duplicate
+					const existingUsersWithoutNewUser = users.filter(u => {
+						return u.id.toString() !== user.id.toString()
+					})
+					return [...existingUsersWithoutNewUser, user]
+				})
+			} else if (msg.name === "other left") {
+				setUsers(users => {
+					return users.filter(u => {
+						return u.id.toString() !== data.user.id.toString()
+					})
+				})
 			}
 		}
 
 		socket.addEventListener("message", socketMessageHandler)
 
 		return () => {
-			// TODO: leave room
-			console.log("remove room " + room.name)
+			console.log("leave room " + room.name)
 			socket.removeEventListener("message", socketMessageHandler)
+			const socketPayload = {
+				action: "leave_single",
+				data: {
+					room: room,
+					token: account && account.token
+				}
+			}
+			socket.send(JSON.stringify(socketPayload))
 		}
 	}, [room, socket, account])
 	useEffect(() => {
@@ -202,16 +229,43 @@ function RoomTab({ socket, account, room, exit }) {
 					onClick={() => {
 						setShowModal(true)
 					}}
+					icon={<HomeOutlined />}
 				>
-					房间: {room.name}
+					<Space />
+					<span>{room.name}</span>
 				</Button>
 				<span style={{ float: "right" }}>
-					<Button icon={<TeamOutlined />}>12</Button>
+					<Popover
+						overlayClassName="sp-room-users-popover"
+						content={<Users users={users} />}
+						visible={showUsers}
+						trigger="click"
+						title="在线用户"
+						onVisibleChange={show => {
+							setShowUsers(show)
+						}}
+					>
+						<Button
+							onClick={() => {
+								setShowUsers(prev => {
+									return !prev
+								})
+							}}
+							icon={<TeamOutlined />}
+						>
+							<Space />
+							<span>{users.length}</span>
+						</Button>
+					</Popover>
 
-					<Button title="离开房间" onClick={exit} icon={<LogoutOutlined />} />
+					<Button title="离开房间" onClick={exit} icon={<LogoutOutlined />}>
+						<Space />
+						<span>离开</span>
+					</Button>
 				</span>
 				<div style={{ clear: "both" }} />
 			</div>
+
 			{(joining || !socket) && (
 				<Alert
 					className="sp-room-alert sp-alert-float"
