@@ -42,7 +42,7 @@
 	padding: 0px 15px;
 	line-height: 40px;
 	height: 40px;
-	/* text-align: center; */
+	text-align: center;
 	white-space: nowrap;
 }
 .sp-tab-header .ant-btn:not(.ant-btn-primary) {

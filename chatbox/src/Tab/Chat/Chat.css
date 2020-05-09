@@ -2,8 +2,8 @@
 	border: none;
 }
 .sp-chat-tabs .ant-tabs-nav-container {
-	max-width: 120px;
-	min-width: 49px;
+	/* max-width: 120px; */
+	width: 120px;
 	transition: 0.8s;
 }
 
@@ -11,7 +11,9 @@
 	/* have to use max-width so that transition animation works 
 	 because we want to use max-width above
 	*/
-	max-width: 49px;
+	/* max-width: 49px; */
+	/* min-width: 49px; */
+	width: 49px;
 }
 .sp-chat-tabs.closed .ant-tabs-left-bar {
 	display: none;
@@ -44,28 +46,6 @@ If want the ink to cover entire row
 .sp-chat-tabs.sp-chat-tabs.minimized .ant-tabs-left-bar .ant-tabs-tab {
 	padding: 0px 5px;
 	/* text-align: left; */
-}
-.sp-chat-tabs .sp-chat-tab-title {
-	/* style for the span of tab name */
-	padding: 10px 0px;
-}
-
-.sp-chat-tabs .ant-tabs-nav-container img {
-	display: none;
-}
-.sp-chat-tabs.minimized .ant-tabs-nav-container img {
-	display: inline-block;
-	width: 25px;
-	height: 25px;
-	border-radius: 3px;
-	object-fit: cover;
-}
-.sp-chat-tabs .sp-chat-tab-title img.sp-loadable-img + span {
-	margin-left: 10px;
-}
-.sp-chat-tabs.minimized .sp-chat-tab-title img.sp-loadable-img + span {
-	/* when minimized, don't show room name text if there's icon for room */
-	display: none;
 }
 
 .sp-icon-transition-duration-1 svg {

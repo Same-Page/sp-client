@@ -1,10 +1,15 @@
 import React, { useEffect } from "react"
 import { connect } from "react-redux"
+import moment from "moment"
 
 import storageManager from "storage"
 import Tab from "Tab"
 import { setAccount } from "redux/actions"
-// import { createSocket } from "socket"
+
+require("moment/locale/zh-cn") //moment.js bug, has to manually include
+
+const locale = window.navigator.userLanguage || window.navigator.language
+moment.locale(locale)
 
 function App({ account, setAccount }) {
 	useEffect(() => {
@@ -15,7 +20,6 @@ function App({ account, setAccount }) {
 		storageManager.get("account", account => {
 			setAccount(account)
 		})
-		// createSocket()
 	}, [setAccount])
 	return <Tab account={account} />
 }

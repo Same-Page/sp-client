@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react"
 import "./Chat.css"
 
-import { Tabs, Button, message, Space } from "antd"
+import { Tabs, Button, message } from "antd"
 import {
 	PlusOutlined,
 	LeftOutlined,
@@ -9,7 +9,7 @@ import {
 	MenuOutlined
 } from "@ant-design/icons"
 import config from "config"
-
+import TabName from "./TabName"
 import RoomTab from "./RoomTab"
 import RoomList from "Tab/RoomList"
 
@@ -34,7 +34,7 @@ function Chat({ account }) {
 			const s = new WebSocket(config.socketUrl)
 			s.addEventListener("open", function (event) {
 				console.debug("socket connected")
-				message.success("聊天服务器连接成功！")
+				// message.success("聊天服务器连接成功！")
 				setSocket(s)
 			})
 			s.addEventListener("close", e => {
@@ -111,7 +111,7 @@ function Chat({ account }) {
 		panes[paneIndex] = pane
 		setPanes([...panes])
 	}
-	const panelName = name => {
+	const tabName = name => {
 		if (minSideBar) {
 			name = name.substring(0, 2)
 		}
@@ -124,8 +124,6 @@ function Chat({ account }) {
 
 	return (
 		<div>
-			{/* <div className="sp-tab-header">{"实时聊天"}</div> */}
-
 			<div className={wrapperClassName}>
 				<Tabs
 					tabBarExtraContent={
@@ -166,31 +164,27 @@ function Chat({ account }) {
 					{panes.map((pane, paneIndex) => (
 						<TabPane
 							tab={
-								<span className="sp-chat-tab-title" title={pane.title}>
-									{pane.room && pane.room.cover && (
-										<img
-											alt={pane.title}
-											src={pane.room.cover}
-											className="sp-loadable-img"
-											onError={ev => {
-												ev.target.style = "display:none;"
-												ev.target.className = "sp-bad-img"
-											}}
-										/>
-									)}
-									<span>{panelName(pane.title)}</span>
-								</span>
+								<TabName
+									showAntdTooltip={minSideBar}
+									iconUrl={pane.room && pane.room.cover}
+									title={pane.title}
+									tabName={tabName(pane.title)}
+								/>
 							}
 							key={pane.key}
 						>
 							<div className="sp-room-tab">
 								{!pane.room && (
-									<RoomList
-										setRoom={room => {
-											setRoom(room, paneIndex)
-											setMinSideBar(true)
-										}}
-									/>
+									<div>
+										<div className="sp-tab-header">房间列表</div>
+
+										<RoomList
+											setRoom={room => {
+												setRoom(room, paneIndex)
+												setMinSideBar(true)
+											}}
+										/>
+									</div>
 								)}
 
 								{pane.room && (
@@ -204,7 +198,6 @@ function Chat({ account }) {
 													}}
 												>
 													<MenuOutlined />
-													<Space />
 													<span>列表</span>
 												</Button>
 											)

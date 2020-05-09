@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect, useCallback } from "react"
 import "./RoomTab.css"
 
 import moment from "moment"
-import { message, Button, Alert, Space, Popover, Popconfirm } from "antd"
+import { message, Button, Alert, Popover, Popconfirm } from "antd"
 import {
 	LogoutOutlined,
 	LoadingOutlined,
@@ -231,7 +231,6 @@ function RoomTab({ socket, account, room, exit, extraButton }) {
 					}}
 					icon={<HomeOutlined />}
 				>
-					<Space />
 					<span>{room.name}</span>
 				</Button>
 				<span style={{ float: "right" }}>
@@ -242,7 +241,6 @@ function RoomTab({ socket, account, room, exit, extraButton }) {
 						title="在线用户"
 					>
 						<Button icon={<TeamOutlined />}>
-							<Space />
 							<span>{users.length}</span>
 						</Button>
 					</Popover>
@@ -256,7 +254,6 @@ function RoomTab({ socket, account, room, exit, extraButton }) {
 					>
 						{/* don't need a button for clicking, just like its animation, same above */}
 						<Button danger title="离开房间" icon={<LogoutOutlined />}>
-							<Space />
 							<span>离开</span>
 						</Button>
 					</Popconfirm>

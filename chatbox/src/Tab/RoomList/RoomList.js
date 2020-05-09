@@ -1,9 +1,8 @@
 import "./RoomList.css"
 import React, { useState, useEffect } from "react"
 
-import { Modal, Button } from "antd"
+import { Modal, Space } from "antd"
 import {
-	ArrowLeftOutlined,
 	LoadingOutlined,
 	TeamOutlined,
 	PlayCircleFilled
@@ -30,13 +29,12 @@ const title = (
 		创建房间<span style={{ color: "gray" }}>（需10积分）</span>
 	</span>
 )
-function RoomList({ back, showCreateRoomBtn, setRoom }) {
+function RoomList({ setRoom }) {
 	const [loadingRooms, setLoadingRooms] = useState(false)
 	// rooms here mean room list returned from backend
 	// do not confuse with state.rooms
 	const [rooms, setRooms] = useState([])
 	const [showCreateRoomModal, setShowCreateRoomModal] = useState(false)
-	let headerTitle = "房间列表"
 
 	const loadRooms = user => {
 		setLoadingRooms(true)
@@ -65,41 +63,6 @@ function RoomList({ back, showCreateRoomBtn, setRoom }) {
 	return (
 		<span>
 			<div>
-				{false && (
-					<div className="sp-tab-header">
-						{back && (
-							<Button onClick={back} size="small" className="sp-back-btn">
-								<ArrowLeftOutlined />
-							</Button>
-						)}
-						{!back && loadingRooms && (
-							<Button size="small" className="sp-back-btn">
-								<LoadingOutlined />
-							</Button>
-						)}
-						{/* {!back && !loadingRooms && (
-						<Button size="small" onClick={loadRooms} className="sp-back-btn">
-							{" "}
-							<ReloadOutlined />
-						</Button>
-					)} */}
-						<span>{headerTitle}</span>
-						{/* {showCreateRoomBtn && (
-						<span style={{ position: "absolute", right: 10 }}>
-							<Button
-								type="primary"
-								icon="plus"
-								size="small"
-								onClick={() => {
-									setShowCreateRoomModal(true)
-								}}
-							>
-								创建房间
-							</Button>
-						</span>
-					)} */}
-					</div>
-				)}
 				<div
 					style={{
 						padding: 0
@@ -107,18 +70,20 @@ function RoomList({ back, showCreateRoomBtn, setRoom }) {
 					}}
 					className="sp-tab-body discovery"
 				>
-					{back && loadingRooms && (
-						<LoadingOutlined
+					{loadingRooms && (
+						<div
 							style={{
-								margin: "auto",
-								marginTop: 30,
-								marginBottom: 30,
-								display: "block"
+								margin: 15
 							}}
-						/>
+						>
+							<Space>
+								<LoadingOutlined />
+								<span>载入中。。。</span>
+							</Space>
+						</div>
 					)}
 					{!loadingRooms && rooms.length === 0 && (
-						<center style={{ margin: 20 }}>无</center>
+						<div style={{ margin: 15 }}>没有房间可以进入。</div>
 					)}
 
 					{rooms.map(r => {
@@ -140,9 +105,6 @@ function RoomList({ back, showCreateRoomBtn, setRoom }) {
 								key={r.id}
 								onClick={() => {
 									setRoom(r)
-									//   joinManMadeRoom(r)
-									//   // setDiscoveryRoom(r)
-									//   socketManager.joinRoom(r)
 								}}
 								className="sp-discover-entry"
 								style={style}
@@ -180,14 +142,7 @@ function RoomList({ back, showCreateRoomBtn, setRoom }) {
 				}}
 				footer={null}
 				wrapClassName="sp-modal"
-			>
-				{/* <CreateRoomForm
-          back={() => {
-            setShowCreateRoomModal(false)
-          }}
-          afterUpdateCb={loadRooms}
-        /> */}
-			</Modal>
+			></Modal>
 		</span>
 	)
 }
