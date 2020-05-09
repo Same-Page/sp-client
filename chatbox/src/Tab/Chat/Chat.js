@@ -179,6 +179,7 @@ function Chat({ account }) {
 									<div>
 										<div className="sp-room-top-bar">
 											<Popover
+												placement="bottomRight"
 												content={
 													<span>
 														<Space>
@@ -201,6 +202,7 @@ function Chat({ account }) {
 												</Button>
 												<Button
 													onClick={() => {
+														setCloseSideBar(false)
 														remove(pane.key)
 													}}
 													icon={<CloseOutlined />}
