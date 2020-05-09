@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react"
 import "./Chat.css"
 
-import { Tabs, Button, message } from "antd"
+import { Tabs, Button, Popover, Space, message } from "antd"
 import {
 	PlusOutlined,
+	InfoCircleTwoTone,
 	LeftOutlined,
 	CloseOutlined,
 	MenuOutlined
@@ -176,7 +177,38 @@ function Chat({ account }) {
 							<div className="sp-room-tab">
 								{!pane.room && (
 									<div>
-										<div className="sp-tab-header">房间列表</div>
+										<div className="sp-room-top-bar">
+											<Popover
+												content={
+													<span>
+														<Space>
+															<InfoCircleTwoTone />
+															<span>下面显示你可以进入的房间</span>
+														</Space>
+													</span>
+												}
+												trigger="click"
+												// title="房间列表"
+											>
+												<Button icon={<MenuOutlined />}>
+													<span>房间列表</span>
+												</Button>
+											</Popover>
+
+											<span style={{ float: "right" }}>
+												<Button icon={<PlusOutlined />}>
+													<span>新建</span>
+												</Button>
+												<Button
+													onClick={() => {
+														remove(pane.key)
+													}}
+													icon={<CloseOutlined />}
+												>
+													<span>关闭</span>
+												</Button>
+											</span>
+										</div>
 
 										<RoomList
 											setRoom={room => {
