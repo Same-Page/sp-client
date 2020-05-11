@@ -28,7 +28,11 @@ function App({ account, setAccount }) {
 			axios.defaults.headers.common["token"] = account.token
 		}
 	}, [account])
-	return <Tab account={account} />
+	return (
+		<div className="sp-all">
+			<Tab account={account} />
+		</div>
+	)
 }
 
 const stateToProps = state => {

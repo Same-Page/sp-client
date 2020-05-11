@@ -6,3 +6,24 @@
 	transition-delay: 0s;
 	transition-duration: 0s;
 }
+
+/* .sp-all doesn't include .sp-modal because modal is inserted to document root */
+/* restyle antd danger button */
+.sp-all .ant-btn-danger,
+.sp-modal .ant-btn-danger {
+	color: unset;
+	background: none;
+	text-shadow: none;
+	border: 1px solid lightgray;
+}
+
+.sp-all .ant-btn-danger:hover,
+.sp-modal .ant-btn-danger:hover,
+.sp-all .ant-btn-danger:focus,
+.sp-modal .ant-btn-danger:focus {
+	/* color: white; */
+	/* background: red; */
+	color: red;
+	background: none;
+	border: 1px solid red;
+}

@@ -16,12 +16,8 @@
 .sp-inbox-tabs .ant-tabs .ant-tabs-left-bar .ant-tabs-tab {
 	overflow: hidden;
 	height: 77px;
-	/* padding-bottom: 15px; */
-	/* margin-bottom: 15px; */
 }
-.sp-inbox-tabs:not(.sp-minimized) .ant-tabs .ant-tabs-left-bar .ant-tabs-tab {
-	/* padding-bottom: 15px; */
-}
+
 .sp-inbox-tabs .ant-tabs .ant-tabs-left-bar .ant-tabs-tab {
 	text-align: left;
 }

@@ -1,7 +1,11 @@
 import React, { useState } from "react"
 
 import { Button, Row, Col, Modal } from "antd"
-import { ExclamationCircleOutlined } from "@ant-design/icons"
+import {
+	ExclamationCircleOutlined,
+	EditOutlined,
+	LogoutOutlined
+} from "@ant-design/icons"
 import { logout } from "./service"
 import storageManager from "storage"
 const { confirm } = Modal
@@ -13,6 +17,7 @@ function AccountButtons() {
 			<Row gutter={50} style={{ textAlign: "center" }}>
 				<Col style={{ textAlign: "center" }} span={12}>
 					<Button
+						icon={<EditOutlined />}
 						type="primary"
 						// size="large"
 						//   onClick={props.showEditProfile}
@@ -49,6 +54,7 @@ function AccountButtons() {
 						}}
 						loading={loggingOut}
 						type="danger"
+						icon={<LogoutOutlined />}
 					>
 						登出
 					</Button>
