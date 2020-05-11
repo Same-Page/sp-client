@@ -75,7 +75,7 @@ function Inbox({ account }) {
 
 	const onChange = activeKey => {
 		setActiveKey(activeKey)
-		setMinSideBar(true)
+		// setMinSideBar(true)
 	}
 
 	// const add = conversation => {

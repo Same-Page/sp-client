@@ -1,7 +1,7 @@
 /* Only override tab style for card type (.ant-tabs-card) */
 .ant-tabs.ant-tabs-card > .ant-tabs-bar .ant-tabs-nav .ant-tabs-tab .anticon {
 	margin-right: 0;
-	font-size: 17px;
+	/* font-size: 17px; */
 }
 .ant-tabs.ant-tabs-card > .ant-tabs-bar .ant-tabs-tab {
 	margin-right: 0;
@@ -26,7 +26,7 @@
 .ant-tabs.ant-tabs-card > .ant-tabs-bar .ant-tabs-tab-arrow-show {
 	/* > .ant-tabs-bar to only apply to this tab bar, not child ones */
 	background: #1890ff;
-	color: lightgray;
+	color: white;
 }
 .ant-tabs.ant-tabs-card > .ant-tabs-bar .ant-tabs-tab-arrow-show:hover {
 	background: #40a9ff;
@@ -34,6 +34,12 @@
 }
 .ant-tabs.ant-tabs-card > .ant-tabs-bar .ant-tabs-tab-next {
 	right: 0px;
+}
+
+.ant-tabs.ant-tabs-card
+	> .ant-tabs-bar
+	.ant-tabs-tab-arrow-show.ant-tabs-tab-btn-disabled {
+	color: lightgray;
 }
 /* Only override tab style for card type (.ant-tabs-card) END*/
 

@@ -2,7 +2,7 @@
 	border: none;
 }
 .sp-chat-tabs .ant-tabs-nav-container {
-	width: 120px;
+	width: 150px;
 }
 .sp-chat-tabs .ant-tabs-left-bar .ant-tabs-tab {
 	margin-bottom: 10px;
@@ -22,7 +22,7 @@ If want the ink to cover entire row
 	z-index:2;
 } */
 .sp-chat-tabs.sp-minimized .ant-tabs-left-bar .ant-tabs-nav-container {
-	width: 50px;
+	width: 83px;
 }
 /* .sp-chat-tabs.sp-minimized .ant-tabs-left-bar .ant-tabs-tab {
 	padding: 0px 5px;
