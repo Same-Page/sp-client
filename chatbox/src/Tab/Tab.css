@@ -45,12 +45,50 @@
 	text-align: center;
 	white-space: nowrap;
 }
-.sp-tab-header .ant-btn:not(.ant-btn-primary) {
+.sp-tab-header .ant-btn {
 	background: none;
 	border: none;
 	box-shadow: none;
 }
 
-.sp-main-tabs {
-	/* height: 400px; */
+/* Style for left tab bar, used in chat tab and inbox tab */
+.ant-tabs-left-bar .ant-btn {
+	background: none;
+	border: none;
+	box-shadow: none;
+	font-size: 13px;
+	padding: 0px 10px;
+}
+.ant-tabs-left-bar .ant-btn-dangerous {
+	color: unset;
+}
+.ant-tabs-left-bar .ant-btn-dangerous:hover {
+	color: red;
+}
+.closed .ant-tabs-left-bar {
+	display: none;
+}
+.ant-tabs-left-bar .ant-tabs-extra-content {
+	margin-top: 20px;
+}
+.ant-tabs .ant-tabs-left-content {
+	padding: 0;
+}
+.sp-main-tabs .ant-tabs-left-bar .ant-tabs-tab {
+	padding: 0px 15px;
+	font-size: 13px;
+	line-height: 40px;
+	z-index: 2;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+.sp-main-tabs .ant-tabs-left-bar .ant-tabs-nav-container {
+	transition: 0.8s;
+}
+.sp-minimized .ant-tabs-left-bar .ant-tabs-nav-container {
+	width: 50px;
+}
+.sp-minimized .ant-tabs-left-bar .ant-tabs-tab {
+	padding: 0px 5px;
 }

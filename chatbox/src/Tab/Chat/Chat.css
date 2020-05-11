@@ -2,57 +2,18 @@
 	border: none;
 }
 .sp-chat-tabs .ant-tabs-nav-container {
-	/* max-width: 120px; */
 	width: 120px;
-	transition: 0.8s;
 }
 
-.sp-chat-tabs.minimized .ant-tabs-left-bar .ant-tabs-nav-container {
-	/* have to use max-width so that transition animation works 
-	 because we want to use max-width above
-	*/
-	/* max-width: 49px; */
-	/* min-width: 49px; */
-	width: 49px;
-}
-.sp-chat-tabs.closed .ant-tabs-left-bar {
-	display: none;
-}
-.sp-chat-tabs .ant-tabs-extra-content {
-	margin-top: 20px;
-}
-.sp-chat-tabs .ant-tabs .ant-tabs-left-content {
-	padding: 0;
-}
 /* 
 If want the ink to cover entire row
-.sp-chat-tabs .ant-tabs .ant-tabs-left-bar .ant-tabs-ink-bar {
+*/
+
+/* .sp-chat-tabs .ant-tabs .ant-tabs-left-bar .ant-tabs-ink-bar {
 	width: 5px;
 	width: 100%;
+	background: rgb(67, 158, 255);
 }
 .sp-chat-tabs .ant-tabs-nav .ant-tabs-tab-active {
 	color: white;
-} 
-*/
-.sp-chat-tabs .ant-tabs-left-bar .ant-tabs-tab {
-	padding: 0px 15px;
-	font-size: 13px;
-	line-height: 40px;
-	/* z-index: 2; */
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
-}
-.sp-chat-tabs.sp-chat-tabs.minimized .ant-tabs-left-bar .ant-tabs-tab {
-	padding: 0px 5px;
-	/* text-align: left; */
-}
-
-.sp-icon-transition-duration-1 svg {
-	transition-delay: 0.5s;
-	transition-duration: 0.5s;
-}
-.sp-icon-transition-duration-1:hover {
-	transition-delay: 0s;
-	transition-duration: 0s;
-}
+} */

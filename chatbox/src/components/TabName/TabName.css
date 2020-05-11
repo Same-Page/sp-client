@@ -1,0 +1,24 @@
+.sp-vertical-tab-name img {
+	width: 25px;
+	height: 25px;
+	border-radius: 3px;
+	object-fit: cover;
+}
+.sp-vertical-tab-name img + .sp-tab-name {
+	margin-left: 5px;
+}
+.sp-vertical-tab-name .sp-float-right-extra {
+	float: right;
+	color: gray;
+	font-weight: initial;
+	font-size: smaller;
+}
+.sp-vertical-tab-name .sp-tab-description {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	line-height: normal;
+	color: gray;
+	font-weight: initial;
+	font-size: smaller;
+}

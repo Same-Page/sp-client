@@ -2,7 +2,7 @@ import "./RoomInfoModal.css"
 import React from "react"
 
 import { Modal } from "antd"
-import AvatarWithModal from "Tab/AvatarWithModal"
+import AvatarWithModal from "components/AvatarWithModal"
 
 function RoomInfoModal({ room, showModal, setShowModal }) {
 	return (

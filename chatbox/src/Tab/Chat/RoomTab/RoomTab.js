@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useCallback } from "react"
+import React, { useState, useRef, useEffect } from "react"
 import "./RoomTab.css"
 
 import moment from "moment"
@@ -10,61 +10,20 @@ import {
 	HomeOutlined
 } from "@ant-design/icons"
 
-import Message from "Tab/Message"
-import InputWithPicker from "Tab/InputWithPicker"
-import RoomInfoModal from "Tab/RoomInfoModal/RoomInfoModal"
+import InputWithPicker from "components/InputWithPicker"
+import RoomInfoModal from "components/RoomInfoModal"
+import Conversation from "components/Conversation"
 import Users from "./Users"
 
-const AUTO_SCROLL_TRESHOLD_DISTANCE = 300
 const MESSAGE_TIME_GAP = 2 * 1000
 let lastMsgTime = 0
 
-const chatBodyStyle = {
-	// height: "calc(100% - 114px)",
-	overflowY: "auto",
-	overflowX: "hidden",
-	minHeight: 500,
-	maxHeight: 500, // some people may not want to set it
-	width: "100%",
-	// position: "fixed",
-	background: "rgb(243, 243, 243)",
-	padding: 10,
-	paddingBottom: 50,
-	scrollBehavior: "smooth"
-}
-
 function RoomTab({ socket, account, room, exit, extraButton }) {
-	const bodyStyle = { ...chatBodyStyle }
-	if (room.background) {
-		bodyStyle.backgroundImage = `url('${room.background}')`
-		bodyStyle.backgroundSize = "cover"
-	}
-	const imageLoadedCb = () => {
-		scrollToBottomIfNearBottom(10)
-	}
-
 	const [messages, setMessages] = useState([])
 	const [joining, setJoining] = useState(false)
-	const bodyRef = useRef(null)
 	const [showModal, setShowModal] = useState(false)
 	const [users, setUsers] = useState([])
-	const scrollToBottomIfNearBottom = useCallback(timeout => {
-		timeout = timeout || 100
 
-		const bodyDiv = bodyRef.current
-		if (!bodyDiv) {
-			console.error("no chat body div to scroll to bottom")
-			return
-		}
-		if (
-			bodyDiv.scrollHeight - bodyDiv.scrollTop - bodyDiv.offsetHeight <
-			AUTO_SCROLL_TRESHOLD_DISTANCE
-		) {
-			setTimeout(() => {
-				bodyDiv.scrollTop = bodyDiv.scrollHeight
-			}, timeout)
-		}
-	}, [])
 	useEffect(() => {
 		if (!socket) {
 			return
@@ -87,8 +46,8 @@ function RoomTab({ socket, account, room, exit, extraButton }) {
 			const data = msg.data
 			if (!data || data.roomId !== room.id) return
 			if (msg.name === "chat message") {
+				// TODO: mark self can be done on server
 				data.self = account && data.user.id.toString() === account.id.toString()
-				data.time = moment()
 				setMessages(prevMessages => {
 					return [...prevMessages, data]
 				})
@@ -96,9 +55,9 @@ function RoomTab({ socket, account, room, exit, extraButton }) {
 				setJoining(false)
 				if (data.chatHistory) {
 					data.chatHistory.forEach(msg => {
+						// TODO: mark self can be done on server
 						msg.self =
 							account && msg.user.id.toString() === account.id.toString()
-						msg.time = moment.utc(msg.timestamp)
 					})
 					setMessages(data.chatHistory)
 				}
@@ -138,58 +97,6 @@ function RoomTab({ socket, account, room, exit, extraButton }) {
 			socket.send(JSON.stringify(socketPayload))
 		}
 	}, [room, socket, account])
-	useEffect(() => {
-		scrollToBottomIfNearBottom(10)
-	}, [messages.length, scrollToBottomIfNearBottom])
-	let res = []
-	let lastMsg = null
-	messages.forEach(msg => {
-		//   const blacklisted =
-		// 	blacklist.filter(u => {
-		// 	  return u.id === msg.user.id
-		// 	}).length > 0
-		//   if (blacklisted) {
-		// 	// spDebug(`[Body.js] blacklisted user ${data.user.name} talking`)
-		// 	return
-		//   }
-		// If same user is talking, no need to show user's avatar again
-		let showUser = true
-		// If it's been more than 5 mins since last msg
-		let showTimestamp = false
-		let timeDisplay = null
-
-		if (lastMsg) {
-			if (lastMsg.user.id.toString() === msg.user.id.toString())
-				showUser = false
-			if (msg.time.diff(lastMsg.time) > 5 * 60 * 1000) {
-				showTimestamp = true
-				showUser = true
-			}
-		} else {
-			showTimestamp = true
-			showUser = true
-		}
-
-		if (showTimestamp) {
-			if (moment().diff(msg.time) > 24 * 60 * 60 * 1000)
-				timeDisplay = msg.time.local().format("MMMDo HH:mm")
-			else timeDisplay = msg.time.local().format("HH:mm")
-		}
-
-		res.push(
-			<Message
-				showMenu={true}
-				withHoverCard={false}
-				key={msg.id}
-				data={msg}
-				room={room}
-				showUser={showUser}
-				timeDisplay={timeDisplay}
-				imageLoadedCb={imageLoadedCb}
-			/>
-		)
-		lastMsg = msg
-	})
 
 	const send = payload => {
 		const now = new Date()
@@ -270,10 +177,8 @@ function RoomTab({ socket, account, room, exit, extraButton }) {
 					type="warning"
 				/>
 			)}
-			<div ref={bodyRef} style={{ ...bodyStyle }}>
-				{res}
-			</div>
-			{socket && <InputWithPicker send={send} />}
+			<Conversation messages={messages} />
+			{socket && <InputWithPicker autoFocus={true} send={send} />}
 		</div>
 	)
 }

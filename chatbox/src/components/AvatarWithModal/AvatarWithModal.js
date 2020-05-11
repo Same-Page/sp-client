@@ -3,7 +3,7 @@ import "./AvatarWithModal.css"
 import React, { useState } from "react"
 import { Avatar, Modal } from "antd"
 
-import Profile from "Tab/Profile"
+import Profile from "components/Profile"
 
 function AvatarWithModal({ user }) {
 	const [showModal, setShowModal] = useState(false)

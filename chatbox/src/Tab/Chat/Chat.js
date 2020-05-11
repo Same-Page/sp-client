@@ -10,9 +10,9 @@ import {
 	MenuOutlined
 } from "@ant-design/icons"
 import config from "config"
-import TabName from "./TabName"
+import TabName from "components/TabName"
 import RoomTab from "./RoomTab"
-import RoomList from "Tab/RoomList"
+import RoomList from "components/RoomList"
 
 const { TabPane } = Tabs
 
@@ -21,6 +21,9 @@ const initPanes = [
 	{ title: "请选择房间 2", key: "2" }
 ]
 
+// newTabIndex is used as pane key, could just use room id instead
+// but empty new tab doesn't have room assigned, could use -1 but
+// user can open multiple empty tabs
 let newTabIndex = 0
 
 function Chat({ account }) {
@@ -37,9 +40,14 @@ function Chat({ account }) {
 				console.debug("socket connected")
 				// message.success("聊天服务器连接成功！")
 				setSocket(s)
+				s.wasWorking = true
 			})
 			s.addEventListener("close", e => {
-				message.error("聊天服务器连接断开！")
+				if (s.wasWorking) {
+					// Also get this callback if fail to open
+					// only show error message connection break
+					message.error("聊天服务器连接断开！")
+				}
 
 				console.debug("socket closed, recreate in 5 seconds...")
 				setSocket(null)
@@ -112,145 +120,137 @@ function Chat({ account }) {
 		panes[paneIndex] = pane
 		setPanes([...panes])
 	}
-	const tabName = name => {
-		if (minSideBar) {
-			name = name.substring(0, 2)
-		}
-		return name
-	}
+
 	const wrapperClassName =
 		"sp-chat-tabs" +
-		(minSideBar ? " minimized" : "") +
-		(closeSideBar ? " closed" : "")
+		(minSideBar ? " sp-minimized" : "") +
+		(closeSideBar ? " sp-closed" : "")
 
 	return (
-		<div>
-			<div className={wrapperClassName}>
-				<Tabs
-					tabBarExtraContent={
-						<span>
-							<Button icon={<PlusOutlined />} onClick={add} />
-							<br />
-							<Button
-								onClick={() => {
-									setMinSideBar(prev => {
-										return !prev
-									})
-								}}
-								icon={
-									<LeftOutlined
-										className="sp-icon-transition-duration-1"
-										rotate={minSideBar ? 180 : 0}
-									/>
-								}
-							/>
-
-							<br />
-							<Button
-								danger
-								onClick={() => {
-									setCloseSideBar(true)
-								}}
-								icon={<CloseOutlined />}
-							/>
-						</span>
-					}
-					hideAdd
-					onChange={onChange}
-					activeKey={activeKey}
-					// type="editable-card" commented out otherwise style is a mess
-					onEdit={onEdit}
-					tabPosition="left"
-				>
-					{panes.map((pane, paneIndex) => (
-						<TabPane
-							tab={
-								<TabName
-									showAntdTooltip={minSideBar}
-									iconUrl={pane.room && pane.room.cover}
-									title={pane.title}
-									tabName={tabName(pane.title)}
+		<div className={wrapperClassName}>
+			<Tabs
+				tabBarExtraContent={
+					<span>
+						<Button icon={<PlusOutlined />} onClick={add} />
+						<br />
+						<Button
+							onClick={() => {
+								setMinSideBar(prev => {
+									return !prev
+								})
+							}}
+							icon={
+								<LeftOutlined
+									className="sp-icon-transition-duration-1"
+									rotate={minSideBar ? 180 : 0}
 								/>
 							}
-							key={pane.key}
-						>
-							<div className="sp-room-tab">
-								{!pane.room && (
-									<div>
-										<div className="sp-room-top-bar">
-											<Popover
-												placement="bottomRight"
-												content={
-													<span>
-														<Space>
-															<InfoCircleTwoTone />
-															<span>下面显示你可以进入的房间</span>
-														</Space>
-													</span>
-												}
-												trigger="click"
-												// title="房间列表"
+						/>
+
+						<br />
+						<Button
+							danger
+							onClick={() => {
+								setCloseSideBar(true)
+							}}
+							icon={<CloseOutlined />}
+						/>
+					</span>
+				}
+				hideAdd
+				onChange={onChange}
+				activeKey={activeKey}
+				// type="editable-card" commented out otherwise style is a mess
+				onEdit={onEdit}
+				tabPosition="left"
+			>
+				{panes.map((pane, paneIndex) => (
+					<TabPane
+						tab={
+							<TabName
+								minimized={minSideBar}
+								iconUrl={minSideBar && pane.room && pane.room.cover}
+								title={pane.title}
+							/>
+						}
+						key={pane.key}
+					>
+						<div className="sp-room-tab">
+							{!pane.room && (
+								<div>
+									<div className="sp-room-top-bar">
+										<Popover
+											placement="bottomRight"
+											content={
+												<span>
+													<Space>
+														<InfoCircleTwoTone />
+														<span>下面显示你可以进入的房间</span>
+													</Space>
+												</span>
+											}
+											trigger="click"
+											// title="房间列表"
+										>
+											<Button icon={<MenuOutlined />}>
+												<span>房间列表</span>
+											</Button>
+										</Popover>
+
+										<span style={{ float: "right" }}>
+											<Button icon={<PlusOutlined />}>
+												<span>新建</span>
+											</Button>
+											<Button
+												onClick={() => {
+													setCloseSideBar(false)
+													remove(pane.key)
+												}}
+												icon={<CloseOutlined />}
 											>
-												<Button icon={<MenuOutlined />}>
-													<span>房间列表</span>
-												</Button>
-											</Popover>
-
-											<span style={{ float: "right" }}>
-												<Button icon={<PlusOutlined />}>
-													<span>新建</span>
-												</Button>
-												<Button
-													onClick={() => {
-														setCloseSideBar(false)
-														remove(pane.key)
-													}}
-													icon={<CloseOutlined />}
-												>
-													<span>关闭</span>
-												</Button>
-											</span>
-										</div>
-
-										<RoomList
-											setRoom={room => {
-												setRoom(room, paneIndex)
-												setMinSideBar(true)
-											}}
-										/>
+												<span>关闭</span>
+											</Button>
+										</span>
 									</div>
-								)}
 
-								{pane.room && (
-									<RoomTab
-										extraButton={
-											closeSideBar && (
-												<Button
-													onClick={() => {
-														setCloseSideBar(false)
-														setMinSideBar(false)
-													}}
-												>
-													<MenuOutlined />
-													<span>列表</span>
-												</Button>
-											)
-										}
-										socket={socket}
-										account={account}
-										room={pane.room}
-										exit={() => {
-											setMinSideBar(false)
-											setCloseSideBar(false)
-											remove(pane.key)
+									<RoomList
+										setRoom={room => {
+											setRoom(room, paneIndex)
+											setMinSideBar(true)
 										}}
 									/>
-								)}
-							</div>
-						</TabPane>
-					))}
-				</Tabs>
-			</div>
+								</div>
+							)}
+
+							{pane.room && (
+								<RoomTab
+									extraButton={
+										closeSideBar && (
+											<Button
+												onClick={() => {
+													setCloseSideBar(false)
+													setMinSideBar(false)
+												}}
+											>
+												<MenuOutlined />
+												<span>列表</span>
+											</Button>
+										)
+									}
+									socket={socket}
+									account={account}
+									room={pane.room}
+									exit={() => {
+										setMinSideBar(false)
+										setCloseSideBar(false)
+										remove(pane.key)
+									}}
+								/>
+							)}
+						</div>
+					</TabPane>
+				))}
+			</Tabs>
 		</div>
 	)
 }

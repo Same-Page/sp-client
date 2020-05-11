@@ -1,6 +1,6 @@
 import React from "react"
 import "./Users.css"
-import AvatarWithModal from "Tab/AvatarWithModal"
+import AvatarWithModal from "components/AvatarWithModal"
 
 function Users({ users }) {
 	return (

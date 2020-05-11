@@ -1,7 +1,7 @@
 import "./RoomList.css"
 import React, { useState, useEffect } from "react"
 
-import { Modal, Space } from "antd"
+import { Modal, Alert } from "antd"
 import {
 	LoadingOutlined,
 	TeamOutlined,
@@ -71,16 +71,15 @@ function RoomList({ setRoom }) {
 					className="sp-tab-body discovery"
 				>
 					{loadingRooms && (
-						<div
-							style={{
-								margin: 15
-							}}
-						>
-							<Space>
-								<LoadingOutlined />
-								<span>载入中。。。</span>
-							</Space>
-						</div>
+						<Alert
+							className="sp-room-alert sp-alert-float"
+							message={
+								<span style={{ marginLeft: 10 }}>载入房间列表中。。。</span>
+							}
+							icon={<LoadingOutlined />}
+							banner
+							type="warning"
+						/>
 					)}
 					{!loadingRooms && rooms.length === 0 && (
 						<div style={{ margin: 15 }}>没有房间可以进入。</div>

@@ -1,0 +1,33 @@
+.sp-inbox-tabs .ant-tabs-nav-container {
+	width: 200px;
+	/* width: 50%; */
+	transition: 0.8s;
+}
+/* .sp-inbox-tabs .ant-tabs .ant-tabs-left-bar .ant-tabs-ink-bar {
+	width: 5px;
+	width: 100%;
+	background: rgb(67, 158, 255);
+}
+.sp-inbox-tabs .ant-tabs-nav .ant-tabs-tab-active {
+	color: white;
+} */
+.sp-inbox-tabs .ant-tabs .ant-tabs-left-content {
+	padding: 0;
+}
+.sp-inbox-tabs:not(.sp-minimized) .ant-tabs .ant-tabs-left-bar .ant-tabs-tab {
+	text-align: left;
+	/* padding: 10px; */
+	z-index: 2;
+}
+
+.sp-inbox-tabs .ant-tabs-nav .ant-tabs-tab-active,
+.sp-inbox-tabs .ant-tabs-nav .ant-tabs-tab:hover {
+	color: unset;
+}
+
+.sp-inbox-tabs .sp-message-time {
+	float: right;
+	color: gray;
+	font-weight: initial;
+	font-size: smaller;
+}

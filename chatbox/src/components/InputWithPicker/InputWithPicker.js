@@ -65,8 +65,12 @@ function InputWithPicker(props) {
 
 	const handleKeyDown = e => {
 		if (e.key === "Enter") {
+			if (input === "") {
+				console.warn("Cannot send empty string")
+				return
+			}
 			const payload = {
-				text: input,
+				value: input,
 				type: "text"
 			}
 			const shouldClear = props.send(payload)

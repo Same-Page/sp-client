@@ -1,0 +1,8 @@
+.sp-icon-transition-duration-1 svg {
+	/* transition-delay: 0.5s; */
+	transition-duration: 0.5s;
+}
+.sp-icon-transition-duration-1:hover {
+	transition-delay: 0s;
+	transition-duration: 0s;
+}

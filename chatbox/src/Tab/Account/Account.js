@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 
-import Profile from "Tab/Profile"
+import Profile from "components/Profile"
 import Login from "./Login"
 import Signup from "./Signup"
 import AccountButtons from "./AccountButtons"

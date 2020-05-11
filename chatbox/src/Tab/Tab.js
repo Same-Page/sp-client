@@ -12,6 +12,7 @@ import {
 
 import Account from "./Account"
 import Chat from "./Chat"
+import Inbox from "./Inbox"
 
 const { TabPane } = Tabs
 
@@ -26,7 +27,7 @@ message.config({
 function Tab({ account }) {
 	return (
 		<div className="sp-main-tabs">
-			<Tabs onChange={callback} type="card">
+			<Tabs onChange={callback} type="card" defaultActiveKey="inbox">
 				<TabPane tab={<MessageOutlined title="实时聊天" />} key="chat">
 					<Chat account={account} />
 				</TabPane>
@@ -34,7 +35,7 @@ function Tab({ account }) {
 					comment
 				</TabPane>
 				<TabPane tab={<MailOutlined title="收件箱" />} key="inbox">
-					Content of Tab Pane 2
+					<Inbox account={account} />
 				</TabPane>
 				<TabPane tab={<UserOutlined title="个人资料" />} key="account">
 					<Account account={account} />

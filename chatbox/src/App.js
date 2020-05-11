@@ -1,6 +1,7 @@
 import React, { useEffect } from "react"
 import { connect } from "react-redux"
 import moment from "moment"
+import axios from "axios"
 
 import storageManager from "storage"
 import Tab from "Tab"
@@ -21,6 +22,12 @@ function App({ account, setAccount }) {
 			setAccount(account)
 		})
 	}, [setAccount])
+	useEffect(() => {
+		if (account) {
+			console.info("account id changed to " + account.id)
+			axios.defaults.headers.common["token"] = account.token
+		}
+	}, [account])
 	return <Tab account={account} />
 }
 
