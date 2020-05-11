@@ -46,11 +46,17 @@ function Profile({ user }) {
 						<b>{user.id}</b>
 					</Col>
 					<Col style={{ textAlign: "center" }} span={12}>
-						积分 <br />
-						<b>{user.credit}</b>
+						<span
+							className="sp-follow-stats"
+							onClick={() => {
+								// props.showRooms()
+							}}
+						>
+							房间
+							<br /> <b>{user.rooms && user.rooms.length}</b>
+						</span>
 					</Col>
 				</Row>
-
 				<Row gutter={50} style={{ marginTop: 10, textAlign: "center" }}>
 					<Col style={{ textAlign: "center" }} span={12}>
 						<span
@@ -70,31 +76,35 @@ function Profile({ user }) {
 							<br /> <b>{user.followerCount}</b>
 						</span>
 					</Col>
-				</Row>
-				<Row gutter={50} style={{ marginTop: 10, textAlign: "center" }}>
-					<Col style={{ textAlign: "center" }} span={12}>
-						<span
-							className="sp-follow-stats"
-							onClick={() => {
-								// props.showRooms()
-							}}
-						>
-							房间
-							<br /> <b>{user.rooms && user.rooms.length}</b>
-						</span>
-					</Col>
-					<Col style={{ textAlign: "center" }} span={12}>
-						<span
-							className="sp-follow-stats"
-							onClick={() => {
-								// props.showBlacklist()
-							}}
-						>
-							黑名单
-							{/* <br /> <b>{props.blacklist.length}</b> */}
-						</span>
-					</Col>
-				</Row>
+				</Row>{" "}
+				{false && (
+					<span>
+						<Row gutter={50} style={{ marginTop: 10, textAlign: "center" }}>
+							<Col style={{ textAlign: "center" }} span={12}>
+								<span
+									className="sp-follow-stats"
+									onClick={() => {
+										// props.showRooms()
+									}}
+								>
+									房间
+									<br /> <b>{user.rooms && user.rooms.length}</b>
+								</span>
+							</Col>
+							<Col style={{ textAlign: "center" }} span={12}>
+								<span
+									className="sp-follow-stats"
+									onClick={() => {
+										// props.showBlacklist()
+									}}
+								>
+									黑名单
+									{/* <br /> <b>{props.blacklist.length}</b> */}
+								</span>
+							</Col>
+						</Row>
+					</span>
+				)}
 				{user.about && <div style={aboutStyle}>{user.about}</div>}
 			</div>
 		</div>

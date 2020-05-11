@@ -1,9 +1,9 @@
 import "./AvatarWithModal.css"
 
 import React, { useState } from "react"
-import { Avatar, Modal } from "antd"
+import { Avatar } from "antd"
 
-import Profile from "components/Profile"
+import ProfileModal from "components/ProfileModal"
 
 function AvatarWithModal({ user }) {
 	const [showModal, setShowModal] = useState(false)
@@ -17,17 +17,7 @@ function AvatarWithModal({ user }) {
 				size="large"
 				src={user.avatarSrc}
 			/>
-			<Modal
-				title="用户信息"
-				visible={showModal}
-				onCancel={() => {
-					setShowModal(false)
-				}}
-				footer={null}
-				className="sp-profile-modal"
-			>
-				<Profile user={user} />
-			</Modal>
+			{showModal && <ProfileModal user={user} setShowModal={setShowModal} />}
 		</>
 	)
 }

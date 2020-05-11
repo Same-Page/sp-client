@@ -8,6 +8,8 @@ import moment from "moment"
 import TabName from "components/TabName"
 import Conversation from "components/Conversation"
 import InputWithPicker from "components/InputWithPicker"
+import ProfileModal from "components/ProfileModal"
+
 import { getConversations, postMessage } from "./service"
 
 const { TabPane } = Tabs
@@ -32,6 +34,7 @@ function Inbox({ account }) {
 	const [closeSideBar, setCloseSideBar] = useState(false)
 	const [sending, setSending] = useState(false)
 	const [conversations, setConversations] = useState([])
+	const [showProfileModal, setShowProfileModal] = useState(false)
 
 	useEffect(() => {
 		async function fetchData() {
@@ -72,6 +75,7 @@ function Inbox({ account }) {
 
 	const onChange = activeKey => {
 		setActiveKey(activeKey)
+		setMinSideBar(true)
 	}
 
 	// const add = conversation => {
@@ -126,8 +130,8 @@ function Inbox({ account }) {
 
 			<Tabs
 				hideAdd
-				// onChange={onChange}
-				// activeKey={activeKey}
+				onChange={onChange}
+				activeKey={activeKey}
 				// type="editable-card" commented out otherwise style is a mess
 				// onEdit={onEdit}
 				tabPosition="left"
@@ -187,9 +191,15 @@ function Inbox({ account }) {
 										<span>列表</span>
 									</Button>
 								)}
+								{showProfileModal && (
+									<ProfileModal
+										user={c.user}
+										setShowModal={setShowProfileModal}
+									/>
+								)}
 								<Button
 									onClick={() => {
-										// setShowModal(true)
+										setShowProfileModal(true)
 									}}
 								>
 									<Avatar
