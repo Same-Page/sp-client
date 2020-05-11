@@ -74,21 +74,17 @@
 .ant-tabs .ant-tabs-left-content {
 	padding: 0;
 }
+
 .sp-main-tabs .ant-tabs-left-bar .ant-tabs-tab {
-	padding: 0px 15px;
+	padding: 0px;
+	margin: 0px;
+	margin-bottom: 10px;
 	font-size: 13px;
-	line-height: 40px;
-	z-index: 2;
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
+}
+
+.sp-closed .ant-tabs-left-bar {
+	display: none;
 }
 .sp-main-tabs .ant-tabs-left-bar .ant-tabs-nav-container {
-	transition: 0.8s;
-}
-.sp-minimized .ant-tabs-left-bar .ant-tabs-nav-container {
-	width: 50px;
-}
-.sp-minimized .ant-tabs-left-bar .ant-tabs-tab {
-	padding: 0px 5px;
+	transition: 0.5s;
 }

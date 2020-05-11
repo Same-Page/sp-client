@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react"
 import "./Inbox.css"
 
 import { Tabs, Button, Avatar, message } from "antd"
-import { UserOutlined, LeftOutlined, CloseOutlined } from "@ant-design/icons"
+import { MenuOutlined, LeftOutlined, CloseOutlined } from "@ant-design/icons"
 import moment from "moment"
 
 import TabName from "components/TabName"
@@ -115,6 +115,9 @@ function Inbox({ account }) {
 		(minSideBar ? " sp-minimized" : "") +
 		(closeSideBar ? " sp-closed" : "")
 
+	if (!account) {
+		return <>请登录</>
+	}
 	return (
 		<div className={wrapperClassName}>
 			{/* <div className="sp-tab-header">
@@ -161,39 +164,29 @@ function Inbox({ account }) {
 							<TabName
 								minimized={minSideBar}
 								iconUrl={c.user.avatarSrc}
+								size="large"
 								title={c.user.name}
 								description={lastMsg(c) && lastMsg(c).content.value}
 								floatRightExtra={
 									lastMsg(c) && moment(lastMsg(c).creaetd_at).fromNow()
 								}
-								// tabName={
-								// 	!minSideBar && (
-								// 		<span>
-								// 			<Avatar icon={<UserOutlined />} src={c.user.avatarSrc} />
-								// 			<div>
-								// 				<span className="sp-inbox-message-username">
-								// 					{c.user.name}
-								// 				</span>
-								// 				{lastMsg(c) && (
-								// 					<span className="sp-message-time">
-								// 						{moment(lastMsg(c).creaetd_at).fromNow()}
-								// 					</span>
-								// 				)}
-								// 			</div>
-								// 			{lastMsg(c) && (
-								// 				<div className="sp-inbox-message-content">
-								// 					{lastMsg(c).content.value}
-								// 				</div>
-								// 			)}
-								// 		</span>
-								// 	)
-								// }
 							/>
 						}
 						key={c.user.id}
 					>
 						<div className="sp-room-tab">
 							<div className="sp-room-top-bar">
+								{closeSideBar && (
+									<Button
+										onClick={() => {
+											setCloseSideBar(false)
+											setMinSideBar(false)
+										}}
+									>
+										<MenuOutlined />
+										<span>列表</span>
+									</Button>
+								)}
 								<Button
 									onClick={() => {
 										// setShowModal(true)

@@ -1,8 +1,9 @@
-.sp-inbox-tabs .ant-tabs-nav-container {
-	width: 200px;
+.sp-main-tabs .sp-inbox-tabs .ant-tabs-left-bar .ant-tabs-nav-container {
+	width: 250px;
 	/* width: 50%; */
-	transition: 0.8s;
+	transition: 0.5s;
 }
+
 /* .sp-inbox-tabs .ant-tabs .ant-tabs-left-bar .ant-tabs-ink-bar {
 	width: 5px;
 	width: 100%;
@@ -10,14 +11,19 @@
 }
 .sp-inbox-tabs .ant-tabs-nav .ant-tabs-tab-active {
 	color: white;
+	z-index:2;
 } */
-.sp-inbox-tabs .ant-tabs .ant-tabs-left-content {
-	padding: 0;
+.sp-inbox-tabs .ant-tabs .ant-tabs-left-bar .ant-tabs-tab {
+	overflow: hidden;
+	height: 77px;
+	/* padding-bottom: 15px; */
+	/* margin-bottom: 15px; */
 }
 .sp-inbox-tabs:not(.sp-minimized) .ant-tabs .ant-tabs-left-bar .ant-tabs-tab {
+	/* padding-bottom: 15px; */
+}
+.sp-inbox-tabs .ant-tabs .ant-tabs-left-bar .ant-tabs-tab {
 	text-align: left;
-	/* padding: 10px; */
-	z-index: 2;
 }
 
 .sp-inbox-tabs .ant-tabs-nav .ant-tabs-tab-active,
@@ -25,9 +31,6 @@
 	color: unset;
 }
 
-.sp-inbox-tabs .sp-message-time {
-	float: right;
-	color: gray;
-	font-weight: initial;
-	font-size: smaller;
+.sp-inbox-tabs.sp-minimized .ant-tabs-left-bar .ant-tabs-nav-container {
+	width: 70px;
 }

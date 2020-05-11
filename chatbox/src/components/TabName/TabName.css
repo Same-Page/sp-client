@@ -1,24 +1,58 @@
+.sp-vertical-tab-name .sp-tab-name,
+.sp-vertical-tab-name .sp-float-right-extra {
+	line-height: 40px;
+}
+
+.sp-vertical-tab-name .sp-tab-text {
+	padding: 0px 7px;
+}
+
+/* 
+	.sp-minimized .sp-vertical-tab-name.large is
+	special case for user name in inbox tab left bar 
+	Maybe shouldn't have shared the Tabname component,
+	such case is a headache
+*/
+.sp-minimized .sp-vertical-tab-name.large .sp-tab-text {
+	text-align: center;
+}
+.sp-minimized .sp-vertical-tab-name.large .sp-tab-name {
+	line-height: normal;
+	font-size: 11px;
+}
+
 .sp-vertical-tab-name img {
-	width: 25px;
-	height: 25px;
+	width: 30px;
+	height: 30px;
 	border-radius: 3px;
 	object-fit: cover;
+	float: left;
+	margin: 5px;
 }
-.sp-vertical-tab-name img + .sp-tab-name {
-	margin-left: 5px;
+
+.sp-vertical-tab-name.large img {
+	width: 50px;
+	height: 50px;
+	margin: 10px;
+	margin-bottom: 3px;
 }
-.sp-vertical-tab-name .sp-float-right-extra {
-	float: right;
-	color: gray;
-	font-weight: initial;
-	font-size: smaller;
+
+.sp-minimized .sp-vertical-tab-name img {
+	float: unset;
 }
+.sp-vertical-tab-name .sp-tab-name,
 .sp-vertical-tab-name .sp-tab-description {
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
+}
+.sp-vertical-tab-name .sp-tab-description {
 	line-height: normal;
 	color: gray;
-	font-weight: initial;
+}
+.sp-vertical-tab-name .sp-float-right-extra {
+	float: right;
+	color: gray;
 	font-size: smaller;
+	margin-right: 10px;
 }
