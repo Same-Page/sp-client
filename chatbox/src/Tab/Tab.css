@@ -1,10 +1,11 @@
 /* Only override tab style for card type (.ant-tabs-card) */
 .ant-tabs.ant-tabs-card > .ant-tabs-bar .ant-tabs-nav .ant-tabs-tab .anticon {
-	margin-right: 0;
+	margin-right: 5px;
 	/* font-size: 17px; */
 }
 .ant-tabs.ant-tabs-card > .ant-tabs-bar .ant-tabs-tab {
 	margin-right: 0;
+	padding: 8px 12px;
 	border: none;
 	background: #1890ff;
 	color: white;

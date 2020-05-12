@@ -30,10 +30,10 @@ function Tab({ account }) {
 			<Tabs onChange={callback} type="card" defaultActiveKey="inbox">
 				<TabPane
 					tab={
-						<Space>
+						<span>
 							<MessageOutlined title="实时聊天" />
 							聊天
-						</Space>
+						</span>
 					}
 					key="chat"
 				>
@@ -41,10 +41,10 @@ function Tab({ account }) {
 				</TabPane>
 				<TabPane
 					tab={
-						<Space>
+						<span>
 							<EditOutlined title="网页留言" />
 							留言
-						</Space>
+						</span>
 					}
 					key="comment"
 				>
@@ -52,10 +52,10 @@ function Tab({ account }) {
 				</TabPane>
 				<TabPane
 					tab={
-						<Space>
+						<span>
 							<MailOutlined title="收件箱" />
 							信箱
-						</Space>
+						</span>
 					}
 					key="inbox"
 				>
@@ -63,10 +63,10 @@ function Tab({ account }) {
 				</TabPane>
 				<TabPane
 					tab={
-						<Space>
+						<span>
 							<UserOutlined title="个人资料" />
 							用户
-						</Space>
+						</span>
 					}
 					key="account"
 				>
@@ -74,10 +74,10 @@ function Tab({ account }) {
 				</TabPane>
 				<TabPane
 					tab={
-						<Space>
+						<span>
 							<SettingOutlined title="设置" />
 							设置
-						</Space>
+						</span>
 					}
 					key="settings"
 				>
