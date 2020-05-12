@@ -5,22 +5,8 @@
 	width: 150px;
 }
 .sp-chat-tabs .ant-tabs-left-bar .ant-tabs-tab {
-	margin-bottom: 10px;
+	/* margin-bottom: 10px; */
 }
 .sp-chat-tabs.sp-minimized .ant-tabs-left-bar .ant-tabs-nav-container {
 	width: 72px;
 }
-
-/* 
-If want the ink to cover entire row
-*/
-
-/* .sp-chat-tabs .ant-tabs .ant-tabs-left-bar .ant-tabs-ink-bar {
-	width: 5px;
-	width: 100%;
-	background: rgb(67, 158, 255);
-}
-.sp-chat-tabs .ant-tabs-nav .ant-tabs-tab-active {
-	color: white;
-	z-index:2;
-} */

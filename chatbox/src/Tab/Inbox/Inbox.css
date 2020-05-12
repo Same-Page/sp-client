@@ -4,18 +4,9 @@
 	transition: 0.5s;
 }
 
-/* .sp-inbox-tabs .ant-tabs .ant-tabs-left-bar .ant-tabs-ink-bar {
-	width: 5px;
-	width: 100%;
-	background: rgb(67, 158, 255);
-}
-.sp-inbox-tabs .ant-tabs-nav .ant-tabs-tab-active {
-	color: white;
-	z-index:2;
-} */
 .sp-inbox-tabs .ant-tabs .ant-tabs-left-bar .ant-tabs-tab {
 	overflow: hidden;
-	height: 77px;
+	height: 78px;
 }
 
 .sp-inbox-tabs .ant-tabs .ant-tabs-left-bar .ant-tabs-tab {

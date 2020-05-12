@@ -1,7 +1,6 @@
 /* Only override tab style for card type (.ant-tabs-card) */
 .ant-tabs.ant-tabs-card > .ant-tabs-bar .ant-tabs-nav .ant-tabs-tab .anticon {
 	margin-right: 5px;
-	/* font-size: 17px; */
 }
 .ant-tabs.ant-tabs-card > .ant-tabs-bar .ant-tabs-tab {
 	margin-right: 0;
@@ -42,6 +41,7 @@
 	.ant-tabs-tab-arrow-show.ant-tabs-tab-btn-disabled {
 	color: lightgray;
 }
+
 /* Only override tab style for card type (.ant-tabs-card) END*/
 
 .sp-tab-header {
@@ -86,8 +86,16 @@
 	padding: 0px;
 	margin: 0px;
 	font-size: 13px;
+	/* border-bottom: 1px solid rgb(224, 224, 224); */
 }
-
+.sp-main-tabs .ant-tabs-left-bar .ant-tabs-ink-bar {
+	width: 100%;
+	/* width: 0; */
+	background: rgb(224, 224, 224);
+}
+.sp-main-tabs .ant-tabs-nav .ant-tabs-tab-active {
+	z-index: 2;
+}
 .sp-closed .ant-tabs-left-bar {
 	display: none;
 }

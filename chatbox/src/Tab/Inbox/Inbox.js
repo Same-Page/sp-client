@@ -124,9 +124,7 @@ function Inbox({ account }) {
 	}
 	return (
 		<div className={wrapperClassName}>
-			{/* <div className="sp-tab-header">
-				
-			</div> */}
+			{/* <div className="sp-tab-header"></div> */}
 
 			<Tabs
 				hideAdd

@@ -1,6 +1,6 @@
 import "antd/dist/antd.css"
 import "./Tab.css"
-import React from "react"
+import React, { useState } from "react"
 import { Tabs, Space, message } from "antd"
 import {
 	MessageOutlined,
@@ -16,18 +16,23 @@ import Inbox from "./Inbox"
 
 const { TabPane } = Tabs
 
-function callback(key) {
-	// console.log(key)
-}
 message.config({
 	top: 100,
 	duration: 2,
 	maxCount: 3
 })
+
 function Tab({ account }) {
+	const [activeKey, setActiveKey] = useState("chat")
 	return (
 		<div className="sp-main-tabs">
-			<Tabs onChange={callback} type="card" defaultActiveKey="inbox">
+			<Tabs
+				onChange={key => {
+					setActiveKey(key)
+				}}
+				type="card"
+				activeKey={activeKey}
+			>
 				<TabPane
 					tab={
 						<span>
@@ -54,7 +59,7 @@ function Tab({ account }) {
 					tab={
 						<span>
 							<MailOutlined title="收件箱" />
-							信箱
+							私信
 						</span>
 					}
 					key="inbox"
@@ -64,8 +69,8 @@ function Tab({ account }) {
 				<TabPane
 					tab={
 						<span>
-							<UserOutlined title="个人资料" />
-							用户
+							<UserOutlined title="账户信息" />
+							账户
 						</span>
 					}
 					key="account"
