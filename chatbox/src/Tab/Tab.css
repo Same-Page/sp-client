@@ -92,10 +92,11 @@
 	width: 100%;
 	/* width: 0; */
 	background: rgb(224, 224, 224);
+	z-index: -1;
 }
-.sp-main-tabs .ant-tabs-nav .ant-tabs-tab-active {
+/* .sp-main-tabs .ant-tabs-nav .ant-tabs-tab-active {
 	z-index: 2;
-}
+} */
 .sp-closed .ant-tabs-left-bar {
 	display: none;
 }

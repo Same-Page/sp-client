@@ -1,7 +1,6 @@
 import "./Message.css"
 
 import React from "react"
-
 import MessageBody from "./Body"
 
 import AvatarWithModal from "components/AvatarWithModal"
@@ -42,21 +41,31 @@ function ChatMessage({
 	)
 
 	if (user) {
-		if (self) {
-			userInfo = (
-				<div style={{ marginTop: 20 }}>
-					<span className="sp-message-username">{user.name}</span>
-					<AvatarWithModal messageUser={messageUser} user={user} />
-				</div>
-			)
-		} else {
-			userInfo = (
-				<div style={{ marginTop: 20 }}>
-					<AvatarWithModal messageUser={messageUser} user={user} />
-					<span className="sp-message-username">{user.name}</span>
-				</div>
-			)
-		}
+		const username = <span className="sp-message-username">{user.name}</span>
+
+		const avatar = (
+			<AvatarWithModal
+				messageUser={messageUser}
+				user={user}
+				popoverPlacement={self ? "left" : "right"}
+			/>
+		)
+
+		userInfo = (
+			<div style={{ marginTop: 20 }}>
+				{self ? (
+					<>
+						{/* {username} */}
+						{avatar}
+					</>
+				) : (
+					<>
+						{avatar}
+						{username}
+					</>
+				)}
+			</div>
+		)
 	}
 	return (
 		<div

@@ -4,7 +4,7 @@ import React from "react"
 import { Modal } from "antd"
 import AvatarWithModal from "components/AvatarWithModal"
 
-function RoomInfoModal({ room, showModal, setShowModal }) {
+function RoomInfoModal({ room, showModal, setShowModal, messageUser }) {
 	return (
 		<Modal
 			title="房间信息"
@@ -30,7 +30,14 @@ function RoomInfoModal({ room, showModal, setShowModal }) {
 					<h4>房主</h4>
 
 					<div>
-						<AvatarWithModal user={room.owner} />
+						<AvatarWithModal
+							user={room.owner}
+							messageUser={() => {
+								messageUser(room.owner)
+								setShowModal(false)
+							}}
+							popoverPlacement="right"
+						/>
 						<span style={{ marginLeft: 10 }}>{room.owner.name}</span>
 					</div>
 				</div>

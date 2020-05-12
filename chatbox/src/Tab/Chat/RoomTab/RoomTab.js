@@ -131,6 +131,7 @@ function RoomTab({ socket, account, room, exit, extraButton, messageUser }) {
 				room={room}
 				showModal={showModal}
 				setShowModal={setShowModal}
+				messageUser={messageUser}
 			/>
 			<div className="sp-room-top-bar">
 				{extraButton}

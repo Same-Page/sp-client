@@ -1,10 +1,22 @@
 .sp-message-username {
-  font-size: smaller;
-  vertical-align: middle;
-  margin-left: 5px;
-  max-width: 60px;
-  text-overflow: ellipsis;
-  display: inline-block;
-  margin-right: 5px;
-  overflow: hidden;
+	font-size: smaller;
+	vertical-align: middle;
+	margin-left: 5px;
+	max-width: 60px;
+	text-overflow: ellipsis;
+	display: inline-block;
+	margin-right: 5px;
+	overflow: hidden;
+}
+.sp-message-menu .ant-btn-dangerous {
+	color: unset;
+}
+.sp-message-menu .ant-btn-dangerous:hover {
+	color: red;
+}
+.sp-message-menu .ant-popover-inner-content {
+	padding: 0;
+}
+.sp-message-menu .ant-btn {
+	border: none;
 }

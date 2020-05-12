@@ -67,7 +67,10 @@ function ConversationTab({
 				</Button>
 			</div>
 
-			<Conversation messages={messagesWithUserData(user, messages)} />
+			<Conversation
+				messages={messagesWithUserData(user, messages)}
+				messageUser={messageUser}
+			/>
 			<InputWithPicker
 				autoFocus={true}
 				sending={sending}
