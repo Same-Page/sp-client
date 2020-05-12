@@ -19,7 +19,7 @@ function TabName({
 			tabName = tabName.substring(0, 5)
 			//TODO: English letter is shorter, can include more
 		} else {
-			tabName = tabName.substring(0, 5)
+			tabName = tabName.substring(0, 4)
 		}
 	}
 
