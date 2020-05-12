@@ -37,8 +37,9 @@ function TabName({
 					// className="sp-loadable-img"
 					onError={ev => {
 						// this broken image handling can be
-						// a reusable component
-						ev.target.style = "display:none;"
+						// a reusable component, still display rather than
+						// hide the problem
+						// ev.target.style = "display:none;"
 						ev.target.className = "sp-broken-img"
 					}}
 				/>
