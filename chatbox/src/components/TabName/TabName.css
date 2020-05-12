@@ -49,6 +49,7 @@
 .sp-vertical-tab-name .sp-tab-description {
 	line-height: normal;
 	color: gray;
+	font-size: smaller;
 }
 .sp-vertical-tab-name .sp-float-right-extra {
 	float: right;
