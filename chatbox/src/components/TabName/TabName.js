@@ -51,7 +51,6 @@ function TabName({
 				{(!minimized || !iconUrl || size === "large") && (
 					<div className="sp-tab-name">{tabName}</div>
 				)}
-
 				{!minimized && description && (
 					<div className="sp-tab-description">{description}</div>
 				)}
