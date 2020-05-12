@@ -5,7 +5,7 @@ import { Avatar } from "antd"
 
 import ProfileModal from "components/ProfileModal"
 
-function AvatarWithModal({ user }) {
+function AvatarWithModal({ user, messageUser }) {
 	const [showModal, setShowModal] = useState(false)
 	return (
 		<>
@@ -17,7 +17,13 @@ function AvatarWithModal({ user }) {
 				size="large"
 				src={user.avatarSrc}
 			/>
-			{showModal && <ProfileModal user={user} setShowModal={setShowModal} />}
+			{showModal && (
+				<ProfileModal
+					user={user}
+					messageUser={messageUser}
+					setShowModal={setShowModal}
+				/>
+			)}
 		</>
 	)
 }

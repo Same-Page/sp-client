@@ -11,7 +11,7 @@ import {
 
 import Profile from "components/Profile"
 
-function ProfileModal({ user, setShowModal }) {
+function ProfileModal({ user, messageUser, setShowModal }) {
 	return (
 		<Modal
 			title="用户信息"
@@ -41,6 +41,7 @@ function ProfileModal({ user, setShowModal }) {
 							icon={<MailOutlined />}
 							onClick={() => {
 								setShowModal(false)
+								messageUser(user)
 							}}
 						>
 							私信

@@ -19,6 +19,7 @@ props includes:
 function ChatMessage({
 	content,
 	user,
+	messageUser,
 	self,
 	showMenu,
 	timeDisplay,
@@ -45,13 +46,13 @@ function ChatMessage({
 			userInfo = (
 				<div style={{ marginTop: 20 }}>
 					<span className="sp-message-username">{user.name}</span>
-					<AvatarWithModal user={user} />
+					<AvatarWithModal messageUser={messageUser} user={user} />
 				</div>
 			)
 		} else {
 			userInfo = (
 				<div style={{ marginTop: 20 }}>
-					<AvatarWithModal user={user} />
+					<AvatarWithModal messageUser={messageUser} user={user} />
 					<span className="sp-message-username">{user.name}</span>
 				</div>
 			)

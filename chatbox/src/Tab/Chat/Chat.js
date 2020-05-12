@@ -169,7 +169,7 @@ function Chat({ account }) {
 						tab={
 							<TabName
 								minimized={minSideBar}
-								iconUrl={minSideBar && pane.room && pane.room.cover}
+								// iconUrl={minSideBar && pane.room && pane.room.cover}
 								title={pane.title}
 							/>
 						}

@@ -20,7 +20,7 @@ const conversationBodyStyle = {
 	scrollBehavior: "smooth"
 }
 
-function Conversation({ messages, background }) {
+function Conversation({ messages, background, messageUser }) {
 	// scroll to bottom when first time load room messages
 	// regardless distannce to bottom
 	const [firstTimeAutoScroll, setFirstTimeAutoScroll] = useState(true)
@@ -57,7 +57,7 @@ function Conversation({ messages, background }) {
 			scrollToBottomIfNearBottom(firstTimeAutoScroll)
 			setFirstTimeAutoScroll(false)
 		}
-	}, [messages.length, scrollToBottomIfNearBottom])
+	}, [messages.length, firstTimeAutoScroll, scrollToBottomIfNearBottom])
 
 	let res = []
 	let lastMsg = null
@@ -102,6 +102,7 @@ function Conversation({ messages, background }) {
 				self={msg.self}
 				content={msg.content}
 				user={showUser && msg.user}
+				messageUser={messageUser}
 				timeDisplay={timeDisplay}
 				imageLoadedCb={imageLoadedCb}
 			/>

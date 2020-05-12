@@ -5,14 +5,14 @@ import axios from "axios"
 
 import storageManager from "storage"
 import Tab from "Tab"
-import { setAccount } from "redux/actions"
+import { setAccount, setActiveTab } from "redux/actions"
 
 require("moment/locale/zh-cn") //moment.js bug, has to manually include
 
 const locale = window.navigator.userLanguage || window.navigator.language
 moment.locale(locale)
 
-function App({ account, setAccount }) {
+function App({ account, setAccount, activeTab, setActiveTab }) {
 	useEffect(() => {
 		storageManager.addEventListener("account", account => {
 			setAccount(account)
@@ -30,16 +30,22 @@ function App({ account, setAccount }) {
 	}, [account])
 	return (
 		<div className="sp-all">
-			<Tab account={account} />
+			<Tab
+				account={account}
+				activeTab={activeTab}
+				setActiveTab={setActiveTab}
+			/>
 		</div>
 	)
 }
 
 const stateToProps = state => {
 	return {
-		account: state.account
+		account: state.account,
+		activeTab: state.activeTab
 	}
 }
 export default connect(stateToProps, {
-	setAccount
+	setAccount,
+	setActiveTab
 })(App)

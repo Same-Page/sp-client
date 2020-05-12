@@ -1,12 +1,12 @@
 import "antd/dist/antd.css"
 import "./Tab.css"
-import React, { useState } from "react"
-import { Tabs, Space, message } from "antd"
+import React from "react"
+import { Tabs, message } from "antd"
 import {
 	MessageOutlined,
 	MailOutlined,
 	UserOutlined,
-	SettingOutlined,
+	// SettingOutlined,
 	EditOutlined
 } from "@ant-design/icons"
 
@@ -22,16 +22,15 @@ message.config({
 	maxCount: 3
 })
 
-function Tab({ account }) {
-	const [activeKey, setActiveKey] = useState("chat")
+function Tab({ account, activeTab, setActiveTab }) {
 	return (
 		<div className="sp-main-tabs">
 			<Tabs
 				onChange={key => {
-					setActiveKey(key)
+					setActiveTab(key)
 				}}
 				type="card"
-				activeKey={activeKey}
+				activeKey={activeTab}
 			>
 				<TabPane
 					tab={
@@ -77,7 +76,7 @@ function Tab({ account }) {
 				>
 					<Account account={account} />
 				</TabPane>
-				<TabPane
+				{/* <TabPane
 					tab={
 						<span>
 							<SettingOutlined title="设置" />
@@ -87,7 +86,7 @@ function Tab({ account }) {
 					key="settings"
 				>
 					Content of Tab Pane 4
-				</TabPane>
+				</TabPane> */}
 			</Tabs>
 		</div>
 	)

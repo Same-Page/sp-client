@@ -1,6 +1,10 @@
 import axios from "axios"
 
-const initState = {}
+const initState = {
+	account: null,
+	activeTab: "inbox",
+	inboxUser: null
+}
 
 const store = (state = initState, action) => {
 	switch (action.type) {
@@ -14,7 +18,18 @@ const store = (state = initState, action) => {
 
 			return {
 				...state,
-				account: account,
+				account: account
+			}
+		case "CHANGE_TAB":
+			return {
+				...state,
+				activeTab: action.payload
+			}
+		case "MESSAGE_USER":
+			return {
+				...state,
+				activeTab: "inbox",
+				inboxUser: action.payload
 			}
 
 		default:

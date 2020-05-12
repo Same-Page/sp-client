@@ -10,8 +10,9 @@
 
 .sp-discover-entry {
 	width: 50%;
-	height: 150px;
-	max-height: 150px;
+	height: 100px;
+	font-size: small;
+	max-height: 120px;
 	position: relative;
 	color: white;
 	display: inline-block;

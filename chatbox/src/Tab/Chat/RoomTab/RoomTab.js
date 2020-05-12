@@ -1,7 +1,8 @@
-import React, { useState, useRef, useEffect } from "react"
 import "./RoomTab.css"
 
-import moment from "moment"
+import React, { useState, useEffect } from "react"
+import { connect } from "react-redux"
+
 import { message, Button, Alert, Popover, Popconfirm } from "antd"
 import {
 	LogoutOutlined,
@@ -14,11 +15,12 @@ import InputWithPicker from "components/InputWithPicker"
 import RoomInfoModal from "components/RoomInfoModal"
 import Conversation from "components/Conversation"
 import Users from "./Users"
+import { messageUser } from "redux/actions"
 
 const MESSAGE_TIME_GAP = 2 * 1000
 let lastMsgTime = 0
 
-function RoomTab({ socket, account, room, exit, extraButton }) {
+function RoomTab({ socket, account, room, exit, extraButton, messageUser }) {
 	const [messages, setMessages] = useState([])
 	const [joining, setJoining] = useState(false)
 	const [showModal, setShowModal] = useState(false)
@@ -177,10 +179,12 @@ function RoomTab({ socket, account, room, exit, extraButton }) {
 					type="warning"
 				/>
 			)}
-			<Conversation messages={messages} />
+			<Conversation messageUser={messageUser} messages={messages} />
 			{socket && <InputWithPicker autoFocus={true} send={send} />}
 		</div>
 	)
 }
 
-export default RoomTab
+export default connect(null, {
+	messageUser
+})(RoomTab)
