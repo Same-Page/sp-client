@@ -17,8 +17,9 @@
 	background: #40a9ff;
 }
 .ant-tabs.ant-tabs-card > .ant-tabs-bar .ant-tabs-tab.ant-tabs-tab-active {
-	background: white;
-	color: #1890ff;
+	/* background: white;
+	color: #1890ff; */
+	background: #40a9ff;
 }
 .ant-tabs.ant-tabs-card .ant-tabs-bar {
 	margin: 0;
@@ -59,6 +60,9 @@
 }
 
 /* Style for left tab bar, used in chat tab and inbox tab */
+.sp-main-tabs .ant-tabs-left-bar {
+	border: none;
+}
 .ant-tabs-left-bar .ant-btn {
 	background: none;
 	border: none;
@@ -78,9 +82,6 @@
 .ant-tabs-left-bar .ant-tabs-extra-content {
 	margin-top: 20px;
 }
-.ant-tabs .ant-tabs-left-content {
-	padding: 0;
-}
 
 .sp-main-tabs .ant-tabs-left-bar .ant-tabs-tab {
 	padding: 0px;
@@ -90,16 +91,19 @@
 }
 .sp-main-tabs .ant-tabs-left-bar .ant-tabs-ink-bar {
 	width: 100%;
-	/* width: 0; */
 	background: rgb(224, 224, 224);
 	z-index: -1;
+	/* width: 2px; */
 }
-/* .sp-main-tabs .ant-tabs-nav .ant-tabs-tab-active {
-	z-index: 2;
-} */
+
 .sp-closed .ant-tabs-left-bar {
 	display: none;
 }
 .sp-main-tabs .ant-tabs-left-bar .ant-tabs-nav-container {
 	transition: 0.5s;
+}
+.ant-tabs .ant-tabs-left-content {
+	/* left-content actually means the block on the right */
+	padding: 0;
+	border-left: 1px solid #e0e0e0;
 }

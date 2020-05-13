@@ -62,7 +62,7 @@ function ConversationTab({
 						setShowProfileModal(true)
 					}}
 				>
-					<Avatar src={user.avatarSrc} size={25} style={{ marginRight: 5 }} />
+					{/* <Avatar src={user.avatarSrc} size={25} style={{ marginRight: 5 }} /> */}
 					<span>{user.name}</span>
 				</Button>
 			</div>

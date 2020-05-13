@@ -50,6 +50,7 @@ function Inbox({ account, user, messageUser }) {
 	}, [account])
 
 	useEffect(() => {
+		let selectActiv
 		// Pick selected conversation base on user
 		if (user) {
 			// if no previous conversation with user, create one
@@ -66,14 +67,19 @@ function Inbox({ account, user, messageUser }) {
 				])
 			}
 			setActiveKey(user.id.toString())
+		} else {
+			// If no conversation selected, select the first one
+			if (!activeKey && conversations.length > 0) {
+				setActiveKey(conversations[0].user.id.toString())
+			}
 		}
 	}, [user, conversations])
 
-	useEffect(() => {
-		if (activeKey) {
-			setMinSideBar(true)
-		}
-	}, [activeKey])
+	// useEffect(() => {
+	// 	if (activeKey) {
+	// 		setMinSideBar(true)
+	// 	}
+	// }, [activeKey])
 	const onChange = activeKey => {
 		setActiveKey(activeKey)
 	}
@@ -131,9 +137,9 @@ function Inbox({ account, user, messageUser }) {
 								size="large"
 								title={c.user.name}
 								description={lastMsg(c) && lastMsg(c).content.value}
-								floatRightExtra={
-									lastMsg(c) && moment(lastMsg(c).creaetd_at).fromNow()
-								}
+								// floatRightExtra={
+								// 	lastMsg(c) && moment(lastMsg(c).creaetd_at).fromNow()
+								// }
 							/>
 						}
 						key={c.user.id.toString()}

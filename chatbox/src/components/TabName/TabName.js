@@ -2,6 +2,23 @@ import "./TabName.css"
 import React from "react"
 import { Tooltip } from "antd"
 
+function substringHelper(s, limit) {
+	let len = 0
+	for (let i = 0; i < s.length; i++) {
+		const c = s[i]
+		if (c.match(/[\u3400-\u9FBF]/)) {
+			len++
+		}
+		len++
+		if (len == limit) {
+			return s.substring(0, i + 1)
+		} else if (len > limit) {
+			return s.substring(0, i)
+		}
+	}
+	return s
+}
+
 function TabName({
 	minimized,
 	iconUrl,
@@ -16,14 +33,15 @@ function TabName({
 	let tabName = title
 	if (minimized) {
 		if (size === "large") {
-			tabName = tabName.substring(0, 5)
-			//TODO: English letter is shorter, can include more
+			// TODO: large is shorter actually, fix this
+			tabName = substringHelper(tabName, 8)
 		} else {
-			tabName = tabName.substring(0, 4)
+			tabName = substringHelper(tabName, 10)
 		}
 	}
 
-	const showTooltip = minimized && size !== "large"
+	const showTooltip =
+		minimized && size !== "large" && tabName.length < title.length
 
 	const content = (
 		<span

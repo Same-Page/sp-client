@@ -179,8 +179,8 @@ function Chat({ account }) {
 							{!pane.room && (
 								<div>
 									<div className="sp-room-top-bar">
-										<Popover
-											placement="bottomRight"
+										{/* <Popover
+											placement="bottom"
 											content={
 												<span>
 													<Space>
@@ -189,13 +189,11 @@ function Chat({ account }) {
 													</Space>
 												</span>
 											}
-											trigger="click"
-											// title="房间列表"
+											trigger="hover"
 										>
-											<Button icon={<MenuOutlined />}>
-												<span>房间列表</span>
-											</Button>
-										</Popover>
+											<Button>房间列表</Button>
+										</Popover> */}
+										<span style={{ margin: 10, fontSize: 13 }}>房间列表</span>
 
 										<span style={{ float: "right" }}>
 											<Button icon={<PlusOutlined />}>

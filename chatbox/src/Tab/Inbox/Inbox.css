@@ -1,12 +1,12 @@
 .sp-main-tabs .sp-inbox-tabs .ant-tabs-left-bar .ant-tabs-nav-container {
-	width: 238px;
+	width: 158px;
 	/* width: 50%; */
 	transition: 0.5s;
 }
 
 .sp-inbox-tabs .ant-tabs .ant-tabs-left-bar .ant-tabs-tab {
 	overflow: hidden;
-	height: 78px;
+	height: 65px;
 }
 
 .sp-inbox-tabs .ant-tabs .ant-tabs-left-bar .ant-tabs-tab {
@@ -20,4 +20,7 @@
 
 .sp-inbox-tabs.sp-minimized .ant-tabs-left-bar .ant-tabs-nav-container {
 	width: 70px;
+}
+.sp-inbox-tabs:not(.sp-minimized) .sp-vertical-tab-name.large .sp-tab-name {
+	font-weight: 500;
 }
