@@ -4,7 +4,8 @@
 }
 .sp-vertical-tab-name.large .sp-tab-name,
 .sp-vertical-tab-name.large .sp-float-right-extra {
-	line-height: 37px;
+	line-height: 30px;
+	margin-top: 5px;
 }
 .sp-vertical-tab-name .sp-tab-text {
 	padding: 0px 7px;
@@ -22,6 +23,7 @@
 .sp-minimized .sp-vertical-tab-name.large .sp-tab-name {
 	line-height: normal;
 	font-size: 12px;
+	margin-top: 0px;
 }
 
 .sp-vertical-tab-name img {
