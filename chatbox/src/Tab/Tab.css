@@ -63,6 +63,13 @@
 .sp-main-tabs .ant-tabs-left-bar {
 	border: none;
 }
+
+.sp-main-tabs .ant-tabs-left-bar .ant-tabs-nav-container {
+	width: 158px;
+}
+.sp-main-tabs .sp-minimized .ant-tabs-left-bar .ant-tabs-nav-container {
+	width: 80px;
+}
 .ant-tabs-left-bar .ant-btn {
 	background: none;
 	border: none;

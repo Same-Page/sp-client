@@ -1,3 +1,9 @@
+/* 
+It now seems a bad decision to share TabName between chat and inbox tab
+beacuse they have different display format. Next time if need to touch
+tab name, highly consider separating them!
+*/
+
 .sp-vertical-tab-name .sp-tab-name,
 .sp-vertical-tab-name .sp-float-right-extra {
 	line-height: 40px;
@@ -8,7 +14,7 @@
 	margin-top: 5px;
 }
 .sp-vertical-tab-name .sp-tab-text {
-	padding: 0px 7px;
+	padding: 0px 10px;
 }
 
 /* 
@@ -39,14 +45,19 @@
 	width: 40px;
 	height: 40px;
 	margin: 10px 3px 5px 5px;
-
 	border-radius: 100%;
 	/* transition: 0.5s; */
 }
 .sp-minimized .sp-vertical-tab-name.large img {
-	width: 30px;
-	height: 30px;
-	margin-left: 20px;
+	width: 35px;
+	height: 35px;
+	margin-top: 5px;
+	margin-left: 23px;
+	/* 
+	we don't need to set this arbitury margin-left if we go back to 
+	text-align: center, but I don't want to see the avatar jump to the 
+	center then shift to left, so I prefer keeping text-aligh: left 
+	*/
 }
 .sp-minimized .sp-vertical-tab-name img {
 	float: unset;
@@ -63,10 +74,10 @@
 	font-size: 12px;
 }
 .sp-vertical-tab-name .sp-float-right-extra {
-	/* float: right; */
 	position: absolute;
 	right: 10px;
 	color: gray;
 	font-size: smaller;
+	/* float: right; */
 	/* margin-right: 10px; */
 }
