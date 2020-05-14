@@ -24,10 +24,9 @@ const aboutStyle = {
 	marginTop: 20
 }
 
-function Profile({ user }) {
+function Profile({ user, self, gutter }) {
 	return (
 		<div>
-			{/* <div className="sp-tab-header">{user.name}</div> */}
 			<Avatar
 				style={avatarStyle}
 				size={128}
@@ -38,75 +37,72 @@ function Profile({ user }) {
 			<center style={{ margin: 20 }}>
 				<b>{user.name}</b>
 			</center>
-
-			<div style={{ width: 200, margin: "auto" }}>
-				<Row gutter={50} style={{ textAlign: "center" }}>
-					<Col style={{ textAlign: "center" }} span={12}>
-						ID <br />
-						<b>{user.id}</b>
-					</Col>
-					<Col style={{ textAlign: "center" }} span={12}>
-						<span
-							className="sp-follow-stats"
-							onClick={() => {
-								// props.showRooms()
-							}}
-						>
-							房间
-							<br /> <b>{user.rooms && user.rooms.length}</b>
-						</span>
-					</Col>
-				</Row>
-				<Row gutter={50} style={{ marginTop: 10, textAlign: "center" }}>
-					<Col style={{ textAlign: "center" }} span={12}>
-						<span
-							className="sp-follow-stats"
-							// onClick={props.showFollowings}
-						>
-							关注了
-							<br /> <b>{user.followingCount}</b>
-						</span>
-					</Col>
-					<Col style={{ textAlign: "center" }} span={12}>
-						<span
-							className="sp-follow-stats"
-							// onClick={props.showFollowers}
-						>
-							关注者
-							<br /> <b>{user.followerCount}</b>
-						</span>
-					</Col>
-				</Row>{" "}
-				{false && (
-					<span>
-						<Row gutter={50} style={{ marginTop: 10, textAlign: "center" }}>
-							<Col style={{ textAlign: "center" }} span={12}>
-								<span
-									className="sp-follow-stats"
-									onClick={() => {
-										// props.showRooms()
-									}}
-								>
-									房间
-									<br /> <b>{user.rooms && user.rooms.length}</b>
-								</span>
-							</Col>
-							<Col style={{ textAlign: "center" }} span={12}>
-								<span
-									className="sp-follow-stats"
-									onClick={() => {
-										// props.showBlacklist()
-									}}
-								>
-									黑名单
-									{/* <br /> <b>{props.blacklist.length}</b> */}
-								</span>
-							</Col>
-						</Row>
+			<Row gutter={gutter} style={{ textAlign: "center" }}>
+				<Col style={{ textAlign: "center" }} span={12}>
+					ID <br />
+					<b>{user.id}</b>
+				</Col>
+				<Col style={{ textAlign: "center" }} span={12}>
+					<span
+						className="sp-follow-stats"
+						onClick={() => {
+							// props.showRooms()
+						}}
+					>
+						房间
+						<br /> <b>{user.rooms && user.rooms.length}</b>
 					</span>
-				)}
-				{user.about && <div style={aboutStyle}>{user.about}</div>}
-			</div>
+				</Col>
+			</Row>
+			<Row gutter={gutter} style={{ marginTop: 10, textAlign: "center" }}>
+				<Col style={{ textAlign: "center" }} span={12}>
+					<span
+						className="sp-follow-stats"
+						// onClick={props.showFollowings}
+					>
+						关注了
+						<br /> <b>{user.followingCount || 7}</b>
+					</span>
+				</Col>
+				<Col style={{ textAlign: "center" }} span={12}>
+					<span
+						className="sp-follow-stats"
+						// onClick={props.showFollowers}
+					>
+						关注者
+						<br /> <b>{user.followerCount || 21}</b>
+					</span>
+				</Col>
+			</Row>
+			{false && (
+				<span>
+					<Row gutter={gutter} style={{ marginTop: 10, textAlign: "center" }}>
+						<Col style={{ textAlign: "center" }} span={12}>
+							<span
+								className="sp-follow-stats"
+								onClick={() => {
+									// props.showRooms()
+								}}
+							>
+								房间
+								<br /> <b>{user.rooms && user.rooms.length}</b>
+							</span>
+						</Col>
+						<Col style={{ textAlign: "center" }} span={12}>
+							<span
+								className="sp-follow-stats"
+								onClick={() => {
+									// props.showBlacklist()
+								}}
+							>
+								黑名单
+								{/* <br /> <b>{props.blacklist.length}</b> */}
+							</span>
+						</Col>
+					</Row>
+				</span>
+			)}
+			{user.about && <div style={aboutStyle}>{user.about}</div>}
 		</div>
 	)
 }

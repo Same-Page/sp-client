@@ -22,7 +22,6 @@ function lastMsg(conversation) {
 }
 
 function Inbox({ account, user, messageUser }) {
-	const [activeKey, setActiveKey] = useState(null)
 	const [minSideBar, setMinSideBar] = useState(false)
 	const [closeSideBar, setCloseSideBar] = useState(false)
 	const [conversations, setConversations] = useState([])
@@ -64,22 +63,24 @@ function Inbox({ account, user, messageUser }) {
 					...conversations
 				])
 			}
-			setActiveKey(user.id.toString())
 		} else {
 			// If no conversation selected, select the first one
-			if (!activeKey && conversations.length > 0) {
-				setActiveKey(conversations[0].user.id.toString())
+			if (conversations.length > 0) {
+				messageUser(conversations[0].user)
 			}
 		}
-	}, [user, conversations, activeKey])
+	}, [user, conversations, messageUser])
 
 	// useEffect(() => {
 	// 	if (activeKey) {
 	// 		setMinSideBar(true)
 	// 	}
 	// }, [activeKey])
-	const onChange = activeKey => {
-		setActiveKey(activeKey)
+	const onChange = key => {
+		const c = conversations.find(c => {
+			return c.user.id.toString() === key.toString()
+		})
+		messageUser(c.user)
 	}
 
 	const wrapperClassName =
@@ -97,7 +98,7 @@ function Inbox({ account, user, messageUser }) {
 			<Tabs
 				hideAdd
 				onChange={onChange}
-				activeKey={activeKey}
+				activeKey={user && user.id.toString()}
 				tabPosition="left"
 				tabBarExtraContent={
 					<span>

@@ -3,17 +3,7 @@ import "./Message.css"
 import React from "react"
 import MessageBody from "./Body"
 
-import AvatarWithModal from "components/AvatarWithModal"
-
-/*
-This is used by chat messages and direct messages
-props includes:
-  user: object
-  content
-  type: text/sticker
-  self
-
-*/
+import AvatarWithPopover from "components/AvatarWithPopover"
 
 function ChatMessage({
 	content,
@@ -44,7 +34,7 @@ function ChatMessage({
 		const username = <span className="sp-message-username">{user.name}</span>
 
 		const avatar = (
-			<AvatarWithModal
+			<AvatarWithPopover
 				messageUser={messageUser}
 				user={user}
 				popoverPlacement={self ? "left" : "right"}
