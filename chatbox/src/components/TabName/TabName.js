@@ -36,7 +36,7 @@ function TabName({
 			// TODO: large is shorter actually, fix this
 			tabName = substringHelper(tabName, 8)
 		} else {
-			tabName = substringHelper(tabName, 9)
+			tabName = substringHelper(tabName, 8)
 		}
 	}
 
