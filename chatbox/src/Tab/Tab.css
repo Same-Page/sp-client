@@ -19,7 +19,8 @@
 .ant-tabs.ant-tabs-card > .ant-tabs-bar .ant-tabs-tab.ant-tabs-tab-active {
 	/* background: white;
 	color: #1890ff; */
-	background: #40a9ff;
+	background: #096dd9;
+	font-weight: unset;
 }
 .ant-tabs.ant-tabs-card .ant-tabs-bar {
 	margin: 0;
@@ -76,6 +77,9 @@
 	box-shadow: none;
 	font-size: 13px;
 	padding: 0px 10px;
+}
+.sp-main-tabs .ant-tabs-left-bar .ant-tabs-tab-active {
+	color: unset;
 }
 .ant-tabs-left-bar .ant-btn-dangerous {
 	color: unset;
