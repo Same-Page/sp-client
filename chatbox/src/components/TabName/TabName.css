@@ -72,6 +72,7 @@ tab name, highly consider separating them!
 	line-height: normal;
 	color: gray;
 	font-size: 12px;
+	font-weight: 300;
 }
 .sp-vertical-tab-name .sp-float-right-extra {
 	position: absolute;
