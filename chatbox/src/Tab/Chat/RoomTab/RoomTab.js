@@ -191,7 +191,11 @@ function RoomTab({ socket, account, room, exit, extraButton, messageUser }) {
 					type="warning"
 				/>
 			)}
-			<Conversation messageUser={messageUser} messages={messages} />
+			<Conversation
+				messageUser={messageUser}
+				messages={messages}
+				background={room.background}
+			/>
 			{socket && <InputWithPicker autoFocus={true} send={send} />}
 		</div>
 	)
