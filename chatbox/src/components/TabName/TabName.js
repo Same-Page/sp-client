@@ -10,7 +10,7 @@ function substringHelper(s, limit) {
 			len++
 		}
 		len++
-		if (len == limit) {
+		if (len === limit) {
 			return s.substring(0, i + 1)
 		} else if (len > limit) {
 			return s.substring(0, i)

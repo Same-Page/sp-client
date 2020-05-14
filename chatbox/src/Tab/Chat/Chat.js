@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react"
 import "./Chat.css"
 
-import { Tabs, Button, Popover, Space, message } from "antd"
+import { Tabs, Button, message } from "antd"
 import {
 	PlusOutlined,
-	InfoCircleTwoTone,
 	LeftOutlined,
 	CloseOutlined,
 	MenuOutlined
@@ -179,20 +178,6 @@ function Chat({ account }) {
 							{!pane.room && (
 								<div>
 									<div className="sp-room-top-bar">
-										{/* <Popover
-											placement="bottom"
-											content={
-												<span>
-													<Space>
-														<InfoCircleTwoTone />
-														<span>下面显示你可以进入的房间</span>
-													</Space>
-												</span>
-											}
-											trigger="hover"
-										>
-											<Button>房间列表</Button>
-										</Popover> */}
 										<span style={{ margin: 10, fontSize: 13 }}>房间列表</span>
 
 										<span style={{ float: "right" }}>

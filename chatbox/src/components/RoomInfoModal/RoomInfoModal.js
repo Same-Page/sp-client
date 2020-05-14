@@ -36,7 +36,7 @@ function RoomInfoModal({ room, showModal, setShowModal, messageUser }) {
 								messageUser(room.owner)
 								setShowModal(false)
 							}}
-							popoverPlacement="right"
+							popoverPlacement="bottom"
 						/>
 						<span style={{ marginLeft: 10 }}>{room.owner.name}</span>
 					</div>

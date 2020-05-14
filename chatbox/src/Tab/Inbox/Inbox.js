@@ -4,7 +4,6 @@ import React, { useState, useEffect } from "react"
 import { connect } from "react-redux"
 import { Tabs, Button, message } from "antd"
 import { LeftOutlined, CloseOutlined } from "@ant-design/icons"
-import moment from "moment"
 
 import TabName from "components/TabName"
 
@@ -50,7 +49,6 @@ function Inbox({ account, user, messageUser }) {
 	}, [account])
 
 	useEffect(() => {
-		let selectActiv
 		// Pick selected conversation base on user
 		if (user) {
 			// if no previous conversation with user, create one
@@ -73,7 +71,7 @@ function Inbox({ account, user, messageUser }) {
 				setActiveKey(conversations[0].user.id.toString())
 			}
 		}
-	}, [user, conversations])
+	}, [user, conversations, activeKey])
 
 	// useEffect(() => {
 	// 	if (activeKey) {

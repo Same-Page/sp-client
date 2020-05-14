@@ -25,6 +25,7 @@ function RoomTab({ socket, account, room, exit, extraButton, messageUser }) {
 	const [joining, setJoining] = useState(false)
 	const [showModal, setShowModal] = useState(false)
 	const [users, setUsers] = useState([])
+	const [showUsers, setShowUsers] = useState(false)
 
 	useEffect(() => {
 		if (!socket) {
@@ -145,8 +146,18 @@ function RoomTab({ socket, account, room, exit, extraButton, messageUser }) {
 				</Button>
 				<span style={{ float: "right" }}>
 					<Popover
+						onVisibleChange={setShowUsers}
+						visible={showUsers}
 						overlayClassName="sp-room-users-popover"
-						content={<Users users={users} />}
+						content={
+							<Users
+								users={users}
+								messageUser={u => {
+									messageUser(u)
+									setShowUsers(false)
+								}}
+							/>
+						}
 						trigger="click"
 						title="在线用户"
 					>

@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { Button, Avatar } from "antd"
+import { Button } from "antd"
 import { MenuOutlined } from "@ant-design/icons"
 
 import Conversation from "components/Conversation"
