@@ -12,3 +12,8 @@ export const messageUser = user => ({
 	type: "MESSAGE_USER",
 	payload: user
 })
+
+export const setInboxUser = user => ({
+	type: "SET_INBOX_USER",
+	payload: user
+})

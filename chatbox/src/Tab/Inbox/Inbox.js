@@ -8,7 +8,7 @@ import { LeftOutlined, CloseOutlined } from "@ant-design/icons"
 import TabName from "components/TabName"
 
 import { getConversations } from "./service"
-import { messageUser } from "redux/actions"
+import { messageUser, setInboxUser } from "redux/actions"
 import ConversationTab from "./ConversationTab"
 
 const { TabPane } = Tabs
@@ -21,7 +21,7 @@ function lastMsg(conversation) {
 	return null
 }
 
-function Inbox({ account, user, messageUser }) {
+function Inbox({ account, user, setInboxUser, messageUser }) {
 	const [minSideBar, setMinSideBar] = useState(false)
 	const [closeSideBar, setCloseSideBar] = useState(false)
 	const [conversations, setConversations] = useState([])
@@ -66,7 +66,7 @@ function Inbox({ account, user, messageUser }) {
 		} else {
 			// If no conversation selected, select the first one
 			if (conversations.length > 0) {
-				messageUser(conversations[0].user)
+				setInboxUser(conversations[0].user)
 			}
 		}
 	}, [user, conversations, messageUser])
@@ -80,7 +80,7 @@ function Inbox({ account, user, messageUser }) {
 		const c = conversations.find(c => {
 			return c.user.id.toString() === key.toString()
 		})
-		messageUser(c.user)
+		setInboxUser(c.user)
 	}
 
 	const wrapperClassName =
@@ -167,4 +167,4 @@ const stateToProps = state => {
 		user: state.inboxUser
 	}
 }
-export default connect(stateToProps, { messageUser })(Inbox)
+export default connect(stateToProps, { messageUser, setInboxUser })(Inbox)

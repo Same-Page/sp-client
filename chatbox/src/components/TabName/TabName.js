@@ -34,6 +34,8 @@ function TabName({
 	if (minimized) {
 		if (size === "large") {
 			// TODO: large is shorter actually, fix this
+			// Note: this number is dependent on how many pixels
+			// we set the tab bar to be, right now it's 8 char for 80 pixels
 			tabName = substringHelper(tabName, 8)
 		} else {
 			tabName = substringHelper(tabName, 8)

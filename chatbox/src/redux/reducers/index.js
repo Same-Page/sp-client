@@ -31,7 +31,11 @@ const store = (state = initState, action) => {
 				activeTab: "inbox",
 				inboxUser: action.payload
 			}
-
+		case "SET_INBOX_USER":
+			return {
+				...state,
+				inboxUser: action.payload
+			}
 		default:
 			return state
 	}
