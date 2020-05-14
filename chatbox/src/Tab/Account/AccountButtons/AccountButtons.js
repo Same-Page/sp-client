@@ -10,11 +10,12 @@ import { logout } from "./service"
 import storageManager from "storage"
 const { confirm } = Modal
 
-function AccountButtons() {
+function AccountButtons({ gutter }) {
+	gutter = gutter || 10
 	const [loggingOut, setLoggingOut] = useState(false)
 	return (
-		<div style={{ width: 200, margin: "auto", marginTop: 30 }}>
-			<Row gutter={50} style={{ textAlign: "center" }}>
+		<div style={{ margin: "auto", marginTop: 30 }}>
+			<Row gutter={gutter} style={{ textAlign: "center" }}>
 				<Col style={{ textAlign: "center" }} span={12}>
 					<Button
 						icon={<EditOutlined />}

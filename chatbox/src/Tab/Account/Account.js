@@ -9,11 +9,10 @@ function Account({ account }) {
 	const [signup, setSignup] = useState(false)
 	if (account) {
 		return (
-			<>
-				<div style={{ marginTop: 50 }}></div>
+			<div style={{ width: 250, margin: "auto", marginTop: 50 }}>
 				<Profile user={account} />
 				<AccountButtons />
-			</>
+			</div>
 		)
 	}
 
