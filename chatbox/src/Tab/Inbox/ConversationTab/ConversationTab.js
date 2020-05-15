@@ -5,6 +5,7 @@ import { MenuOutlined } from "@ant-design/icons"
 import Conversation from "components/Conversation"
 import InputWithPicker from "components/InputWithPicker"
 import ProfileModal from "components/ProfileModal"
+import Header from "components/Header"
 
 import { postMessage } from "../service"
 
@@ -44,28 +45,33 @@ function ConversationTab({
 					setShowModal={setShowProfileModal}
 				/>
 			)}
-			<div className="sp-room-top-bar">
-				{closeSideBar && (
-					<Button
-						onClick={() => {
-							setCloseSideBar(false)
-							setMinSideBar(false)
-						}}
-					>
-						<MenuOutlined />
-						<span>列表</span>
-					</Button>
-				)}
 
-				<Button
-					onClick={() => {
-						setShowProfileModal(true)
-					}}
-				>
-					{/* <Avatar src={user.avatarSrc} size={25} style={{ marginRight: 5 }} /> */}
-					<span>{user.name}</span>
-				</Button>
-			</div>
+			<Header
+				leftItems={
+					<>
+						{closeSideBar && (
+							<Button
+								onClick={() => {
+									setCloseSideBar(false)
+									setMinSideBar(false)
+								}}
+							>
+								<MenuOutlined />
+								<span>列表</span>
+							</Button>
+						)}
+
+						<Button
+							onClick={() => {
+								setShowProfileModal(true)
+							}}
+						>
+							{/* <Avatar src={user.avatarSrc} size={25} style={{ marginRight: 5 }} /> */}
+							<span>{user.name}</span>
+						</Button>
+					</>
+				}
+			/>
 
 			<Conversation
 				backgroundColor="rgb(246, 249, 252)"

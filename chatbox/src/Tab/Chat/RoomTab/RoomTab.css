@@ -4,28 +4,7 @@
 	/* height: 100%; */
 	/* min-height: 500px; */
 }
-.sp-room-top-bar {
-	line-height: 40px;
-	border-bottom: 1px solid lightgray;
-	padding: 0 5px;
-}
-.sp-room-top-bar .ant-btn > .anticon + span {
-	/* margin-left: 3px; */
-}
-.sp-room-top-bar .ant-btn,
-.sp-room-top-bar .ant-btn-icon-only > * {
-	background: none;
-	border: none;
-	box-shadow: none;
-	font-size: 13px;
-	padding: 0px 10px;
-}
-.sp-room-top-bar .ant-btn-dangerous {
-	color: unset;
-}
-.sp-room-top-bar .ant-btn-dangerous:hover {
-	color: red;
-}
+
 .sp-room-alert.sp-alert-float.ant-alert {
 	position: absolute;
 	width: 100%;

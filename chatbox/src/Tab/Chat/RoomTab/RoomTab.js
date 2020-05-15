@@ -14,6 +14,7 @@ import {
 import InputWithPicker from "components/InputWithPicker"
 import RoomInfoModal from "components/RoomInfoModal"
 import Conversation from "components/Conversation"
+import Header from "components/Header"
 import Users from "./Users"
 import { messageUser } from "redux/actions"
 
@@ -134,53 +135,58 @@ function RoomTab({ socket, account, room, exit, extraButton, messageUser }) {
 				setShowModal={setShowModal}
 				messageUser={messageUser}
 			/>
-			<div className="sp-room-top-bar">
-				{extraButton}
-				<Button
-					onClick={() => {
-						setShowModal(true)
-					}}
-					icon={<HomeOutlined />}
-				>
-					<span>{room.name}</span>
-				</Button>
-				<span style={{ float: "right" }}>
-					<Popover
-						onVisibleChange={setShowUsers}
-						visible={showUsers}
-						overlayClassName="sp-room-users-popover"
-						content={
-							<Users
-								users={users}
-								messageUser={u => {
-									messageUser(u)
-									setShowUsers(false)
-								}}
-							/>
-						}
-						trigger="click"
-						title="在线用户"
-					>
-						<Button icon={<TeamOutlined />}>
-							<span>{users.length}</span>
+			<Header
+				leftItems={
+					<>
+						{extraButton}
+						<Button
+							onClick={() => {
+								setShowModal(true)
+							}}
+							icon={<HomeOutlined />}
+						>
+							<span>{room.name}</span>
 						</Button>
-					</Popover>
-					<Popconfirm
-						onConfirm={exit}
-						title="确认离开？"
-						okText="是的"
-						cancelText="取消"
-						placement="bottomRight"
-						okButtonProps={{ danger: true }}
-					>
-						{/* don't need a button for clicking, just like its animation, same above */}
-						<Button danger title="离开房间" icon={<LogoutOutlined />}>
-							<span>离开</span>
-						</Button>
-					</Popconfirm>
-				</span>
-				<div style={{ clear: "both" }} />
-			</div>
+					</>
+				}
+				rightItems={
+					<>
+						<Popover
+							onVisibleChange={setShowUsers}
+							visible={showUsers}
+							overlayClassName="sp-room-users-popover"
+							content={
+								<Users
+									users={users}
+									messageUser={u => {
+										messageUser(u)
+										setShowUsers(false)
+									}}
+								/>
+							}
+							trigger="click"
+							title="在线用户"
+						>
+							<Button icon={<TeamOutlined />}>
+								<span>{users.length}</span>
+							</Button>
+						</Popover>
+						<Popconfirm
+							onConfirm={exit}
+							title="确认离开？"
+							okText="是的"
+							cancelText="取消"
+							placement="bottomRight"
+							okButtonProps={{ danger: true }}
+						>
+							{/* don't need a button for clicking, just like its animation, same above */}
+							<Button danger title="离开房间" icon={<LogoutOutlined />}>
+								<span>离开</span>
+							</Button>
+						</Popconfirm>
+					</>
+				}
+			/>
 
 			{(joining || !socket) && (
 				<Alert

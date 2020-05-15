@@ -5,10 +5,16 @@ import { message } from "antd"
 
 import InputWithPicker from "components/InputWithPicker"
 import Conversation from "components/Conversation"
+import Header from "components/Header"
+import { Select } from "antd"
+
 import { getComments, postComment } from "./service"
+
+const { Option } = Select
 
 function Comment({ account, url = "abc.com" }) {
 	const [comments, setComments] = useState([])
+	const [orderBy, setOrderBy] = useState("latest")
 	useEffect(() => {
 		async function fetchData(payload) {
 			try {
@@ -39,9 +45,23 @@ function Comment({ account, url = "abc.com" }) {
 	}
 	return (
 		<div>
-			<div className="sp-room-top-bar">
-				<span style={{ marginLeft: 10 }}>网页留言</span>
-			</div>
+			<Header
+				leftItems={<span style={{ marginLeft: 10 }}>在当前网页的留言</span>}
+				rightItems={
+					<Select
+						value={orderBy}
+						style={{ marginRight: 5 }}
+						onChange={val => {
+							setOrderBy(val)
+						}}
+						// size="small"
+					>
+						<Option value="latest">按时间排序</Option>
+						<Option value="default">默认排序</Option>
+					</Select>
+				}
+			/>
+
 			<Conversation messages={comments} />
 
 			<InputWithPicker autoFocus={true} send={send} />

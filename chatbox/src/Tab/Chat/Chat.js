@@ -10,8 +10,9 @@ import {
 } from "@ant-design/icons"
 import config from "config"
 import TabName from "components/TabName"
-import RoomTab from "./RoomTab"
 import RoomList from "components/RoomList"
+import Header from "components/Header"
+import RoomTab from "./RoomTab"
 
 const { TabPane } = Tabs
 
@@ -176,25 +177,26 @@ function Chat({ account }) {
 					>
 						<div className="sp-room-tab">
 							{!pane.room && (
-								<div>
-									<div className="sp-room-top-bar">
-										<span style={{ margin: 10, fontSize: 13 }}>房间列表</span>
-
-										<span style={{ float: "right" }}>
-											<Button icon={<PlusOutlined />}>
-												<span>新建</span>
-											</Button>
-											<Button
-												onClick={() => {
-													setCloseSideBar(false)
-													remove(pane.key)
-												}}
-												icon={<CloseOutlined />}
-											>
-												<span>关闭</span>
-											</Button>
-										</span>
-									</div>
+								<>
+									<Header
+										leftItems={
+											<span style={{ margin: 10, fontSize: 13 }}>房间列表</span>
+										}
+										rightItems={
+											<>
+												<Button icon={<PlusOutlined />}>新建</Button>
+												<Button
+													onClick={() => {
+														setCloseSideBar(false)
+														remove(pane.key)
+													}}
+													icon={<CloseOutlined />}
+												>
+													关闭
+												</Button>
+											</>
+										}
+									/>
 
 									<RoomList
 										setRoom={room => {
@@ -202,7 +204,7 @@ function Chat({ account }) {
 											setMinSideBar(true)
 										}}
 									/>
-								</div>
+								</>
 							)}
 
 							{pane.room && (

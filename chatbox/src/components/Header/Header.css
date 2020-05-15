@@ -1,0 +1,42 @@
+.sp-tab-content-header .sp-header-right-items {
+	float: right;
+	color: #8590a6;
+}
+
+.sp-tab-content-header {
+	line-height: 40px;
+	border-bottom: 1px solid lightgray;
+	padding: 0 5px;
+}
+
+.sp-tab-content-header .ant-select-single .ant-select-selector,
+.sp-tab-content-header .ant-select-single:hover .ant-select-selector,
+.sp-tab-content-header .ant-select-single:focus .ant-select-selector,
+.sp-tab-content-header .ant-select-single:active .ant-select-selector {
+	/* border: none;
+	border-color: transparent !important;
+    box-shadow: none; */
+	/* fail to remove border, this still border when user move cursor away while button is active */
+	color: #8590a6;
+}
+
+.sp-tab-content-header .ant-btn,
+.sp-tab-content-header .ant-btn-icon-only > * {
+	background: none;
+	border: none;
+	box-shadow: none;
+	font-size: 13px;
+	padding: 0px 10px;
+}
+
+.sp-tab-content-header .sp-header-right-items .ant-btn,
+.sp-tab-content-header .sp-header-right-items .ant-btn-icon-only > * {
+	color: #8590a6;
+}
+
+.sp-tab-content-header .ant-btn-dangerous {
+	color: #8590a6;
+}
+.sp-tab-content-header .ant-btn-dangerous:hover {
+	color: red;
+}
