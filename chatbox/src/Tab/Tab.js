@@ -13,6 +13,7 @@ import {
 import Account from "./Account"
 import Chat from "./Chat"
 import Inbox from "./Inbox"
+import Comment from "./Comment"
 
 const { TabPane } = Tabs
 
@@ -52,7 +53,7 @@ function Tab({ account, activeTab, setActiveTab }) {
 					}
 					key="comment"
 				>
-					comment
+					<Comment account={account} />
 				</TabPane>
 				<TabPane
 					tab={

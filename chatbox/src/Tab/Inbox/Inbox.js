@@ -69,7 +69,7 @@ function Inbox({ account, user, setInboxUser, messageUser }) {
 				setInboxUser(conversations[0].user)
 			}
 		}
-	}, [user, conversations, messageUser])
+	}, [user, conversations, setInboxUser])
 
 	// useEffect(() => {
 	// 	if (activeKey) {

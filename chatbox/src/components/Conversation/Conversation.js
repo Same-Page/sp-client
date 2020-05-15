@@ -17,17 +17,21 @@ const conversationBodyStyle = {
 	background: "rgb(243, 243, 243)",
 	padding: 10,
 	paddingBottom: 50,
-	scrollBehavior: "smooth"
+	scrollBehavior: "smooth",
+	backgroundSize: "cover"
 }
 
-function Conversation({ messages, background, messageUser }) {
+function Conversation({ messages, background, backgroundColor, messageUser }) {
 	// scroll to bottom when first time load room messages
 	// regardless distannce to bottom
 	const [firstTimeAutoScroll, setFirstTimeAutoScroll] = useState(true)
 	const bodyStyle = { ...conversationBodyStyle }
+	if (backgroundColor) {
+		bodyStyle.backgroundColor = backgroundColor
+	}
 	if (background) {
 		bodyStyle.backgroundImage = `url('${background}')`
-		bodyStyle.backgroundSize = "cover"
+		// bodyStyle.backgroundSize = "cover"
 	}
 	const imageLoadedCb = () => {
 		scrollToBottomIfNearBottom()
