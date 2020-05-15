@@ -179,9 +179,7 @@ function Chat({ account }) {
 							{!pane.room && (
 								<>
 									<Header
-										leftItems={
-											<span style={{ margin: 10, fontSize: 13 }}>房间列表</span>
-										}
+										leftItems={<span style={{ marginLeft: 10 }}>房间列表</span>}
 										rightItems={
 											<>
 												<Button icon={<PlusOutlined />}>新建</Button>
