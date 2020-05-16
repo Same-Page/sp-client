@@ -12,7 +12,7 @@
 .sp-inbox-item .ant-avatar {
 	float: left;
 	margin-right: 15px;
-	margin-top: 5px;
+	/* margin-top: 5px; */
 }
 .sp-inbox-item .sp-username {
 	font-weight: bold;
