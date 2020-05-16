@@ -4,6 +4,12 @@
 	/* height: 100%; */
 	/* min-height: 500px; */
 }
+.sp-room-tab .sp-room-name {
+	/* max-width: 150px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap; */
+}
 
 .sp-room-alert.sp-alert-float.ant-alert {
 	position: absolute;

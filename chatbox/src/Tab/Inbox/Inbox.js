@@ -84,7 +84,7 @@ function Inbox({ account, user, setInboxUser, messageUser }) {
 	}
 
 	const wrapperClassName =
-		"sp-inbox-tabs" +
+		"sp-inbox-tab" +
 		(minSideBar ? " sp-minimized" : "") +
 		(closeSideBar ? " sp-closed" : "")
 

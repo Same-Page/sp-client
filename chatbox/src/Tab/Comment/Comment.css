@@ -1,0 +1,24 @@
+/* comment order dropdown style */
+.sp-comment-tab .ant-select .ant-select-selector {
+	border: none !important;
+	outline: none !important;
+	box-shadow: none !important;
+	border-color: transparent;
+	transition: 0s;
+}
+.sp-comment-tab .ant-select:hover,
+.sp-comment-tab .ant-select:hover .ant-select-arrow {
+	color: #40a9ff;
+}
+.sp-comment-tab .ant-select-selector .ant-select-selection-item {
+	opacity: unset;
+}
+.sp-comment-tab .ant-select {
+	color: unset;
+	font-size: unset;
+}
+.sp-comment-order-dropdown .ant-select-item {
+	/* The dropdown is not inside tab component, it's under root */
+	font-size: 13px;
+}
+/* end of comment dropdown */

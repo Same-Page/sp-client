@@ -128,7 +128,7 @@ function RoomTab({ socket, account, room, exit, extraButton, messageUser }) {
 	}
 
 	return (
-		<div>
+		<div className="sp-room-tab">
 			<RoomInfoModal
 				room={room}
 				showModal={showModal}
@@ -140,6 +140,7 @@ function RoomTab({ socket, account, room, exit, extraButton, messageUser }) {
 					<>
 						{extraButton}
 						<Button
+							className="sp-room-name"
 							onClick={() => {
 								setShowModal(true)
 							}}

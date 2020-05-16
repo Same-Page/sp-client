@@ -1,17 +1,19 @@
 .sp-tab-content-header {
 	line-height: 40px;
+	/* display: flex; */
+	/* align-items: center; */
+	/* height: 40px; */
 	border-bottom: 1px solid lightgray;
 	padding: 0 5px;
+	font-size: 13px;
 }
 .sp-tab-content-header .sp-header-right-items {
 	float: right;
+	/* position: absolute; */
+	/* right: 5px; */
 	color: gray;
 	font-size: 13px;
-}
-
-.sp-tab-content-header .ant-select {
-	color: unset;
-	font-size: unset;
+	/* margin-left: auto; */
 }
 
 .sp-tab-content-header .ant-btn,

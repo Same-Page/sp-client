@@ -7,6 +7,7 @@ import InputWithPicker from "components/InputWithPicker"
 import Conversation from "components/Conversation"
 import Header from "components/Header"
 import { Select } from "antd"
+import { DownOutlined } from "@ant-design/icons"
 
 import { getComments, postComment } from "./service"
 
@@ -44,9 +45,9 @@ function Comment({ account, url = "abc.com" }) {
 		}
 	}
 	return (
-		<div>
+		<div className="sp-comment-tab">
 			<Header
-				leftItems={<span style={{ marginLeft: 10 }}>在当前网页的留言</span>}
+				leftItems={<span style={{ marginLeft: 10 }}>当前网页的留言</span>}
 				rightItems={
 					<Select
 						value={orderBy}
@@ -54,10 +55,10 @@ function Comment({ account, url = "abc.com" }) {
 						onChange={val => {
 							setOrderBy(val)
 						}}
-						// size="small"
+						dropdownClassName="sp-comment-order-dropdown"
 					>
-						<Option value="latest">按时间排序</Option>
-						<Option value="default">默认排序</Option>
+						<Option value="latest"> 按时间排序</Option>
+						<Option value="default"> 默认排序</Option>
 					</Select>
 				}
 			/>
