@@ -2,11 +2,12 @@ import "./AvatarWithPopover.css"
 
 import React, { useState } from "react"
 import { Avatar, Popover, Button, Row, Col } from "antd"
+import PropTypes from "prop-types"
 
 import {
 	MailOutlined,
-	StopOutlined,
-	FlagOutlined,
+	// StopOutlined,
+	// FlagOutlined,
 	UserAddOutlined
 } from "@ant-design/icons"
 import Profile from "components/Profile"
@@ -62,5 +63,7 @@ function AvatarWithPopover({ user, messageUser, popoverPlacement }) {
 		</Popover>
 	)
 }
-
+AvatarWithPopover.propTypes = {
+	messageUser: PropTypes.func.isRequired
+}
 export default AvatarWithPopover

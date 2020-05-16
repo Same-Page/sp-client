@@ -1,23 +1,25 @@
 import "./Comment.css"
 
 import React, { createElement, useState, useEffect } from "react"
-import { message } from "antd"
+import { connect } from "react-redux"
 import moment from "moment"
-import InputWithPicker from "components/InputWithPicker"
-import Header from "components/Header"
-import { Select, Comment } from "antd"
+import { Select, Comment, message } from "antd"
 import {
 	LikeFilled,
 	LikeOutlined,
 	DislikeFilled,
 	DislikeOutlined
 } from "@ant-design/icons"
+import InputWithPicker from "components/InputWithPicker"
+import Header from "components/Header"
+import AvatarWithPopover from "components/AvatarWithPopover"
 
+import { messageUser } from "redux/actions"
 import { getComments, postComment } from "./service"
 
 const { Option } = Select
 
-function CommentTab({ account, url = "abc.com" }) {
+function CommentTab({ account, url = "abc.com", messageUser }) {
 	const [comments, setComments] = useState([])
 	const [orderBy, setOrderBy] = useState("latest")
 	useEffect(() => {
@@ -95,7 +97,13 @@ function CommentTab({ account, url = "abc.com" }) {
 								</span>
 							]}
 							author={c.user.name}
-							avatar={c.user.avatarSrc}
+							avatar={
+								<AvatarWithPopover
+									user={c.user}
+									messageUser={messageUser}
+									popoverPlacement="right"
+								/>
+							}
 							content={c.content.value}
 							datetime={
 								<span
@@ -127,4 +135,4 @@ function CommentTab({ account, url = "abc.com" }) {
 	)
 }
 
-export default CommentTab
+export default connect(null, { messageUser })(CommentTab)
