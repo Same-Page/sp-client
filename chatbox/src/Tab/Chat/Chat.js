@@ -13,13 +13,28 @@ import TabName from "components/TabName"
 import RoomList from "components/RoomList"
 import Header from "components/Header"
 import RoomTab from "./RoomTab"
+import { url, domain } from "utils"
 
 const { TabPane } = Tabs
 
-const initPanes = [
-	{ title: "请选择房间 1", key: "1" },
-	{ title: "请选择房间 2", key: "2" }
-]
+const initPanes = config.defaultRooms.map(r => {
+	// Figure out room id if not there, for now it's
+	// either site or page (domain or url) for room id
+	if (!r.id) {
+		if (r.type === "site") {
+			r.id = domain
+		} else if (r.type === "page") {
+			r.id = url
+		} else {
+			console.error("Room without id", r)
+		}
+	}
+	return {
+		title: r.name,
+		room: r,
+		key: r.id
+	}
+})
 
 // newTabIndex is used as pane key, could just use room id instead
 // but empty new tab doesn't have room assigned, could use -1 but
@@ -28,9 +43,11 @@ let newTabIndex = 0
 
 function Chat({ account }) {
 	const [panes, setPanes] = useState(initPanes)
-	const [activeKey, setActiveKey] = useState(initPanes[0].key)
+	const [activeKey, setActiveKey] = useState(
+		initPanes.length && initPanes[0].key
+	)
 	const [socket, setSocket] = useState(null)
-	const [minSideBar, setMinSideBar] = useState(false)
+	const [minSideBar, setMinSideBar] = useState(initPanes.length > 0)
 	const [closeSideBar, setCloseSideBar] = useState(false)
 	useEffect(() => {
 		const createSocket = () => {
@@ -111,7 +128,8 @@ function Chat({ account }) {
 			setActiveKey(existingPane[0].key)
 			return
 		}
-
+		// build a new pane to replace the old pane
+		// keep the same old key
 		const pane = {
 			title: room.name,
 			room: room,

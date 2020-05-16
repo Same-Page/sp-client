@@ -2,7 +2,7 @@ import axios from "axios"
 
 const initState = {
 	account: null,
-	activeTab: "comment",
+	activeTab: "chat",
 	inboxUser: null
 }
 
