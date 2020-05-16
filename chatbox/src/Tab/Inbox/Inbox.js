@@ -2,16 +2,12 @@ import "./Inbox.css"
 
 import React, { useState, useEffect } from "react"
 import { connect } from "react-redux"
-import { Tabs, Button, message } from "antd"
-import { LeftOutlined, CloseOutlined } from "@ant-design/icons"
-
-import TabName from "components/TabName"
+import moment from "moment"
+import { Avatar, message } from "antd"
 
 import { getConversations } from "./service"
 import { messageUser, setInboxUser } from "redux/actions"
 import ConversationTab from "./ConversationTab"
-
-const { TabPane } = Tabs
 
 function lastMsg(conversation) {
 	const messages = conversation.messages
@@ -22,10 +18,10 @@ function lastMsg(conversation) {
 }
 
 function Inbox({ account, user, setInboxUser, messageUser }) {
-	const [minSideBar, setMinSideBar] = useState(false)
-	const [closeSideBar, setCloseSideBar] = useState(false)
+	// user and setInbox user are used for determining which conversation to render
+	// selectedConversation is only updated as a side effect when user is updated
 	const [conversations, setConversations] = useState([])
-
+	const [selectedCon, setSelectedCon] = useState()
 	useEffect(() => {
 		async function fetchData() {
 			try {
@@ -48,13 +44,16 @@ function Inbox({ account, user, setInboxUser, messageUser }) {
 	}, [account])
 
 	useEffect(() => {
+		console.log(user, conversations)
 		// Pick selected conversation base on user
 		if (user) {
 			// if no previous conversation with user, create one
-			const existingConversation = conversations.find(c => {
+			const existingCon = conversations.find(c => {
 				return c.user.id.toString() === user.id.toString()
 			})
-			if (!existingConversation) {
+			if (existingCon) {
+				setSelectedCon(existingCon)
+			} else {
 				setConversations([
 					{
 						user: user,
@@ -64,12 +63,9 @@ function Inbox({ account, user, setInboxUser, messageUser }) {
 				])
 			}
 		} else {
-			// If no conversation selected, select the first one
-			if (conversations.length > 0) {
-				setInboxUser(conversations[0].user)
-			}
+			setSelectedCon(null)
 		}
-	}, [user, conversations, setInboxUser])
+	}, [user, conversations])
 
 	// useEffect(() => {
 	// 	if (activeKey) {
@@ -83,81 +79,53 @@ function Inbox({ account, user, setInboxUser, messageUser }) {
 		setInboxUser(c.user)
 	}
 
-	const wrapperClassName =
-		"sp-inbox-tab" +
-		(minSideBar ? " sp-minimized" : "") +
-		(closeSideBar ? " sp-closed" : "")
-
 	if (!account) {
 		return <>请登录</>
 	}
 	return (
-		<div className={wrapperClassName}>
-			{/* <div className="sp-tab-header"></div> */}
-
-			<Tabs
-				hideAdd
-				onChange={onChange}
-				activeKey={user && user.id.toString()}
-				tabPosition="left"
-				tabBarExtraContent={
-					<span>
-						<Button
-							onClick={() => {
-								setMinSideBar(prev => {
-									return !prev
-								})
-							}}
-							icon={
-								<LeftOutlined
-									className="sp-icon-transition-duration-1"
-									rotate={minSideBar ? 180 : 0}
-								/>
-							}
-						/>
-
-						<br />
-						<Button
-							danger
-							onClick={() => {
-								setCloseSideBar(true)
-							}}
-							icon={<CloseOutlined />}
-						/>
-					</span>
-				}
-			>
-				{conversations.map(c => (
-					<TabPane
-						tab={
-							<TabName
-								minimized={minSideBar}
-								iconUrl={c.user.avatarSrc}
-								size="large"
-								title={c.user.name}
-								description={lastMsg(c) && lastMsg(c).content.value}
-								// floatRightExtra={
-								// 	lastMsg(c) && moment(lastMsg(c).creaetd_at).fromNow()
-								// }
-							/>
-						}
+		<div className="sp-inbox-tab">
+			{!selectedCon &&
+				conversations.map(c => (
+					<div
+						className="sp-inbox-item"
+						onClick={() => {
+							setInboxUser(c.user)
+						}}
 						key={c.user.id.toString()}
 					>
-						<div className="sp-room-tab">
-							<ConversationTab
-								account={account}
-								user={c.user}
-								messages={c.messages}
-								setConversations={setConversations}
-								messageUser={messageUser}
-								setMinSideBar={setMinSideBar}
-								closeSideBar={closeSideBar}
-								setCloseSideBar={setCloseSideBar}
-							/>
-						</div>
-					</TabPane>
+						<Avatar size="large" src={c.user.avatarSrc} />
+						<span className="sp-inbox-item-right">
+							<div className="sp-username-msgtime-row">
+								<span className="sp-username">{c.user.name}</span>
+								{lastMsg(c) && (
+									<span className="sp-lastmsg-time">
+										{moment(lastMsg(c).creaetd_at).fromNow()}
+									</span>
+								)}
+							</div>
+							{lastMsg(c) && (
+								<div className="sp-lastmsg-content">
+									{lastMsg(c).content.value}
+								</div>
+							)}
+						</span>
+					</div>
 				))}
-			</Tabs>
+			{selectedCon && (
+				<ConversationTab
+					account={account}
+					user={selectedCon.user}
+					messages={selectedCon.messages}
+					setConversations={setConversations}
+					messageUser={messageUser}
+					back={() => {
+						setInboxUser(null)
+					}}
+					// setMinSideBar={setMinSideBar}
+					// closeSideBar={closeSideBar}
+					// setCloseSideBar={setCloseSideBar}
+				/>
+			)}
 		</div>
 	)
 }

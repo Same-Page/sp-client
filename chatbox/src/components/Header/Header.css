@@ -1,13 +1,7 @@
 .sp-tab-content-header {
 	line-height: 40px;
-
 	border-bottom: 1px solid lightgray;
 	padding: 0 5px;
-	font-size: 13px;
-}
-.sp-tab-content-header .sp-header-right-items {
-	float: right;
-	color: gray;
 	font-size: 13px;
 }
 
@@ -17,8 +11,8 @@
 	border: none;
 	box-shadow: none;
 	font-size: unset;
-	padding: 0px 10px;
 }
+
 .sp-tab-content-header .ant-btn:not(:hover),
 .sp-tab-content-header .ant-btn-icon-only:not(:hover) > * {
 	color: unset;
@@ -29,4 +23,24 @@
 }
 .sp-tab-content-header .ant-btn-dangerous:hover {
 	color: red;
+}
+.sp-tab-content-header .sp-header-right-items {
+	color: gray;
+}
+/* If center mode */
+.sp-tab-content-header.sp-center {
+	text-align: center;
+}
+.sp-tab-content-header.sp-center .sp-header-left-items {
+	position: absolute;
+	left: 10px;
+}
+.sp-tab-content-header.sp-center .sp-header-right-items {
+	position: absolute;
+	right: 10px;
+}
+
+/* If not center mode, only need to float right item */
+.sp-tab-content-header .sp-header-right-items {
+	float: right;
 }

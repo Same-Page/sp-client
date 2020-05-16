@@ -1,12 +1,15 @@
 import "./Header.css"
 import React from "react"
 
-function Header({ leftItems, rightItems }) {
+function Header({ leftItems, rightItems, centerItems }) {
+	// If there's center items, left and right items need to be position:absolute
+	const className =
+		"sp-text-noselect sp-tab-content-header" + (centerItems ? " sp-center" : "")
 	return (
-		<div className="sp-tab-content-header">
-			<span className="sp-text-noselect">{leftItems}</span>
-			<div className="sp-header-right-items">{rightItems}</div>
-			{/* <div style={{ clear: "both" }} /> */}
+		<div className={className}>
+			<span className="sp-header-left-items">{leftItems}</span>
+			<span className="sp-header-center-items">{centerItems}</span>
+			<span className="sp-header-right-items">{rightItems}</span>
 		</div>
 	)
 }

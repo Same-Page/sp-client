@@ -1,22 +1,32 @@
-/* .sp-inbox-tabs .ant-tabs-left-bar .ant-tabs-nav-container {
-	width: 158px;
-	transition: 0.5s;
-} */
+.sp-inbox-item {
+	padding: 15px;
+	border-bottom: 1px solid #f1f1f1;
+	cursor: pointer;
+}
+.sp-inbox-item:hover {
+	background: rgb(224, 224, 224);
+}
+.sp-inbox-item .sp-username-msgtime-row {
+	margin-bottom: 10px;
+}
+.sp-inbox-item .ant-avatar {
+	float: left;
+	margin-right: 15px;
+	margin-top: 5px;
+}
+.sp-inbox-item .sp-username {
+	font-weight: bold;
+}
+.sp-inbox-item .sp-lastmsg-time {
+	float: right;
+	font-size: smaller;
+	color: gray;
+}
 
-.sp-inbox-tab .ant-tabs .ant-tabs-left-bar .ant-tabs-tab {
+.sp-inbox-item .sp-lastmsg-content {
+	white-space: nowrap;
 	overflow: hidden;
-	height: 65px;
-}
-
-.sp-inbox-tab .ant-tabs .ant-tabs-left-bar .ant-tabs-tab {
-	text-align: left;
-}
-
-.sp-inbox-tab .ant-tabs-nav .ant-tabs-tab-active,
-.sp-inbox-tab .ant-tabs-nav .ant-tabs-tab:hover {
-	color: unset;
-}
-
-.sp-inbox-tab:not(.sp-minimized) .sp-vertical-tab-name.large .sp-tab-name {
-	font-weight: 500;
+	text-overflow: ellipsis;
+	color: gray;
+	font-size: small;
 }

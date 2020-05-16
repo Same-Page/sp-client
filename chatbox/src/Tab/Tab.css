@@ -46,20 +46,6 @@
 
 /* Only override tab style for card type (.ant-tabs-card) END*/
 
-.sp-tab-header {
-	border-bottom: 1px solid lightgray;
-	padding: 0px 15px;
-	line-height: 40px;
-	height: 40px;
-	text-align: center;
-	white-space: nowrap;
-}
-.sp-tab-header .ant-btn {
-	background: none;
-	border: none;
-	box-shadow: none;
-}
-
 /* Style for left tab bar, used in chat tab and inbox tab */
 .sp-main-tabs .ant-tabs-left-bar {
 	border: none;

@@ -33,19 +33,20 @@
 	max-width: 700px;
 	margin: auto;
 }
-
+.sp-comment-body .ant-comment-avatar {
+	margin-right: 5px;
+}
 .sp-comment-body .ant-comment-avatar img {
 	width: 100%;
 	height: 100%;
-	border-radius: 100%;
+	border-radius: unset;
 }
 
-.sp-comment-body .ant-comment-inner {
-	padding: 20px;
+.sp-comment-body .ant-comment-content {
 	background: white;
-	margin-bottom: 30px;
 	border-radius: 5px;
-
 	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
 	border: 1px solid rgba(0, 0, 0, 0.09);
+	word-wrap: break-word;
+	padding: 10px 15px 10px 20px;
 }

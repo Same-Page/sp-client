@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import { Button } from "antd"
-import { MenuOutlined } from "@ant-design/icons"
+import { LeftOutlined } from "@ant-design/icons"
 
 import Conversation from "components/Conversation"
 import InputWithPicker from "components/InputWithPicker"
@@ -15,9 +15,7 @@ function ConversationTab({
 	messages,
 	setConversations,
 	messageUser,
-	setMinSideBar,
-	closeSideBar,
-	setCloseSideBar
+	back
 }) {
 	const [showProfileModal, setShowProfileModal] = useState(false)
 	const [sending, setSending] = useState(false)
@@ -37,7 +35,7 @@ function ConversationTab({
 		return res
 	}
 	return (
-		<>
+		<div className="sp-conversation-tab">
 			{showProfileModal && (
 				<ProfileModal
 					user={user}
@@ -49,27 +47,17 @@ function ConversationTab({
 			<Header
 				leftItems={
 					<>
-						{closeSideBar && (
-							<Button
-								onClick={() => {
-									setCloseSideBar(false)
-									setMinSideBar(false)
-								}}
-							>
-								<MenuOutlined />
-								<span>列表</span>
-							</Button>
-						)}
-
-						<Button
-							onClick={() => {
-								setShowProfileModal(true)
-							}}
-						>
-							{/* <Avatar src={user.avatarSrc} size={25} style={{ marginRight: 5 }} /> */}
-							<span>{user.name}</span>
-						</Button>
+						<Button icon={<LeftOutlined />} onClick={back} />
 					</>
+				}
+				centerItems={
+					<Button
+						onClick={() => {
+							setShowProfileModal(true)
+						}}
+					>
+						{user.name}
+					</Button>
 				}
 			/>
 
@@ -99,7 +87,7 @@ function ConversationTab({
 					return true
 				}}
 			/>
-		</>
+		</div>
 	)
 }
 

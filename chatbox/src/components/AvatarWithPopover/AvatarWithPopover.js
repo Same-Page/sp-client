@@ -12,7 +12,7 @@ import {
 } from "@ant-design/icons"
 import Profile from "components/Profile"
 
-function AvatarWithPopover({ user, messageUser, popoverPlacement }) {
+function AvatarWithPopover({ user, size, messageUser, popoverPlacement }) {
 	const [popoverVisible, setPopoverVisible] = useState(false)
 	const gutter = 10
 	return (
@@ -57,7 +57,7 @@ function AvatarWithPopover({ user, messageUser, popoverPlacement }) {
 				// 	setShowModal(true)
 				// }}
 				style={{ cursor: "pointer" }}
-				size="large"
+				size={size || "large"}
 				src={user.avatarSrc}
 			/>
 		</Popover>

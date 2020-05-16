@@ -4,6 +4,7 @@ import "./Login.css"
 import { Form, Input, Button, message } from "antd"
 import { UserOutlined, LockOutlined } from "@ant-design/icons"
 
+import Header from "components/Header"
 import { login } from "./service"
 import storageManager from "storage"
 
@@ -22,7 +23,7 @@ const NormalLoginForm = ({ signup }) => {
 
 	return (
 		<div>
-			<div className="sp-tab-header">登录</div>
+			<Header centerItems={<span>登录</span>} />
 
 			<Form
 				name="normal_login"

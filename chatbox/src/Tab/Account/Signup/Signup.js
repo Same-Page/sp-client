@@ -1,6 +1,8 @@
 import "./Signup.css"
 import React, { useState } from "react"
 import { Form, Input, Button, AutoComplete, message } from "antd"
+
+import Header from "components/Header"
 import { signup } from "./service"
 import storageManager from "storage"
 
@@ -74,7 +76,7 @@ const RegistrationForm = ({ login }) => {
 	}))
 	return (
 		<div>
-			<div className="sp-tab-header">注册</div>
+			<Header centerItems={<span>注册</span>} />
 
 			<Form
 				className="sp-signup"

@@ -4,12 +4,12 @@ const config = {
 	defaultRooms: [
 		{
 			type: "site",
-			name: "大厅",
+			name: "网站大厅",
 			about: "当前网站的所有用户都可以进入该房间。"
 		},
 		{
 			type: "page",
-			name: "同网页",
+			name: "相同网页",
 			about: "只有浏览当前网页的用户可以进入该房间。"
 		}
 	]

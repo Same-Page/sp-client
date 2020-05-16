@@ -1,0 +1,17 @@
+.sp-inbox-tab .ant-tabs .ant-tabs-left-bar .ant-tabs-tab {
+	overflow: hidden;
+	height: 65px;
+}
+
+.sp-inbox-tab .ant-tabs .ant-tabs-left-bar .ant-tabs-tab {
+	text-align: left;
+}
+
+.sp-inbox-tab .ant-tabs-nav .ant-tabs-tab-active,
+.sp-inbox-tab .ant-tabs-nav .ant-tabs-tab:hover {
+	color: unset;
+}
+
+.sp-inbox-tab:not(.sp-minimized) .sp-vertical-tab-name.large .sp-tab-name {
+	font-weight: 500;
+}
