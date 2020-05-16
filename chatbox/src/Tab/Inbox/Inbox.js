@@ -103,11 +103,9 @@ function Inbox({ account, user, setInboxUser, messageUser }) {
 									</span>
 								)}
 							</div>
-							{lastMsg(c) && (
-								<div className="sp-lastmsg-content">
-									{lastMsg(c).content.value}
-								</div>
-							)}
+							<div className="sp-lastmsg-content">
+								{(lastMsg(c) && lastMsg(c).content.value) || "..."}
+							</div>
 						</span>
 					</div>
 				))}
