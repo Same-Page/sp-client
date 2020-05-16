@@ -18,7 +18,7 @@ import Header from "components/Header"
 import Users from "./Users"
 import { messageUser } from "redux/actions"
 
-const MESSAGE_TIME_GAP = 2 * 1000
+const MESSAGE_TIME_GAP = 500
 let lastMsgTime = 0
 
 function RoomTab({ socket, account, room, exit, extraButton, messageUser }) {
@@ -199,6 +199,7 @@ function RoomTab({ socket, account, room, exit, extraButton, messageUser }) {
 				/>
 			)}
 			<Conversation
+				backgroundColor="rgb(246, 249, 252)"
 				messageUser={messageUser}
 				messages={messages}
 				background={room.background}
