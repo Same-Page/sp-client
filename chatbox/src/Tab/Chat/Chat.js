@@ -253,6 +253,7 @@ function Chat({ account, storageData }) {
 			>
 				{panes.map((pane, paneIndex) => (
 					<TabPane
+						forceRender
 						tab={
 							<TabName
 								minimized={minSideBar}
