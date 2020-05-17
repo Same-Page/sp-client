@@ -58,12 +58,29 @@ const getInitialPanes = storageData => {
 	// merge rooms from config and localStorage
 	// return array of panes
 	let res = []
-	if (storageData && storageData.rooms) {
+	if (storageData.rooms) {
 		res = getPanesFromRooms(storageData.rooms)
 	} else {
 		res = getPanesFromRooms(config.defaultRooms)
 	}
 	return res
+}
+
+const getInitialActiveKey = (initPanes, storageData) => {
+	// check if localstorage store an active room id
+	// and it's within the initPanes array, if not, select
+	// the first pane key
+	if (initPanes.length === 0) return null
+	const keyFromStorage = storageData.activeRoomId
+	if (keyFromStorage) {
+		const paneWithKey = initPanes.find(p => {
+			return p.key === keyFromStorage
+		})
+		if (paneWithKey) {
+			return keyFromStorage
+		}
+	}
+	return initPanes[0].key
 }
 
 // newTabIndex is used as pane key, could just use room id instead
@@ -72,9 +89,11 @@ const getInitialPanes = storageData => {
 let newTabIndex = 0
 
 function Chat({ account, storageData }) {
-	console.log(storageData)
-	const [panes, setPanes] = useState(getInitialPanes(storageData))
-	const [activeKey, setActiveKey] = useState(panes.length && panes[0].key)
+	const initPanes = getInitialPanes(storageData)
+	const [panes, setPanes] = useState(initPanes)
+	const [activeKey, setActiveKey] = useState(
+		getInitialActiveKey(initPanes, storageData)
+	)
 	const [socket, setSocket] = useState(null)
 	const [minSideBar, setMinSideBar] = useState(initPanes.length > 0)
 	const [closeSideBar, setCloseSideBar] = useState(false)
@@ -116,8 +135,14 @@ function Chat({ account, storageData }) {
 			return res
 		}, [])
 		storageManager.set("rooms", rooms)
-		console.log("rooms", rooms)
 	}, [panes])
+
+	useEffect(() => {
+		// record which rooms is open in localStorage
+		// Note this includes non room id like pane index
+		// and dynamic room id like url
+		storageManager.set("activeRoomId", activeKey)
+	}, [activeKey])
 
 	const onChange = activeKey => {
 		setActiveKey(activeKey)
