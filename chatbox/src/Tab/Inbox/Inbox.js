@@ -44,7 +44,6 @@ function Inbox({ account, user, setInboxUser, messageUser }) {
 	}, [account])
 
 	useEffect(() => {
-		console.log(user, conversations)
 		// Pick selected conversation base on user
 		if (user) {
 			// if no previous conversation with user, create one
@@ -66,18 +65,6 @@ function Inbox({ account, user, setInboxUser, messageUser }) {
 			setSelectedCon(null)
 		}
 	}, [user, conversations])
-
-	// useEffect(() => {
-	// 	if (activeKey) {
-	// 		setMinSideBar(true)
-	// 	}
-	// }, [activeKey])
-	const onChange = key => {
-		const c = conversations.find(c => {
-			return c.user.id.toString() === key.toString()
-		})
-		setInboxUser(c.user)
-	}
 
 	if (!account) {
 		return <>请登录</>
@@ -107,6 +94,7 @@ function Inbox({ account, user, setInboxUser, messageUser }) {
 								{(lastMsg(c) && lastMsg(c).content.value) || "..."}
 							</div>
 						</span>
+						<div style={{ clear: "both" }}></div>
 					</div>
 				))}
 			{selectedCon && (
@@ -119,9 +107,6 @@ function Inbox({ account, user, setInboxUser, messageUser }) {
 					back={() => {
 						setInboxUser(null)
 					}}
-					// setMinSideBar={setMinSideBar}
-					// closeSideBar={closeSideBar}
-					// setCloseSideBar={setCloseSideBar}
 				/>
 			)}
 		</div>

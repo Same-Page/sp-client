@@ -48,6 +48,10 @@ function RoomList({ setRoom }) {
 				resp.data.sort((a, b) => {
 					return b.userCount - a.userCount
 				})
+
+				resp.data.forEach(r => {
+					r.id = r.id.toString()
+				})
 				setRooms(resp.data)
 			})
 			.catch(err => {})

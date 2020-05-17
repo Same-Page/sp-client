@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React, { useState, useEffect } from "react"
 import { connect } from "react-redux"
 import moment from "moment"
 import axios from "axios"
@@ -13,28 +13,44 @@ const locale = window.navigator.userLanguage || window.navigator.language
 moment.locale(locale)
 
 function App({ account, setAccount, activeTab, setActiveTab }) {
+	// wait for localStorage finish loading before rendering anything
+	// ready can only change from false to true for one time!
+	const [ready, setReady] = useState(false)
+	const [storageData, setStorageData] = useState()
 	useEffect(() => {
+		// Load everything from localStorage
+		// register all localstorage listeners
 		storageManager.addEventListener("account", account => {
 			setAccount(account)
 		})
-		// TODO: get all storage data in one call
-		storageManager.get("account", account => {
-			setAccount(account)
+		// pass null as storage key to get all stored data
+		storageManager.get(null, data => {
+			setStorageData(data)
+			if (data.account) {
+				setAccount(data.account)
+			}
 		})
+
+		setReady(true)
 	}, [setAccount])
+
 	useEffect(() => {
 		if (account) {
 			console.info("account id changed to " + account.id)
 			axios.defaults.headers.common["token"] = account.token
 		}
 	}, [account])
+
 	return (
 		<div className="sp-all">
-			<Tab
-				account={account}
-				activeTab={activeTab}
-				setActiveTab={setActiveTab}
-			/>
+			{ready && (
+				<Tab
+					storageData={storageData}
+					account={account}
+					activeTab={activeTab}
+					setActiveTab={setActiveTab}
+				/>
+			)}
 		</div>
 	)
 }

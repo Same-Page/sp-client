@@ -23,7 +23,7 @@ message.config({
 	maxCount: 3
 })
 
-function Tab({ account, activeTab, setActiveTab }) {
+function Tab({ account, activeTab, setActiveTab, storageData }) {
 	return (
 		<div className="sp-main-tabs">
 			<Tabs
@@ -42,7 +42,7 @@ function Tab({ account, activeTab, setActiveTab }) {
 					}
 					key="chat"
 				>
-					<Chat account={account} />
+					<Chat storageData={storageData} account={account} />
 				</TabPane>
 				<TabPane
 					tab={

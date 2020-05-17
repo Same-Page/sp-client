@@ -14,6 +14,7 @@ import RoomList from "components/RoomList"
 import Header from "components/Header"
 import RoomTab from "./RoomTab"
 import { url, domain } from "utils"
+import storageManager from "storage"
 
 const { TabPane } = Tabs
 
@@ -36,16 +37,44 @@ const initPanes = config.defaultRooms.map(r => {
 	}
 })
 
+const getPanesFromRooms = rooms => {
+	const res = rooms.map(r => {
+		// dynamic room id for site/page type of room
+		if (r.type === "site") {
+			r.id = domain
+		} else if (r.type === "page") {
+			r.id = url
+		}
+		return {
+			title: r.name,
+			room: r,
+			key: r.id
+		}
+	})
+	return res
+}
+
+const getInitialPanes = storageData => {
+	// merge rooms from config and localStorage
+	// return array of panes
+	let res = []
+	if (storageData && storageData.rooms) {
+		res = getPanesFromRooms(storageData.rooms)
+	} else {
+		res = getPanesFromRooms(config.defaultRooms)
+	}
+	return res
+}
+
 // newTabIndex is used as pane key, could just use room id instead
 // but empty new tab doesn't have room assigned, could use -1 but
 // user can open multiple empty tabs
 let newTabIndex = 0
 
-function Chat({ account }) {
-	const [panes, setPanes] = useState(initPanes)
-	const [activeKey, setActiveKey] = useState(
-		initPanes.length && initPanes[0].key
-	)
+function Chat({ account, storageData }) {
+	console.log(storageData)
+	const [panes, setPanes] = useState(getInitialPanes(storageData))
+	const [activeKey, setActiveKey] = useState(panes.length && panes[0].key)
 	const [socket, setSocket] = useState(null)
 	const [minSideBar, setMinSideBar] = useState(initPanes.length > 0)
 	const [closeSideBar, setCloseSideBar] = useState(false)
@@ -78,14 +107,26 @@ function Chat({ account }) {
 		// should never be unmounted
 	}, [])
 
+	useEffect(() => {
+		// record which rooms are open and save in localStorage
+		const rooms = panes.reduce((res, p) => {
+			if (p.room) {
+				res.push(p.room)
+			}
+			return res
+		}, [])
+		storageManager.set("rooms", rooms)
+		console.log("rooms", rooms)
+	}, [panes])
+
 	const onChange = activeKey => {
 		setActiveKey(activeKey)
 	}
 
 	const add = () => {
 		const key = `newTab${newTabIndex++}`
-		panes.push({ title: "选择房间", key: key })
-		setPanes(panes)
+
+		setPanes([...panes, { title: "选择房间", key: key }])
 		setActiveKey(key)
 	}
 
@@ -129,13 +170,16 @@ function Chat({ account }) {
 			return
 		}
 		// build a new pane to replace the old pane
-		// keep the same old key
+		// keep the same old key? NO
 		const pane = {
 			title: room.name,
 			room: room,
-			key: panes[paneIndex].key
+			key: room.id
+			// key: panes[paneIndex].key
 		}
+		console.log(pane)
 		panes[paneIndex] = pane
+		setActiveKey(room.id)
 		setPanes([...panes])
 	}
 
@@ -241,7 +285,7 @@ function Chat({ account }) {
 								account={account}
 								room={pane.room}
 								exit={() => {
-									setMinSideBar(false)
+									// setMinSideBar(false)
 									setCloseSideBar(false)
 									remove(pane.key)
 								}}

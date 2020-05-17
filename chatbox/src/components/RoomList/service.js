@@ -2,6 +2,7 @@ import axios from "axios"
 // import config from "config"
 
 export const getRooms = params => {
+	// ensure the id field return is string!!!
 	return axios.get("https://api-v3.yiyechat.com/api/room", {
 		params: params
 	})

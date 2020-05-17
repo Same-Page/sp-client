@@ -1,5 +1,5 @@
 .sp-inbox-item {
-	padding: 15px;
+	padding: 10px 15px;
 	border-bottom: 1px solid #f1f1f1;
 	cursor: pointer;
 }
@@ -7,7 +7,7 @@
 	background: rgb(224, 224, 224);
 }
 .sp-inbox-item .sp-username-msgtime-row {
-	margin-bottom: 10px;
+	margin-bottom: 5px;
 }
 .sp-inbox-item .ant-avatar {
 	float: left;

@@ -172,7 +172,7 @@ function RoomTab({ socket, account, room, exit, extraButton, messageUser }) {
 								<span>{users.length}</span>
 							</Button>
 						</Popover>
-						<Popconfirm
+						{/* <Popconfirm
 							onConfirm={exit}
 							title="确认离开？"
 							okText="是的"
@@ -180,11 +180,18 @@ function RoomTab({ socket, account, room, exit, extraButton, messageUser }) {
 							placement="bottomRight"
 							okButtonProps={{ danger: true }}
 						>
-							{/* don't need a button for clicking, just like its animation, same above */}
 							<Button danger title="离开房间" icon={<LogoutOutlined />}>
 								<span>离开</span>
 							</Button>
-						</Popconfirm>
+						</Popconfirm> */}
+						<Button
+							danger
+							onClick={exit}
+							title="离开房间"
+							icon={<LogoutOutlined />}
+						>
+							<span>离开</span>
+						</Button>
 					</>
 				}
 			/>

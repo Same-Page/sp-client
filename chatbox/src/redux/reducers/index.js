@@ -1,8 +1,10 @@
 import axios from "axios"
 
+import config from "config"
+
 const initState = {
 	account: null,
-	activeTab: "inbox",
+	activeTab: config.defaultTab,
 	inboxUser: null
 }
 

@@ -10,6 +10,7 @@ function Header({ leftItems, rightItems, centerItems }) {
 			<span className="sp-header-left-items">{leftItems}</span>
 			<span className="sp-header-center-items">{centerItems}</span>
 			<span className="sp-header-right-items">{rightItems}</span>
+			<div style={{ clear: "both" }}></div>
 		</div>
 	)
 }
