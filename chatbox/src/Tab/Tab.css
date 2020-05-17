@@ -68,12 +68,50 @@ header-body-footer with sticky header and footer*/
 
 .sp-main-tabs .ant-tabs-left-bar .ant-tabs-nav-container {
 	width: 159px;
-	height: calc(100% - 180px);
+
+	/* for sliding to work with height auto, I have to use flex display */
+	height: auto;
+	display: flex;
+	flex-direction: column;
+	max-height: calc(100% - 180px);
 }
+
 .sp-main-tabs .sp-minimized .ant-tabs-left-bar .ant-tabs-nav-container {
 	width: 79px;
 }
-.ant-tabs-left-bar .ant-btn {
+
+/* if want to use scroll rather than click button to slide */
+.sp-main-tabs .ant-tabs-left-bar .ant-tabs-nav-wrap {
+	/* overflow: hidden auto; */
+}
+.sp-main-tabs
+	.ant-tabs-left-bar
+	.ant-tabs-nav-container
+	.ant-tabs-nav-animated {
+	/* transform: none !important; */
+}
+/* if want to use scroll rather than click button to slide */
+
+.sp-main-tabs
+	.ant-tabs-left-bar
+	.ant-tabs-nav-container.ant-tabs-nav-container-scrolling {
+	padding: 41px 0px;
+	/* padding needs to be same height as Header component */
+}
+
+.sp-main-tabs .ant-tabs-left-bar .ant-tabs-tab-prev,
+.sp-main-tabs .ant-tabs-left-bar .ant-tabs-tab-next {
+	height: 41px;
+	/* same height as Header component */
+}
+.sp-main-tabs .ant-tabs-left-bar .ant-tabs-tab-prev {
+	/* border-bottom: 1px solid lightgray; */
+}
+.sp-main-tabs .ant-tabs-left-bar .ant-tabs-tab-next {
+	/* border-top: 1px solid lightgray; */
+}
+
+.sp-main-tabs .ant-tabs-left-bar .ant-btn {
 	background: none;
 	border: none;
 	box-shadow: none;
@@ -100,7 +138,6 @@ header-body-footer with sticky header and footer*/
 	padding: 0px;
 	margin: 0px;
 	font-size: 13px;
-	/* border-bottom: 1px solid rgb(224, 224, 224); */
 }
 .sp-main-tabs .ant-tabs-left-bar .ant-tabs-ink-bar {
 	width: 100%;
@@ -122,6 +159,7 @@ header-body-footer with sticky header and footer*/
 }
 
 .sp-flex-body {
+	/* used in many tab body (inbox, chat etc.) */
 	height: calc(100% - 38px);
 	display: flex;
 	flex-direction: column;
