@@ -70,33 +70,37 @@ function Inbox({ account, user, setInboxUser, messageUser }) {
 		return <>请登录</>
 	}
 	return (
-		<div className="sp-inbox-tab">
-			{!selectedCon &&
-				conversations.map(c => (
-					<div
-						className="sp-inbox-item"
-						onClick={() => {
-							setInboxUser(c.user)
-						}}
-						key={c.user.id.toString()}
-					>
-						<Avatar shape="square" size="large" src={c.user.avatarSrc} />
-						<span className="sp-inbox-item-right">
-							<div className="sp-username-msgtime-row">
-								<span className="sp-username">{c.user.name}</span>
-								{lastMsg(c) && (
-									<span className="sp-lastmsg-time">
-										{moment(lastMsg(c).created_at).fromNow()}
-									</span>
-								)}
-							</div>
-							<div className="sp-lastmsg-content">
-								{(lastMsg(c) && lastMsg(c).content.value) || "..."}
-							</div>
-						</span>
-						<div style={{ clear: "both" }}></div>
-					</div>
-				))}
+		<>
+			{!selectedCon && (
+				<div className="sp-flex-body sp-inbox-tab">
+					{conversations.map(c => (
+						<div
+							className="sp-inbox-item"
+							onClick={() => {
+								setInboxUser(c.user)
+							}}
+							key={c.user.id.toString()}
+						>
+							<Avatar shape="square" size="large" src={c.user.avatarSrc} />
+							<span className="sp-inbox-item-right">
+								<div className="sp-username-msgtime-row">
+									<span className="sp-username">{c.user.name}</span>
+									{lastMsg(c) && (
+										<span className="sp-lastmsg-time">
+											{moment(lastMsg(c).created_at).fromNow()}
+										</span>
+									)}
+								</div>
+								<div className="sp-lastmsg-content">
+									{(lastMsg(c) && lastMsg(c).content.value) || "..."}
+								</div>
+							</span>
+							<div style={{ clear: "both" }}></div>
+						</div>
+					))}
+				</div>
+			)}
+
 			{selectedCon && (
 				<ConversationTab
 					account={account}
@@ -109,7 +113,7 @@ function Inbox({ account, user, setInboxUser, messageUser }) {
 					}}
 				/>
 			)}
-		</div>
+		</>
 	)
 }
 

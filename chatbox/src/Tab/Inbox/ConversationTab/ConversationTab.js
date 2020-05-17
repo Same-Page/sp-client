@@ -35,7 +35,7 @@ function ConversationTab({
 		return res
 	}
 	return (
-		<div className="sp-conversation-tab">
+		<div className="sp-flex-body sp-conversation-tab">
 			{showProfileModal && (
 				<ProfileModal
 					user={user}

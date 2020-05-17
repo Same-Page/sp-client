@@ -2,10 +2,10 @@ const config = {
 	apiUrl: "http://localhost:8080",
 	socketUrl: "wss://localhost:8765",
 	size: {
-		width: 350,
+		width: 400,
 		height: 600,
-		minWidth: 200,
-		minHeight: 200
+		minWidth: 350,
+		minHeight: 350
 	},
 	position: {
 		x: 0,

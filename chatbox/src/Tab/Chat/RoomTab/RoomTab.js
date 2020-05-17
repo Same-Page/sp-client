@@ -128,7 +128,7 @@ function RoomTab({ socket, account, room, exit, extraButton, messageUser }) {
 	}
 
 	return (
-		<div className="sp-room-tab">
+		<div className="sp-flex-body  sp-room-tab">
 			<RoomInfoModal
 				room={room}
 				showModal={showModal}

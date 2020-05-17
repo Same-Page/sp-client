@@ -68,6 +68,7 @@ header-body-footer with sticky header and footer*/
 
 .sp-main-tabs .ant-tabs-left-bar .ant-tabs-nav-container {
 	width: 159px;
+	height: calc(100% - 180px);
 }
 .sp-main-tabs .sp-minimized .ant-tabs-left-bar .ant-tabs-nav-container {
 	width: 79px;
@@ -118,4 +119,16 @@ header-body-footer with sticky header and footer*/
 	/* left-content actually means the block on the right */
 	padding: 0;
 	border-left: 1px solid #e0e0e0;
+}
+
+.sp-flex-body {
+	height: calc(100% - 38px);
+	display: flex;
+	flex-direction: column;
+	overflow: auto;
+	flex: auto;
+}
+.sp-conversation {
+	flex-grow: 1;
+	overflow: hidden auto;
 }

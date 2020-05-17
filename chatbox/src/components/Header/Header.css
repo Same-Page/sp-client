@@ -3,6 +3,7 @@
 	border-bottom: 1px solid lightgray;
 	padding: 0 5px;
 	font-size: 13px;
+	white-space: nowrap;
 }
 
 .sp-tab-content-header .ant-btn,
@@ -43,4 +44,11 @@
 /* If not center mode, only need to float right item */
 .sp-tab-content-header .sp-header-right-items {
 	float: right;
+}
+.sp-tab-content-header .sp-header-left-items {
+	/* TODO: bad hard code */
+	/* max-width: calc(100% - 155px);
+*/
+	/* overflow: hidden;
+	text-overflow: ellipsis; */
 }

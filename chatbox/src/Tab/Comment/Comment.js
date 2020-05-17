@@ -53,7 +53,7 @@ function CommentTab({ account, url = "abc.com", messageUser }) {
 		}
 	}
 	return (
-		<div className="sp-comment-tab">
+		<div className="sp-flex-body sp-comment-tab">
 			<Header
 				leftItems={
 					<span style={{ marginLeft: 10 }}>
