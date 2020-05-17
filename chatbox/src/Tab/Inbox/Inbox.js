@@ -80,7 +80,7 @@ function Inbox({ account, user, setInboxUser, messageUser }) {
 						}}
 						key={c.user.id.toString()}
 					>
-						<Avatar shape="square" size={50} src={c.user.avatarSrc} />
+						<Avatar shape="square" size="large" src={c.user.avatarSrc} />
 						<span className="sp-inbox-item-right">
 							<div className="sp-username-msgtime-row">
 								<span className="sp-username">{c.user.name}</span>

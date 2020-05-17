@@ -28,5 +28,5 @@
 	overflow: hidden;
 	text-overflow: ellipsis;
 	color: gray;
-	font-size: small;
+	font-size: smaller;
 }

@@ -2,8 +2,10 @@ import React, { useState, useEffect } from "react"
 import { connect } from "react-redux"
 import moment from "moment"
 import axios from "axios"
+import { Rnd } from "react-rnd"
 
 import storageManager from "storage"
+import config from "config"
 import Tab from "Tab"
 import { setAccount, setActiveTab } from "redux/actions"
 
@@ -17,6 +19,10 @@ function App({ account, setAccount, activeTab, setActiveTab }) {
 	// ready can only change from false to true for one time!
 	const [ready, setReady] = useState(false)
 	const [storageData, setStorageData] = useState()
+
+	const position = config.position
+	const size = config.size
+
 	useEffect(() => {
 		// Load everything from localStorage
 		// register all localstorage listeners
@@ -44,12 +50,37 @@ function App({ account, setAccount, activeTab, setActiveTab }) {
 	return (
 		<div className="sp-all">
 			{ready && (
-				<Tab
-					storageData={storageData}
-					account={account}
-					activeTab={activeTab}
-					setActiveTab={setActiveTab}
-				/>
+				<Rnd
+					// style={{ display: display }}
+					className="sp-chatbox-wrapper"
+					default={{
+						x: position.x,
+						y: 0, // y value is overridden in css
+						width: size.width,
+						height: size.height
+					}}
+					dragHandleClassName="ant-tabs-top-bar"
+					minWidth={size.minWidth}
+					minHeight={size.minHeight}
+					maxHeight={window.innerHeight}
+					dragAxis="x"
+					onDragStop={(e, d) => {
+						storageManager.set("iframeX", d.x)
+					}}
+					onResizeStop={(e, direction, ref, delta, position) => {
+						storageManager.set("iframeSize", {
+							width: ref.style.width,
+							height: ref.style.height
+						})
+					}}
+				>
+					<Tab
+						storageData={storageData}
+						account={account}
+						activeTab={activeTab}
+						setActiveTab={setActiveTab}
+					/>
+				</Rnd>
 			)}
 		</div>
 	)

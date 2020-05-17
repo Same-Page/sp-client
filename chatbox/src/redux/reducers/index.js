@@ -4,7 +4,7 @@ import config from "config"
 
 const initState = {
 	account: null,
-	activeTab: config.defaultTab,
+	activeTab: config.activeTab,
 	inboxUser: null
 }
 

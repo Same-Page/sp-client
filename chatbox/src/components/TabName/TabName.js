@@ -47,7 +47,7 @@ function TabName({
 
 	const content = (
 		<span
-			className={"sp-vertical-tab-name " + (size || "")}
+			className={"sp-text-noselect sp-vertical-tab-name " + (size || "")}
 			title={showTooltip ? undefined : title}
 		>
 			{iconUrl && (

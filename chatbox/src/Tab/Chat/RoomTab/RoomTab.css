@@ -1,9 +1,16 @@
 .sp-room-tab {
 	/* background-color: rgb(243, 243, 243); */
 	/* width: 100%; */
-	/* height: 100%; */
+	height: calc(100% - 38px);
 	/* min-height: 500px; */
+	display: flex;
+	flex-direction: column;
 }
+.sp-room-tab .sp-conversation {
+	flex-grow: 1;
+	overflow: hidden auto;
+}
+
 .sp-room-tab .sp-room-name {
 	/* max-width: 150px;
 	overflow: hidden;
@@ -14,6 +21,7 @@
 .sp-room-alert.sp-alert-float.ant-alert {
 	position: absolute;
 	width: 100%;
+	top: 41px;
 	z-index: 1;
 	border-bottom: 1px solid #ffe58f;
 }
@@ -23,5 +31,5 @@
 }
 .sp-room-users-popover.ant-popover {
 	/* this popover can open modal so it should be behind the newly opened modal */
-	z-index: 1000;
+	z-index: 1001;
 }

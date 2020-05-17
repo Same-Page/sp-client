@@ -205,6 +205,7 @@ function RoomTab({ socket, account, room, exit, extraButton, messageUser }) {
 					type="warning"
 				/>
 			)}
+
 			<Conversation
 				backgroundColor="rgb(246, 249, 252)"
 				messageUser={messageUser}

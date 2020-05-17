@@ -7,12 +7,10 @@ import Message from "./Message"
 const AUTO_SCROLL_TRESHOLD_DISTANCE = 300
 
 const conversationBodyStyle = {
-	// height: "calc(100% - 114px)",
-	overflowY: "auto",
-	overflowX: "hidden",
-	minHeight: 500,
-	maxHeight: 500, // some people may not want to set it
-	width: "100%",
+	// height: "calc(100% - 120px)",
+	// overflowY: "auto",
+	// overflowX: "hidden",
+	// width: "100%",
 	// position: "fixed",
 	background: "rgb(243, 243, 243)",
 	padding: 10,
@@ -114,7 +112,7 @@ function Conversation({ messages, background, backgroundColor, messageUser }) {
 		lastMsg = msg
 	})
 	return (
-		<div ref={bodyRef} style={{ ...bodyStyle }}>
+		<div className="sp-conversation" ref={bodyRef} style={{ ...bodyStyle }}>
 			{res}
 		</div>
 	)

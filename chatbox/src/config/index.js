@@ -1,7 +1,17 @@
 const config = {
 	apiUrl: "http://localhost:8080",
 	socketUrl: "wss://localhost:8765",
-	defaultTab: "chat",
+	size: {
+		width: 350,
+		height: 600,
+		minWidth: 200,
+		minHeight: 200
+	},
+	position: {
+		x: 0,
+		y: 0
+	},
+	activeTab: "chat",
 	defaultRooms: [
 		{
 			type: "site",
@@ -10,7 +20,7 @@ const config = {
 		},
 		{
 			type: "page",
-			name: "相同网页",
+			name: "同网页",
 			about: "只有浏览当前网页的用户可以进入该房间。"
 		}
 	]

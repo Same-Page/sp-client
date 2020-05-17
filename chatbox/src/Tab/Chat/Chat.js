@@ -298,7 +298,7 @@ function Chat({ account, storageData }) {
 										<Button
 											onClick={() => {
 												setCloseSideBar(false)
-												setMinSideBar(false)
+												// setMinSideBar(false)
 											}}
 										>
 											<MenuOutlined />
