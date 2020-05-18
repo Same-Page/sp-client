@@ -76,7 +76,7 @@ function Chat({ account, storageData }) {
 		getInitialActiveKey(initPanes, storageData)
 	)
 	const [socket, setSocket] = useState(null)
-	const [minSideBar, setMinSideBar] = useState(initPanes.length > 0)
+	const [minSideBar, setMinSideBar] = useState(false)
 	const [closeSideBar, setCloseSideBar] = useState(false)
 	useEffect(() => {
 		const createSocket = () => {
