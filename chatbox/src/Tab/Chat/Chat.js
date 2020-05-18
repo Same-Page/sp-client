@@ -245,7 +245,7 @@ function Chat({ account, storageData }) {
 						key={pane.key}
 					>
 						{!pane.room && (
-							<>
+							<div className="sp-flex-body">
 								<Header
 									leftItems={<span style={{ marginLeft: 10 }}>房间列表</span>}
 									rightItems={
@@ -270,7 +270,7 @@ function Chat({ account, storageData }) {
 										setMinSideBar(true)
 									}}
 								/>
-							</>
+							</div>
 						)}
 
 						{pane.room && (

@@ -2,7 +2,8 @@
 	flex-grow: 1;
 	overflow: hidden auto;
 	background-color: white;
-	z-index: -1;
+	/* z-index: -2; */
+	/* -1 is the alert, they need to be negative for left bar's box shadow */
 	background: rgb(243, 243, 243);
 	background-size: cover;
 	padding: 10px 10px 30px 10px;
