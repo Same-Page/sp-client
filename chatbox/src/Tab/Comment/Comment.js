@@ -1,19 +1,12 @@
 import "./Comment.css"
 
-import React, { createElement, useState, useEffect } from "react"
+import React, { useState, useEffect } from "react"
 import { connect } from "react-redux"
-import moment from "moment"
-import { Select, Comment, message } from "antd"
-import {
-	LikeFilled,
-	LikeOutlined,
-	DislikeFilled,
-	DislikeOutlined
-} from "@ant-design/icons"
+import { Select, message } from "antd"
+
 import InputWithPicker from "components/InputWithPicker"
 import Header from "components/Header"
-import AvatarWithPopover from "components/AvatarWithPopover"
-
+import CommentItem from "./CommentItem"
 import { messageUser } from "redux/actions"
 import { getComments, postComment } from "./service"
 
@@ -37,8 +30,7 @@ function CommentTab({ account, url = "abc.com", messageUser }) {
 		}
 		fetchData(payload)
 	}, [url, account])
-	const like = () => {}
-	const dislike = () => {}
+
 	const send = async content => {
 		try {
 			const payload = {
@@ -52,6 +44,7 @@ function CommentTab({ account, url = "abc.com", messageUser }) {
 			console.error(error)
 		}
 	}
+
 	return (
 		<div className="sp-flex-body sp-comment-tab">
 			<Header
@@ -77,42 +70,7 @@ function CommentTab({ account, url = "abc.com", messageUser }) {
 			<div className="sp-comment-body">
 				<div className="sp-comment-list">
 					{comments.map(c => (
-						<Comment
-							key={c.id}
-							actions={[
-								<span key="comment-basic-like">
-									{createElement(c.voted === 1 ? LikeFilled : LikeOutlined, {
-										onClick: like
-									})}
-									<span className="comment-action">{c.score}</span>
-								</span>,
-								<span key="comment-basic-dislike">
-									{React.createElement(
-										c.voted === -1 ? DislikeFilled : DislikeOutlined,
-										{
-											onClick: dislike
-										}
-									)}
-									<span className="comment-action">{c.score}</span>
-								</span>
-							]}
-							author={c.user.name}
-							avatar={
-								<AvatarWithPopover
-									user={c.user}
-									messageUser={messageUser}
-									popoverPlacement="right"
-								/>
-							}
-							content={c.content.value}
-							datetime={
-								<span
-									title={moment(c.created_at).format("YYYY-MM-DD HH:mm:ss")}
-								>
-									{moment(c.created_at).fromNow()}
-								</span>
-							}
-						/>
+						<CommentItem key={c.id} c={c} messageUser={messageUser} />
 					))}
 				</div>
 			</div>

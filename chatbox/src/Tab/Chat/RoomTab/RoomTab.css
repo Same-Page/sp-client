@@ -3,13 +3,11 @@
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
+	transition: none;
 }
 .sp-closed .sp-room-tab .sp-room-name {
 	max-width: calc(100% - 235px);
 }
-/* .sp-minimized:not(.sp-closed) .sp-room-tab .sp-room-name {
-	max-width: calc(100% - 160px);
-} */
 
 .sp-room-alert.sp-alert-float.ant-alert {
 	position: absolute;

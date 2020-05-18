@@ -8,3 +8,7 @@ export const getComments = payload => {
 export const postComment = payload => {
 	return axios.post(config.apiUrl + "/api/v1/comment", payload)
 }
+
+export const voteComment = payload => {
+	return axios.post(config.apiUrl + "/api/v1/comment/vote", payload)
+}

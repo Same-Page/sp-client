@@ -11,7 +11,7 @@ const config = {
 		x: 0,
 		y: 0
 	},
-	activeTab: "chat",
+	activeTab: "comment",
 	defaultRooms: [
 		{
 			type: "site",
