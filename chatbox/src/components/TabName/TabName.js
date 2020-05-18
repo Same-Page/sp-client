@@ -7,9 +7,10 @@ function substringHelper(s, limit) {
 	for (let i = 0; i < s.length; i++) {
 		const c = s[i]
 		if (c.match(/[\u3400-\u9FBF]/)) {
-			len++
+			len += 2
+		} else {
+			len += 1.5
 		}
-		len += 1.5
 		if (len === limit) {
 			return s.substring(0, i + 1)
 		} else if (len > limit) {
