@@ -1,9 +1,15 @@
 .sp-main-tabs
+	.ant-tabs-left-bar
+	.ant-tabs-nav-container:not(.ant-tabs-nav-container-scrolling),
+.sp-main-tabs
 	.ant-tabs-nav-container:not(.ant-tabs-nav-container-scrolling)
 	.ant-tabs-nav,
 .sp-main-tabs
-	.ant-tabs-left-bar
-	.ant-tabs-nav-container:not(.ant-tabs-nav-container-scrolling) {
+	.ant-tabs-nav-container:not(.ant-tabs-nav-container-scrolling)
+	.ant-tabs-tab-prev,
+.sp-main-tabs
+	.ant-tabs-nav-container:not(.ant-tabs-nav-container-scrolling)
+	.ant-tabs-tab-next {
 	/* when switch between chat tab, user see unnecessary animation
         disabling looks dull when nav-container is scrolling
         */
