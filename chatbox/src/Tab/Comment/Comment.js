@@ -14,7 +14,7 @@ const { Option } = Select
 
 function CommentTab({ account, url = "abc.com", messageUser }) {
 	const [comments, setComments] = useState([])
-	const [orderBy, setOrderBy] = useState("latest")
+	const [orderBy, setOrderBy] = useState("default")
 	useEffect(() => {
 		async function fetchData(payload) {
 			try {
