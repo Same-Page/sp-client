@@ -26,10 +26,11 @@ function CommentTab({ account, url = "abc.com", messageUser }) {
 			}
 		}
 		const payload = {
-			url: url
+			url: url,
+			order: orderBy
 		}
 		fetchData(payload)
-	}, [url, account])
+	}, [url, account, orderBy])
 
 	const send = async content => {
 		try {

@@ -34,6 +34,7 @@ function Tab({ account, activeTab, setActiveTab, storageData }) {
 				activeKey={activeTab}
 			>
 				<TabPane
+					// forceRender
 					tab={
 						<span>
 							<MessageOutlined title="实时聊天" />
