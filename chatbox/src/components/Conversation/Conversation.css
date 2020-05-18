@@ -1,0 +1,10 @@
+.sp-conversation {
+	flex-grow: 1;
+	overflow: hidden auto;
+	background-color: white;
+	z-index: -1;
+	background: rgb(243, 243, 243);
+	background-size: cover;
+	padding: 10px 10px 30px 10px;
+	scroll-behavior: smooth;
+}

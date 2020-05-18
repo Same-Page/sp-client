@@ -1,35 +1,23 @@
+import "./Conversation.css"
 import React, { useRef, useEffect, useState, useCallback } from "react"
-
 import moment from "moment"
 
 import Message from "./Message"
 
 const AUTO_SCROLL_TRESHOLD_DISTANCE = 300
 
-const conversationBodyStyle = {
-	// height: "calc(100% - 120px)",
-	// overflowY: "auto",
-	// overflowX: "hidden",
-	// width: "100%",
-	// position: "fixed",
-	background: "rgb(243, 243, 243)",
-	padding: 10,
-	paddingBottom: 50,
-	scrollBehavior: "smooth",
-	backgroundSize: "cover"
-}
+const conversationBodyStyle = {}
 
 function Conversation({ messages, background, backgroundColor, messageUser }) {
 	// scroll to bottom when first time load room messages
 	// regardless distannce to bottom
 	const [firstTimeAutoScroll, setFirstTimeAutoScroll] = useState(true)
 	const bodyStyle = { ...conversationBodyStyle }
-	if (backgroundColor) {
-		bodyStyle.backgroundColor = backgroundColor
-	}
+
 	if (background) {
 		bodyStyle.backgroundImage = `url('${background}')`
-		// bodyStyle.backgroundSize = "cover"
+	} else if (backgroundColor) {
+		bodyStyle.background = backgroundColor
 	}
 	const imageLoadedCb = () => {
 		scrollToBottomIfNearBottom()
