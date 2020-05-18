@@ -2,9 +2,11 @@
 	/* position: fixed;
 	bottom: 0;
 	width: 100%; */
+	border-top: 1px solid lightgray;
 }
 .sp-input-with-picker .ant-input-group-addon {
 	border-radius: unset;
+	border: none;
 }
 .sp-input-with-picker .ant-input-group-addon:last-child {
 	border-right: 0;
@@ -13,16 +15,21 @@
 }
 .sp-input-with-picker .ant-input-group-addon:first-child {
 	border-left: 0;
-	border-right: 1px solid lightgray;
+	/* border-right: 1px solid lightgray; */
 }
 .sp-input-with-picker .ant-input {
 	border-left: none;
 	border-right: none;
+	outline: none !important;
+	border: none !important;
+	box-shadow: none !important;
+	padding-left: 0px;
 }
 
 .sp-input-with-picker .ant-input-group-addon {
 	/* font-size: 20px; */
 	padding: 0px;
+	background: none;
 }
 .sp-input-with-picker .ant-input-group-addon button {
 	/* padding: 5px; */
