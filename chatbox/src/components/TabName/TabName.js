@@ -9,7 +9,7 @@ function substringHelper(s, limit) {
 		if (c.match(/[\u3400-\u9FBF]/)) {
 			len += 2
 		} else {
-			len += 1.5
+			len += 1.1
 		}
 		if (len === limit) {
 			return s.substring(0, i + 1)
