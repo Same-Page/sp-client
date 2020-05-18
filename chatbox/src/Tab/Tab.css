@@ -38,7 +38,7 @@ header-body-footer with sticky header and footer*/
 }
 .ant-tabs.ant-tabs-card > .ant-tabs-bar .ant-tabs-tab-arrow-show {
 	/* > .ant-tabs-bar to only apply to this tab bar, not child ones */
-	background: #1890ff;
+	background: #1990ff;
 	color: white;
 }
 .ant-tabs.ant-tabs-card > .ant-tabs-bar .ant-tabs-tab-arrow-show:hover {
@@ -61,13 +61,15 @@ header-body-footer with sticky header and footer*/
 .sp-main-tabs .ant-tabs-left-bar {
 	border: none;
 	/* 
-	Try this out later
-	background: #3d5b7b;
-	color: white; */
+	Try this out later */
+	background: #1890ff;
+	color: white;
+	overflow: hidden;
 }
 
 .sp-main-tabs .ant-tabs-left-bar .ant-tabs-nav-container {
-	width: 159px;
+	/* width: 159px; */
+	width: 80px;
 
 	/* for sliding to work with height auto, I have to use flex display */
 	height: auto;
@@ -77,7 +79,8 @@ header-body-footer with sticky header and footer*/
 }
 
 .sp-main-tabs .sp-minimized .ant-tabs-left-bar .ant-tabs-nav-container {
-	width: 79px;
+	/* width: 79px; */
+	width: 40px;
 }
 
 /* if want to use scroll rather than click button to slide */
@@ -104,11 +107,12 @@ header-body-footer with sticky header and footer*/
 	height: 41px;
 	/* same height as Header component */
 }
-.sp-main-tabs .ant-tabs-left-bar .ant-tabs-tab-prev {
-	/* border-bottom: 1px solid #fafafa; */
-}
+.sp-main-tabs .ant-tabs-left-bar .ant-tabs-tab-prev,
 .sp-main-tabs .ant-tabs-left-bar .ant-tabs-tab-next {
-	/* border-top: 1px solid #fafafa; */
+	color: white;
+}
+.sp-main-tabs .ant-tabs-left-bar .ant-tabs-tab-btn-disabled {
+	color: lightgray;
 }
 
 .sp-main-tabs .ant-tabs-left-bar .ant-btn {
@@ -117,9 +121,12 @@ header-body-footer with sticky header and footer*/
 	box-shadow: none;
 	font-size: 13px;
 	padding: 0px 10px;
+	color: white;
 }
-.sp-main-tabs .ant-tabs-left-bar .ant-tabs-tab-active {
+.sp-main-tabs .ant-tabs-left-bar .ant-tabs-tab-active,
+.sp-main-tabs .ant-tabs-left-bar .ant-tabs-tab.ant-tabs-tab-active:hover {
 	color: unset;
+	background: #096dd9;
 }
 .ant-tabs-left-bar .ant-btn-dangerous {
 	color: unset;
@@ -139,11 +146,17 @@ header-body-footer with sticky header and footer*/
 	margin: 0px;
 	font-size: 13px;
 }
+.sp-main-tabs .ant-tabs-left-bar .ant-tabs-tab:hover {
+	color: unset;
+	background: #40a9ff;
+}
 .sp-main-tabs .ant-tabs-left-bar .ant-tabs-ink-bar {
 	width: 100%;
-	background: rgb(224, 224, 224);
+	/* background: rgb(224, 224, 224); */
+	background: #096dd9;
 	z-index: -1;
 	/* width: 2px; */
+	display: none;
 }
 
 .sp-closed .ant-tabs-left-bar {
@@ -155,7 +168,8 @@ header-body-footer with sticky header and footer*/
 .ant-tabs .ant-tabs-left-content {
 	/* left-content actually means the block on the right */
 	padding: 0;
-	border-left: 1px solid #e0e0e0;
+	/* border-left: 1px solid #e0e0e0; */
+	border: none;
 }
 
 .sp-flex-body {

@@ -9,7 +9,7 @@ function substringHelper(s, limit) {
 		if (c.match(/[\u3400-\u9FBF]/)) {
 			len++
 		}
-		len++
+		len += 1.5
 		if (len === limit) {
 			return s.substring(0, i + 1)
 		} else if (len > limit) {
@@ -31,19 +31,22 @@ function TabName({
 	// If miniimzed, show Tooltip but no html title attribute
 	// and only show icon if there's icon
 	let tabName = title
-	if (minimized) {
-		if (size === "large") {
-			// TODO: large is shorter actually, fix this
-			// Note: this number is dependent on how many pixels
-			// we set the tab bar to be, right now it's 8 char for 80 pixels
-			tabName = substringHelper(tabName, 8)
-		} else {
-			tabName = substringHelper(tabName, 8)
-		}
-	}
+	// if (minimized) {
+	// 	if (size === "large") {
+	// 		// TODO: large is shorter actually, fix this
+	// 		// Note: this number is dependent on how many pixels
+	// 		// we set the tab bar to be, right now it's 8 char for 80 pixels
+	// 		tabName = substringHelper(tabName, 8)
+	// 	} else {
+	// 		tabName = substringHelper(tabName, 3)
+	// 	}
+	// }
 
-	const showTooltip =
-		minimized && size !== "large" && tabName.length < title.length
+	tabName = substringHelper(tabName, minimized ? 3 : 8)
+
+	// const showTooltip =
+	// 	minimized && size !== "large" && tabName.length < title.length
+	const showTooltip = tabName.length < title.length
 
 	const content = (
 		<span

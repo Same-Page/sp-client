@@ -18,25 +18,6 @@ import storageManager from "storage"
 
 const { TabPane } = Tabs
 
-const initPanes = config.defaultRooms.map(r => {
-	// Figure out room id if not there, for now it's
-	// either site or page (domain or url) for room id
-	if (!r.id) {
-		if (r.type === "site") {
-			r.id = domain
-		} else if (r.type === "page") {
-			r.id = url
-		} else {
-			console.error("Room without id", r)
-		}
-	}
-	return {
-		title: r.name,
-		room: r,
-		key: r.id
-	}
-})
-
 const getPanesFromRooms = rooms => {
 	const res = rooms.map(r => {
 		// dynamic room id for site/page type of room
@@ -303,7 +284,7 @@ function Chat({ account, storageData }) {
 											}}
 										>
 											<MenuOutlined />
-											<span>列表</span>
+											{/* <span>列表</span> */}
 										</Button>
 									)
 								}
