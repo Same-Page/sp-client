@@ -3,19 +3,16 @@ import "./RoomTab.css"
 import React, { useState, useEffect } from "react"
 import { connect } from "react-redux"
 
-import { message, Button, Alert, Popover, Popconfirm } from "antd"
-import {
-	LogoutOutlined,
-	LoadingOutlined,
-	TeamOutlined,
-	HomeOutlined
-} from "@ant-design/icons"
+import { message, Button, Alert, Popover } from "antd"
+import { LogoutOutlined, TeamOutlined, HomeOutlined } from "@ant-design/icons"
 
 import InputWithPicker from "components/InputWithPicker"
 import RoomInfoModal from "components/RoomInfoModal"
 import Conversation from "components/Conversation"
 import Header from "components/Header"
+import LoadingAlert from "components/LoadingAlert"
 import Users from "./Users"
+
 import { messageUser } from "redux/actions"
 
 const MESSAGE_TIME_GAP = 500
@@ -196,15 +193,7 @@ function RoomTab({ socket, account, room, exit, extraButton, messageUser }) {
 				}
 			/>
 
-			{(joining || !socket) && (
-				<Alert
-					className="sp-room-alert sp-alert-float"
-					message={<span style={{ marginLeft: 10 }}>连接中。。。</span>}
-					icon={<LoadingOutlined />}
-					banner
-					type="warning"
-				/>
-			)}
+			{(joining || !socket) && <LoadingAlert text="连接中。。。" />}
 
 			<Conversation
 				backgroundColor="rgb(246, 249, 252)"

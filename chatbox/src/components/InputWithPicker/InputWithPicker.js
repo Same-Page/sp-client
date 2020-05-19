@@ -105,6 +105,7 @@ function InputWithPicker(props) {
 				// addonAfter={props.addonAfter}
 				onChange={handleChange}
 				disabled={sending}
+				placeholder="输入。。。"
 				// placeholder={
 				//   sending
 				//     ? intl.formatMessage({ id: "sending" })

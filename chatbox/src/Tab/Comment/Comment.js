@@ -6,6 +6,7 @@ import { Select, message } from "antd"
 
 import InputWithPicker from "components/InputWithPicker"
 import Header from "components/Header"
+import LoadingAlert from "components/LoadingAlert"
 import CommentItem from "./CommentItem"
 import { messageUser } from "redux/actions"
 import { getComments, postComment } from "./service"
@@ -15,8 +16,10 @@ const { Option } = Select
 function CommentTab({ account, url = "abc.com", messageUser }) {
 	const [comments, setComments] = useState([])
 	const [orderBy, setOrderBy] = useState("default")
+	const [loading, setLoading] = useState(false)
 	useEffect(() => {
 		async function fetchData(payload) {
+			setLoading(true)
 			try {
 				const resp = await getComments(payload)
 				setComments(resp.data)
@@ -24,6 +27,7 @@ function CommentTab({ account, url = "abc.com", messageUser }) {
 				message.error("留言获取失败！")
 				console.error(error)
 			}
+			setLoading(false)
 		}
 		const payload = {
 			url: url,
@@ -68,6 +72,7 @@ function CommentTab({ account, url = "abc.com", messageUser }) {
 					</Select>
 				}
 			/>
+			{loading && <LoadingAlert text="载入中。。。" />}
 			<div className="sp-comment-body">
 				<div className="sp-comment-list">
 					{comments.map(c => (
