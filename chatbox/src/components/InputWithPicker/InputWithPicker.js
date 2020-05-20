@@ -7,6 +7,7 @@ import { Button, Input, Upload } from "antd"
 import { UploadOutlined } from "@ant-design/icons"
 
 import axios from "axios"
+const { TextArea } = Input
 
 function InputWithPicker(props) {
 	const uploadUrl = `todo/api/v1/chat_upload`
@@ -65,17 +66,23 @@ function InputWithPicker(props) {
 
 	const handleKeyDown = e => {
 		if (e.key === "Enter") {
-			if (input === "") {
-				console.warn("Cannot send empty string")
-				return
-			}
-			const payload = {
-				value: input,
-				type: "text"
-			}
-			const shouldClear = props.send(payload)
-			if (shouldClear) {
-				setInput("")
+			if (e.shiftKey) {
+				// browser will add newline by default
+			} else {
+				// textarea add new row when enter is pressed, we don't want that
+				e.preventDefault()
+				if (input === "") {
+					console.warn("Cannot send empty string")
+					return
+				}
+				const payload = {
+					value: input,
+					type: "text"
+				}
+				const shouldClear = props.send(payload)
+				if (shouldClear) {
+					setInput("")
+				}
 			}
 		}
 	}
@@ -96,21 +103,15 @@ function InputWithPicker(props) {
 
 	return (
 		<div className="sp-input-with-picker">
-			<Input
+			{addonBefore}
+			<TextArea
 				ref={inputRef}
-				size="large"
-				onKeyDown={handleKeyDown}
 				value={input}
-				addonBefore={addonBefore}
-				// addonAfter={props.addonAfter}
-				onChange={handleChange}
-				disabled={sending}
 				placeholder="输入。。。"
-				// placeholder={
-				//   sending
-				//     ? intl.formatMessage({ id: "sending" })
-				//     : intl.formatMessage({ id: "input.here" })
-				// }
+				onKeyDown={handleKeyDown}
+				onChange={handleChange}
+				autoSize={{ maxRows: 10 }}
+				rows={3}
 			/>
 		</div>
 	)

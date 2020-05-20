@@ -1,38 +1,23 @@
 .sp-input-with-picker {
-	/* position: fixed;
-	bottom: 0;
-	width: 100%; */
 	border-top: 1px solid lightgray;
+	display: flex;
+	padding: 5px;
 }
-.sp-input-with-picker .ant-input-group-addon {
-	border-radius: unset;
-	border: none;
-}
-.sp-input-with-picker .ant-input-group-addon:last-child {
-	border-right: 0;
-	border-left: 1px solid lightgray;
-	cursor: pointer;
-}
-.sp-input-with-picker .ant-input-group-addon:first-child {
-	border-left: 0;
-	/* border-right: 1px solid lightgray; */
-}
+
 .sp-input-with-picker .ant-input {
 	border-left: none;
 	border-right: none;
 	outline: none !important;
 	border: none !important;
 	box-shadow: none !important;
-	padding-left: 0px;
+	padding-left: 0;
+	width: auto;
+	flex-grow: 1;
+	resize: none;
+	/* font-size: 16px; */
 }
 
-.sp-input-with-picker .ant-input-group-addon {
-	/* font-size: 20px; */
-	padding: 0px;
-	background: none;
-}
-.sp-input-with-picker .ant-input-group-addon button {
-	/* padding: 5px; */
+.sp-input-with-picker button {
 	border: none;
 	background: none;
 }

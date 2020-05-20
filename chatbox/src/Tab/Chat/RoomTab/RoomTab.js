@@ -3,7 +3,7 @@ import "./RoomTab.css"
 import React, { useState, useEffect } from "react"
 import { connect } from "react-redux"
 
-import { message, Button, Alert, Popover } from "antd"
+import { message, Button, Popover } from "antd"
 import { LogoutOutlined, TeamOutlined, HomeOutlined } from "@ant-design/icons"
 
 import InputWithPicker from "components/InputWithPicker"
