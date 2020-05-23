@@ -18,7 +18,15 @@ import { messageUser } from "redux/actions"
 const MESSAGE_TIME_GAP = 500
 let lastMsgTime = 0
 
-function RoomTab({ socket, account, room, exit, extraButton, messageUser }) {
+function RoomTab({
+	socket,
+	account,
+	room,
+	exit,
+	extraButton,
+	messageUser,
+	active
+}) {
 	const [messages, setMessages] = useState([])
 	const [joining, setJoining] = useState(false)
 	const [showModal, setShowModal] = useState(false)
@@ -202,7 +210,7 @@ function RoomTab({ socket, account, room, exit, extraButton, messageUser }) {
 				messages={messages}
 				background={room.background}
 			/>
-			{socket && <InputWithPicker autoFocus={true} send={send} />}
+			{active && <InputWithPicker autoFocus={true} send={send} />}
 		</div>
 	)
 }

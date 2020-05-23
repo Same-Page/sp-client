@@ -346,6 +346,7 @@ function Chat({ account, storageData }) {
 									setCloseSideBar(false)
 									remove(pane.key)
 								}}
+								active={activeKey === pane.key}
 							/>
 						)}
 					</TabPane>
