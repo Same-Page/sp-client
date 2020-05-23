@@ -11,9 +11,12 @@ import RoomInfoModal from "components/RoomInfoModal"
 import Conversation from "components/Conversation"
 import Header from "components/Header"
 import LoadingAlert from "components/LoadingAlert"
+
 import Users from "./Users"
+import storageManager from "storage"
 
 import { messageUser } from "redux/actions"
+import FloatingAlert from "components/FloatingAlert"
 
 const MESSAGE_TIME_GAP = 500
 let lastMsgTime = 0
@@ -29,12 +32,14 @@ function RoomTab({
 }) {
 	const [messages, setMessages] = useState([])
 	const [joining, setJoining] = useState(false)
+	const [joined, setJoined] = useState(false)
 	const [showModal, setShowModal] = useState(false)
 	const [users, setUsers] = useState([])
 	const [showUsers, setShowUsers] = useState(false)
 
 	useEffect(() => {
 		if (!socket) {
+			setUsers([])
 			return
 		}
 		console.log("joining room " + room.name)
@@ -52,10 +57,18 @@ function RoomTab({
 		// register event listeners for this room
 		const socketMessageHandler = e => {
 			const msg = JSON.parse(e.data)
+
 			if (msg.roomId !== room.id) return
 			const data = msg.data
+			if (msg.error) {
+				setJoining(false)
 
-			if (msg.name === "chat message") {
+				if (msg.error === 401) {
+					storageManager.set("account", null)
+					setUsers([])
+				}
+				// message.error("没有登录")
+			} else if (msg.name === "chat message") {
 				// TODO: mark self can be done on server
 				data.self = account && data.user.id.toString() === account.id.toString()
 				setMessages(prevMessages => {
@@ -63,6 +76,7 @@ function RoomTab({
 				})
 			} else if (msg.name === "room info") {
 				setJoining(false)
+				setJoined(true)
 				if (data.chatHistory) {
 					data.chatHistory.forEach(msg => {
 						// TODO: mark self can be done on server
@@ -202,7 +216,7 @@ function RoomTab({
 				}
 			/>
 
-			{(joining || !socket) && <LoadingAlert text="连接中。。。" />}
+			{joining && <LoadingAlert text="连接中。。。" />}
 
 			<Conversation
 				backgroundColor="rgb(246, 249, 252)"
@@ -210,7 +224,8 @@ function RoomTab({
 				messages={messages}
 				background={room.background}
 			/>
-			{active && <InputWithPicker autoFocus={true} send={send} />}
+			{!account && <FloatingAlert text={"请先登录"} />}
+			{active && account && <InputWithPicker autoFocus={true} send={send} />}
 		</div>
 	)
 }

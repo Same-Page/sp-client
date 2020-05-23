@@ -181,3 +181,7 @@ header-body-footer with sticky header and footer*/
 	overflow: auto;
 	flex: auto;
 }
+
+.sp-main-tabs .ant-alert-icon {
+	left: 20px;
+}
