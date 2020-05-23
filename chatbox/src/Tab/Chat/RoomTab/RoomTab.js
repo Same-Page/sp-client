@@ -61,7 +61,7 @@ function RoomTab({
 				setMessages(prevMessages => {
 					return [...prevMessages, data]
 				})
-				newMsgHandler(data)
+				// newMsgHandler(data)
 			} else if (msg.name === "room info") {
 				setJoining(false)
 				if (data.chatHistory) {

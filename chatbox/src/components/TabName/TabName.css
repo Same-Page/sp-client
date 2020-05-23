@@ -1,25 +1,16 @@
-.sp-vertical-tab-name .sp-tab-name {
+.sp-vertical-tab-name {
 	line-height: 40px;
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
-}
-
-.sp-vertical-tab-name .sp-tab-text {
 	padding: 0px 10px;
+	color: #e4f2ff;
 }
 
-.sp-vertical-tab-name .sp-tab-description {
-	line-height: normal;
-	color: gray;
-	font-size: 12px;
-	font-weight: 300;
+.ant-tabs-tab-active .sp-vertical-tab-name {
+	color: white;
 }
-.sp-vertical-tab-name .sp-float-right-extra {
-	position: absolute;
-	right: 10px;
-	color: gray;
-	font-size: smaller;
-	/* float: right; */
-	/* margin-right: 10px; */
+.sp-vertical-tab-name.unread {
+	color: white;
+	font-weight: bold;
 }

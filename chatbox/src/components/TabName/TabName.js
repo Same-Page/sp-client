@@ -41,9 +41,7 @@ function TabName({
 			}
 			title={showTooltip ? undefined : title}
 		>
-			<div className="sp-tab-text">
-				<div className="sp-tab-name">{tabName}</div>
-			</div>
+			{tabName}
 		</span>
 	)
 

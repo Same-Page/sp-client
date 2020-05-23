@@ -99,6 +99,7 @@ function Chat({ account, storageData }) {
 				setSocket(null)
 				setTimeout(createSocket, 5 * 1000)
 			})
+
 			// No need to remove open/close listener from s because
 			// s will be replaced by a new object when connection close
 		}
@@ -106,6 +107,32 @@ function Chat({ account, storageData }) {
 		// not writing clean up methods since Chat component
 		// should never be unmounted
 	}, [])
+
+	useEffect(() => {
+		const checkUnread = e => {
+			const msg = JSON.parse(e.data)
+			if (msg.name === "chat message") {
+				const roomId = msg.roomId
+
+				if (roomId !== activeKey) {
+					setPanes(panes => {
+						return panes.map(p => {
+							if (p.key === roomId) {
+								return { ...p, unread: true }
+							}
+							return p
+						})
+					})
+				}
+			}
+		}
+		if (socket) {
+			socket.addEventListener("message", checkUnread)
+			return () => {
+				socket.removeEventListener("message", checkUnread)
+			}
+		}
+	}, [socket, activeKey])
 
 	useEffect(() => {
 		// record which rooms are open and save in localStorage
@@ -123,11 +150,15 @@ function Chat({ account, storageData }) {
 		// Note this includes non room id like pane index
 		// and dynamic room id like url
 		storageManager.set("activeRoomId", activeKey)
+	}, [activeKey])
+
+	const onChange = activeKey => {
+		setActiveKey(activeKey)
 
 		// unset unread flag
 		setPanes(panes => {
 			return panes.map(p => {
-				if (p.key == activeKey) {
+				if (p.key === activeKey) {
 					return {
 						...p,
 						unread: false
@@ -136,10 +167,6 @@ function Chat({ account, storageData }) {
 				return p
 			})
 		})
-	}, [activeKey])
-
-	const onChange = activeKey => {
-		setActiveKey(activeKey)
 	}
 
 	const add = () => {
@@ -179,16 +206,16 @@ function Chat({ account, storageData }) {
 			console.error(action)
 		}
 	}
-	const setRoomUnread = paneIndex => {
-		setPanes(panes => {
-			return panes.map((p, i) => {
-				if (i === paneIndex) {
-					return { ...p, unread: true }
-				}
-				return p
-			})
-		})
-	}
+	// const setRoomUnread = paneIndex => {
+	// 	setPanes(panes => {
+	// 		return panes.map((p, i) => {
+	// 			if (i === paneIndex) {
+	// 				return { ...p, unread: true }
+	// 			}
+	// 			return p
+	// 		})
+	// 	})
+	// }
 	const setRoom = (room, paneIndex) => {
 		// If room already open, set it to be active
 		const existingPane = panes.filter(
@@ -206,7 +233,6 @@ function Chat({ account, storageData }) {
 			key: room.id
 			// key: panes[paneIndex].key
 		}
-		console.log(pane)
 		panes[paneIndex] = pane
 		setActiveKey(room.id)
 		setPanes([...panes])
@@ -315,12 +341,6 @@ function Chat({ account, storageData }) {
 								socket={socket}
 								account={account}
 								room={pane.room}
-								newMsgHandler={msg => {
-									console.log(pane.key, activeKey)
-									if (pane.key !== activeKey) {
-										setRoomUnread(paneIndex)
-									}
-								}}
 								exit={() => {
 									// setMinSideBar(false)
 									setCloseSideBar(false)

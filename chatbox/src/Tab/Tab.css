@@ -164,7 +164,7 @@ header-body-footer with sticky header and footer*/
 	display: none;
 }
 .sp-main-tabs .ant-tabs-left-bar .ant-tabs-nav-container {
-	transition: 0.5s;
+	/* transition: 0.5s; */
 }
 .ant-tabs .ant-tabs-left-content {
 	/* left-content actually means the block on the right */
