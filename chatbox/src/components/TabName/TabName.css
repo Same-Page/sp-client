@@ -1,73 +1,14 @@
-/* 
-It now seems a bad decision to share TabName between chat and inbox tab
-beacuse they have different display format. Next time if need to touch
-tab name, highly consider separating them!
-*/
-
-.sp-vertical-tab-name .sp-tab-name,
-.sp-vertical-tab-name .sp-float-right-extra {
+.sp-vertical-tab-name .sp-tab-name {
 	line-height: 40px;
-}
-.sp-vertical-tab-name.large .sp-tab-name,
-.sp-vertical-tab-name.large .sp-float-right-extra {
-	line-height: 30px;
-	margin-top: 5px;
-}
-.sp-vertical-tab-name .sp-tab-text {
-	padding: 0px 10px;
-}
-
-/* 
-	.sp-minimized .sp-vertical-tab-name.large is
-	special case for user name in inbox tab left bar 
-	Maybe shouldn't have shared the Tabname component,
-	such case is a headache
-*/
-.sp-minimized .sp-vertical-tab-name.large .sp-tab-text {
-	text-align: center;
-}
-.sp-minimized .sp-vertical-tab-name.large .sp-tab-name {
-	line-height: normal;
-	font-size: 12px;
-	margin-top: 0px;
-}
-
-.sp-vertical-tab-name img {
-	width: 30px;
-	height: 30px;
-	border-radius: 3px;
-	object-fit: cover;
-	float: left;
-	margin: 5px;
-}
-
-.sp-vertical-tab-name.large img {
-	width: 40px;
-	height: 40px;
-	margin: 10px 3px 5px 5px;
-	border-radius: 100%;
-	/* transition: 0.5s; */
-}
-.sp-minimized .sp-vertical-tab-name.large img {
-	width: 35px;
-	height: 35px;
-	margin-top: 5px;
-	margin-left: 23px;
-	/* 
-	we don't need to set this arbitury margin-left if we go back to 
-	text-align: center, but I don't want to see the avatar jump to the 
-	center then shift to left, so I prefer keeping text-aligh: left 
-	*/
-}
-.sp-minimized .sp-vertical-tab-name img {
-	float: unset;
-}
-.sp-vertical-tab-name .sp-tab-name,
-.sp-vertical-tab-name .sp-tab-description {
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
 }
+
+.sp-vertical-tab-name .sp-tab-text {
+	padding: 0px 10px;
+}
+
 .sp-vertical-tab-name .sp-tab-description {
 	line-height: normal;
 	color: gray;

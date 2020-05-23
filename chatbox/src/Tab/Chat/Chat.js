@@ -123,6 +123,19 @@ function Chat({ account, storageData }) {
 		// Note this includes non room id like pane index
 		// and dynamic room id like url
 		storageManager.set("activeRoomId", activeKey)
+
+		// unset unread flag
+		setPanes(panes => {
+			return panes.map(p => {
+				if (p.key == activeKey) {
+					return {
+						...p,
+						unread: false
+					}
+				}
+				return p
+			})
+		})
 	}, [activeKey])
 
 	const onChange = activeKey => {
@@ -165,6 +178,16 @@ function Chat({ account, storageData }) {
 		} else {
 			console.error(action)
 		}
+	}
+	const setRoomUnread = paneIndex => {
+		setPanes(panes => {
+			return panes.map((p, i) => {
+				if (i === paneIndex) {
+					return { ...p, unread: true }
+				}
+				return p
+			})
+		})
 	}
 	const setRoom = (room, paneIndex) => {
 		// If room already open, set it to be active
@@ -240,6 +263,7 @@ function Chat({ account, storageData }) {
 								minimized={minSideBar}
 								// iconUrl={minSideBar && pane.room && pane.room.cover}
 								title={pane.title}
+								unread={pane.unread}
 							/>
 						}
 						key={pane.key}
@@ -291,6 +315,12 @@ function Chat({ account, storageData }) {
 								socket={socket}
 								account={account}
 								room={pane.room}
+								newMsgHandler={msg => {
+									console.log(pane.key, activeKey)
+									if (pane.key !== activeKey) {
+										setRoomUnread(paneIndex)
+									}
+								}}
 								exit={() => {
 									// setMinSideBar(false)
 									setCloseSideBar(false)

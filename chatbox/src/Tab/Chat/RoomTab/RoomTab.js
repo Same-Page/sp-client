@@ -18,7 +18,15 @@ import { messageUser } from "redux/actions"
 const MESSAGE_TIME_GAP = 500
 let lastMsgTime = 0
 
-function RoomTab({ socket, account, room, exit, extraButton, messageUser }) {
+function RoomTab({
+	socket,
+	account,
+	room,
+	exit,
+	extraButton,
+	messageUser,
+	newMsgHandler
+}) {
 	const [messages, setMessages] = useState([])
 	const [joining, setJoining] = useState(false)
 	const [showModal, setShowModal] = useState(false)
@@ -53,6 +61,7 @@ function RoomTab({ socket, account, room, exit, extraButton, messageUser }) {
 				setMessages(prevMessages => {
 					return [...prevMessages, data]
 				})
+				newMsgHandler(data)
 			} else if (msg.name === "room info") {
 				setJoining(false)
 				if (data.chatHistory) {
