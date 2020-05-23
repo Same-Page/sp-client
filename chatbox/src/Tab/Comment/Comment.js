@@ -2,11 +2,12 @@ import "./Comment.css"
 
 import React, { useState, useEffect } from "react"
 import { connect } from "react-redux"
-import { Select, message, Alert } from "antd"
+import { Select, message } from "antd"
 
 import InputWithPicker from "components/InputWithPicker"
 import Header from "components/Header"
-import LoadingAlert from "components/LoadingAlert"
+import LoadingAlert from "components/Alert/LoadingAlert"
+import Alert from "components/Alert"
 import CommentItem from "./CommentItem"
 import { messageUser } from "redux/actions"
 import { getComments, postComment } from "./service"
@@ -95,14 +96,7 @@ function CommentTab({ account, url = "abc.com", messageUser }) {
 				)}
 			/> */}
 			{account && <InputWithPicker autoFocus={true} send={send} />}
-			{!account && (
-				<Alert
-					style={{ borderTop: "1px solid #ffe58f" }}
-					banner
-					type="warning"
-					message={<span style={{ marginLeft: 5 }}>登录后方可评论</span>}
-				/>
-			)}
+			{!account && <Alert text="登录后方可评论" border="top" />}
 		</div>
 	)
 }

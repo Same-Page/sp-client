@@ -10,13 +10,13 @@ import InputWithPicker from "components/InputWithPicker"
 import RoomInfoModal from "components/RoomInfoModal"
 import Conversation from "components/Conversation"
 import Header from "components/Header"
-import LoadingAlert from "components/LoadingAlert"
+import LoadingAlert from "components/Alert/LoadingAlert"
 
 import Users from "./Users"
 import storageManager from "storage"
 
 import { messageUser } from "redux/actions"
-import FloatingAlert from "components/FloatingAlert"
+import FloatingAlert from "components/Alert/FloatingAlert"
 
 const MESSAGE_TIME_GAP = 500
 let lastMsgTime = 0

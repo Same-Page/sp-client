@@ -8,6 +8,7 @@ import { getConversations } from "./service"
 import { messageUser, setInboxUser } from "redux/actions"
 import ConversationTab from "./ConversationTab"
 import OverviewTab from "./OverviewTab"
+import Alert from "components/Alert"
 
 function Inbox({ account, user, setInboxUser, messageUser }) {
 	// user and setInbox user are used for determining which conversation to render
@@ -64,7 +65,7 @@ function Inbox({ account, user, setInboxUser, messageUser }) {
 	}, [user, conversations])
 
 	if (!account) {
-		return <>请登录</>
+		return <Alert text="请先登录" border="bottom" />
 	}
 	return (
 		<>
