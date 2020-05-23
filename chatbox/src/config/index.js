@@ -1,6 +1,6 @@
 const config = {
 	apiUrl: "http://localhost:8080",
-	socketUrl: "wss://localhost:8765",
+	socketUrl: "ws://localhost:8765",
 	size: {
 		width: 400,
 		height: 600,

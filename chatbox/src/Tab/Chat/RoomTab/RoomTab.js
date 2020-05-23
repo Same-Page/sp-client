@@ -44,8 +44,9 @@ function RoomTab({ socket, account, room, exit, extraButton, messageUser }) {
 		// register event listeners for this room
 		const socketMessageHandler = e => {
 			const msg = JSON.parse(e.data)
+			if (msg.roomId !== room.id) return
 			const data = msg.data
-			if (!data || data.roomId !== room.id) return
+
 			if (msg.name === "chat message") {
 				// TODO: mark self can be done on server
 				data.self = account && data.user.id.toString() === account.id.toString()
@@ -91,7 +92,7 @@ function RoomTab({ socket, account, room, exit, extraButton, messageUser }) {
 			const socketPayload = {
 				action: "leave_single",
 				data: {
-					room: room,
+					roomId: room.id,
 					token: account && account.token
 				}
 			}
