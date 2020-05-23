@@ -23,8 +23,10 @@ const getPanesFromRooms = rooms => {
 		// dynamic room id for site/page type of room
 		if (r.type === "site") {
 			r.id = domain
+			r.addr = domain
 		} else if (r.type === "page") {
 			r.id = url
+			r.addr = url
 		}
 		return {
 			title: r.name,
