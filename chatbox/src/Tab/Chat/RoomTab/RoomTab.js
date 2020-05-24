@@ -93,7 +93,7 @@ function RoomTab({
 					}
 				} else if (msg.name === "other join") {
 					setUsers(users => {
-						const user = data.user
+						const user = msg.user
 						// in case of duplicate
 						const existingUsersWithoutNewUser = users.filter(u => {
 							return u.id.toString() !== user.id.toString()
@@ -101,9 +101,11 @@ function RoomTab({
 						return [...existingUsersWithoutNewUser, user]
 					})
 				} else if (msg.name === "other left") {
+					const user = msg.user
+
 					setUsers(users => {
 						return users.filter(u => {
-							return u.id.toString() !== data.user.id.toString()
+							return u.id.toString() !== user.id.toString()
 						})
 					})
 				}
