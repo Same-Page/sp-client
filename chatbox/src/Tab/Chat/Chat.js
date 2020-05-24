@@ -79,6 +79,11 @@ function Chat({ account, storageData }) {
 	)
 	const [socket, setSocket] = useState(null)
 	const [connected, setConnected] = useState(false)
+	// disconnectCount is a counter that's not updated during connection
+	// we need it although we have connected state, because it's only updated
+	// during disconnection, so that we can use it to trigger useEffect to
+	// createSocket only on disconnection or account change, not when connection established
+	const [disconnectCount, setDisconnectCounter] = useState(0)
 	const [minSideBar, setMinSideBar] = useState(false)
 	const [closeSideBar, setCloseSideBar] = useState(false)
 	useEffect(() => {
@@ -93,14 +98,22 @@ function Chat({ account, storageData }) {
 			}
 
 			const socketCloseHandler = () => {
+				s.disconnected = true
+
 				if (s.wasWorking) {
 					// Also get this callback if fail to open
 					// only show error message connection break
 					message.error("聊天服务器连接断开！")
 				}
-				console.debug("socket closed")
 				setConnected(false)
 				setSocket(null)
+				console.debug("socket closed unexpectedly, retry in 5 sec...")
+
+				setTimeout(() => {
+					setDisconnectCounter(disconnectCount => {
+						return disconnectCount + 1
+					})
+				}, 5000)
 			}
 
 			s.addEventListener("open", socketOpenHandler)
@@ -108,18 +121,24 @@ function Chat({ account, storageData }) {
 			setSocket(s)
 
 			return () => {
-				console.debug("close socket because account change")
-				setSocket(socket => {
-					// unregister callbacks
-					socket.removeEventListener("open", socketOpenHandler)
-					socket.removeEventListener("close", socketCloseHandler)
-					socket.close()
-					return null
-				})
+				// unregister callbacks
+				s.removeEventListener("open", socketOpenHandler)
+				s.removeEventListener("close", socketCloseHandler)
 				setConnected(false)
+				setSocket(socket => {
+					if (socket) {
+						// if it's network disconnection, socket is already
+						// disconnected and set to null
+						// if it's account change caused cleanup, then this
+						// code is executed
+						socket.disconnected = true
+						socket.close()
+						return null
+					}
+				})
 			}
 		}
-	}, [account])
+	}, [account, disconnectCount])
 
 	useEffect(() => {
 		const checkUnread = e => {

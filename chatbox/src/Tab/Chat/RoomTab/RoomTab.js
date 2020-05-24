@@ -114,14 +114,16 @@ function RoomTab({
 			return () => {
 				console.log("leave room " + room.name)
 				socket.removeEventListener("message", socketMessageHandler)
-				const socketPayload = {
-					action: "leave_single",
-					data: {
-						roomId: room.id,
-						token: account && account.token
+				if (!socket.disconnected) {
+					const socketPayload = {
+						action: "leave_single",
+						data: {
+							roomId: room.id,
+							token: account && account.token
+						}
 					}
+					socket.send(JSON.stringify(socketPayload))
 				}
-				socket.send(JSON.stringify(socketPayload))
 			}
 		} else {
 			setUsers([])
