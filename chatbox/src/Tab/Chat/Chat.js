@@ -78,37 +78,48 @@ function Chat({ account, storageData }) {
 		getInitialActiveKey(initPanes, storageData)
 	)
 	const [socket, setSocket] = useState(null)
+	const [connected, setConnected] = useState(false)
 	const [minSideBar, setMinSideBar] = useState(false)
 	const [closeSideBar, setCloseSideBar] = useState(false)
 	useEffect(() => {
-		const createSocket = () => {
+		if (account) {
 			console.debug("creating socket")
 			const s = new WebSocket(config.socketUrl)
-			s.addEventListener("open", function (event) {
+			const socketOpenHandler = () => {
 				console.debug("socket connected")
-				// message.success("聊天服务器连接成功！")
-				setSocket(s)
+				message.success("聊天服务器连接成功！")
+				setConnected(true)
 				s.wasWorking = true
-			})
-			s.addEventListener("close", e => {
+			}
+
+			const socketCloseHandler = () => {
 				if (s.wasWorking) {
 					// Also get this callback if fail to open
 					// only show error message connection break
 					message.error("聊天服务器连接断开！")
 				}
-
-				console.debug("socket closed, recreate in 5 seconds...")
+				console.debug("socket closed")
+				setConnected(false)
 				setSocket(null)
-				setTimeout(createSocket, 5 * 1000)
-			})
+			}
 
-			// No need to remove open/close listener from s because
-			// s will be replaced by a new object when connection close
+			s.addEventListener("open", socketOpenHandler)
+			s.addEventListener("close", socketCloseHandler)
+			setSocket(s)
+
+			return () => {
+				console.debug("close socket because account change")
+				setSocket(socket => {
+					// unregister callbacks
+					socket.removeEventListener("open", socketOpenHandler)
+					socket.removeEventListener("close", socketCloseHandler)
+					socket.close()
+					return null
+				})
+				setConnected(false)
+			}
 		}
-		createSocket()
-		// not writing clean up methods since Chat component
-		// should never be unmounted
-	}, [])
+	}, [account])
 
 	useEffect(() => {
 		const checkUnread = e => {
@@ -340,6 +351,7 @@ function Chat({ account, storageData }) {
 										</Button>
 									)
 								}
+								connected={connected}
 								socket={socket}
 								account={account}
 								room={pane.room}

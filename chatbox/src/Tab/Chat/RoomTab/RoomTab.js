@@ -23,6 +23,7 @@ let lastMsgTime = 0
 
 function RoomTab({
 	socket,
+	connected,
 	account,
 	room,
 	exit,
@@ -38,89 +39,94 @@ function RoomTab({
 	const [showUsers, setShowUsers] = useState(false)
 
 	useEffect(() => {
-		if (!socket) {
-			setUsers([])
-			return
-		}
-		console.log("joining room " + room.name)
-		setJoining(true)
-		// TODO: set timeout for join
-		const socketPayload = {
-			action: "join_single",
-			data: {
-				token: account && account.token,
-				room: room
-			}
-		}
-		socket.send(JSON.stringify(socketPayload))
-
-		// register event listeners for this room
-		const socketMessageHandler = e => {
-			const msg = JSON.parse(e.data)
-
-			if (msg.roomId !== room.id) return
-			const data = msg.data
-			if (msg.error) {
-				setJoining(false)
-
-				if (msg.error === 401) {
-					storageManager.set("account", null)
-					setUsers([])
-				}
-				// message.error("没有登录")
-			} else if (msg.name === "chat message") {
-				// TODO: mark self can be done on server
-				data.self = account && data.user.id.toString() === account.id.toString()
-				setMessages(prevMessages => {
-					return [...prevMessages, data]
-				})
-			} else if (msg.name === "room info") {
-				setJoining(false)
-				setJoined(true)
-				if (data.chatHistory) {
-					data.chatHistory.forEach(msg => {
-						// TODO: mark self can be done on server
-						msg.self =
-							account && msg.user.id.toString() === account.id.toString()
-					})
-					setMessages(data.chatHistory)
-				}
-				if (data.users) {
-					setUsers(data.users)
-				}
-			} else if (msg.name === "other join") {
-				setUsers(users => {
-					const user = data.user
-					// in case of duplicate
-					const existingUsersWithoutNewUser = users.filter(u => {
-						return u.id.toString() !== user.id.toString()
-					})
-					return [...existingUsersWithoutNewUser, user]
-				})
-			} else if (msg.name === "other left") {
-				setUsers(users => {
-					return users.filter(u => {
-						return u.id.toString() !== data.user.id.toString()
-					})
-				})
-			}
-		}
-
-		socket.addEventListener("message", socketMessageHandler)
-
-		return () => {
-			console.log("leave room " + room.name)
-			socket.removeEventListener("message", socketMessageHandler)
+		// if (!socket) {
+		// 	setUsers([])
+		// 	return
+		// }
+		if (socket && connected && account && room) {
+			console.log("joining room " + room.name)
+			setJoining(true)
+			// TODO: set timeout for join
 			const socketPayload = {
-				action: "leave_single",
+				action: "join_single",
 				data: {
-					roomId: room.id,
-					token: account && account.token
+					token: account && account.token,
+					room: room
 				}
 			}
 			socket.send(JSON.stringify(socketPayload))
+
+			// register event listeners for this room
+			const socketMessageHandler = e => {
+				const msg = JSON.parse(e.data)
+
+				if (msg.roomId !== room.id) return
+				const data = msg.data
+				if (msg.error) {
+					setJoining(false)
+
+					if (msg.error === 401) {
+						storageManager.set("account", null)
+						setUsers([])
+					}
+					// message.error("没有登录")
+				} else if (msg.name === "chat message") {
+					// TODO: mark self can be done on server
+					data.self =
+						account && data.user.id.toString() === account.id.toString()
+					setMessages(prevMessages => {
+						return [...prevMessages, data]
+					})
+				} else if (msg.name === "room info") {
+					setJoining(false)
+					setJoined(true)
+					if (data.chatHistory) {
+						data.chatHistory.forEach(msg => {
+							// TODO: mark self can be done on server
+							msg.self =
+								account && msg.user.id.toString() === account.id.toString()
+						})
+						setMessages(data.chatHistory)
+					}
+					if (data.users) {
+						setUsers(data.users)
+					}
+				} else if (msg.name === "other join") {
+					setUsers(users => {
+						const user = data.user
+						// in case of duplicate
+						const existingUsersWithoutNewUser = users.filter(u => {
+							return u.id.toString() !== user.id.toString()
+						})
+						return [...existingUsersWithoutNewUser, user]
+					})
+				} else if (msg.name === "other left") {
+					setUsers(users => {
+						return users.filter(u => {
+							return u.id.toString() !== data.user.id.toString()
+						})
+					})
+				}
+			}
+
+			socket.addEventListener("message", socketMessageHandler)
+
+			return () => {
+				console.log("leave room " + room.name)
+				socket.removeEventListener("message", socketMessageHandler)
+				const socketPayload = {
+					action: "leave_single",
+					data: {
+						roomId: room.id,
+						token: account && account.token
+					}
+				}
+				socket.send(JSON.stringify(socketPayload))
+			}
+		} else {
+			setUsers([])
 		}
-	}, [room, socket, account])
+	}, [room, socket, account, connected])
 
 	const send = payload => {
 		const now = new Date()
