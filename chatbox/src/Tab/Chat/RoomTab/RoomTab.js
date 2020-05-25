@@ -235,7 +235,7 @@ function RoomTab({
 				background={room.background}
 			/>
 			{!account && <FloatingAlert text={"请先登录"} />}
-			{active && account && <InputWithPicker autoFocus={true} send={send} />}
+			{active && connected && <InputWithPicker autoFocus={true} send={send} />}
 		</div>
 	)
 }
