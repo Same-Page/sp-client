@@ -9,7 +9,7 @@
 .sp-message-body.url {
 	background: rgba(255, 255, 255);
 	border-radius: 5px;
-	padding: 10px;
+	padding: 5px 10px;
 
 	word-wrap: break-word;
 	white-space: pre-wrap;
