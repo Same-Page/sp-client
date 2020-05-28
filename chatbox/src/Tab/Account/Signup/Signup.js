@@ -5,6 +5,7 @@ import { Form, Input, Button, AutoComplete, message } from "antd"
 import Header from "components/Header"
 import { signup } from "./service"
 import storageManager from "storage"
+import LoadingAlert from "components/Alert/LoadingAlert"
 
 const formItemLayout = {
 	labelCol: {
@@ -38,10 +39,14 @@ const tailFormItemLayout = {
 }
 
 const RegistrationForm = ({ login }) => {
+	const [loading, setLoading] = useState(false)
+
 	const [form] = Form.useForm()
 
 	const onFinish = async values => {
-		console.log("Received values of form: ", values)
+		console.debug("Received values of form: ", values)
+		setLoading(true)
+
 		try {
 			const resp = await signup(
 				values.email,
@@ -56,6 +61,7 @@ const RegistrationForm = ({ login }) => {
 			message.error("注册失败！")
 			console.error(error)
 		}
+		setLoading(false)
 	}
 
 	const [autoCompleteResult, setAutoCompleteResult] = useState([])
@@ -77,6 +83,8 @@ const RegistrationForm = ({ login }) => {
 	return (
 		<div className="sp-flex-body">
 			<Header centerItems={<span>注册</span>} />
+			{loading && <LoadingAlert text="登录中。。。" />}
+
 			<div style={{ overflow: "auto", paddingBottom: 30 }}>
 				<Form
 					className="sp-signup"
@@ -180,6 +188,7 @@ const RegistrationForm = ({ login }) => {
 							type="primary"
 							className="login-form-button"
 							htmlType="submit"
+							disabled={loading}
 						>
 							注册
 						</Button>

@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import "./Login.css"
 
 import { Form, Input, Button, message } from "antd"
@@ -7,10 +7,13 @@ import { UserOutlined, LockOutlined } from "@ant-design/icons"
 import Header from "components/Header"
 import { login } from "./service"
 import storageManager from "storage"
+import LoadingAlert from "components/Alert/LoadingAlert"
 
 const NormalLoginForm = ({ signup }) => {
+	const [loading, setLoading] = useState(false)
 	const onFinish = async values => {
-		console.log("Received values of form: ", values)
+		// console.debug("Received values of form: ", values)
+		setLoading(true)
 		try {
 			const resp = await login(values.username, values.password)
 			message.success("登录成功！")
@@ -19,12 +22,13 @@ const NormalLoginForm = ({ signup }) => {
 			message.error("登录失败！")
 			console.error(error)
 		}
+		setLoading(false)
 	}
 
 	return (
 		<div>
 			<Header centerItems={<span>登录</span>} />
-
+			{loading && <LoadingAlert text="登录中。。。" />}
 			<Form
 				name="normal_login"
 				className="login-form"
@@ -66,6 +70,7 @@ const NormalLoginForm = ({ signup }) => {
 						type="primary"
 						htmlType="submit"
 						className="login-form-button"
+						disabled={loading}
 					>
 						登录
 					</Button>

@@ -39,10 +39,6 @@ function RoomTab({
 	const [showUsers, setShowUsers] = useState(false)
 
 	useEffect(() => {
-		// if (!socket) {
-		// 	setUsers([])
-		// 	return
-		// }
 		if (socket && connected && account && room) {
 			console.log("joining room " + room.name)
 			setJoining(true)
@@ -50,8 +46,8 @@ function RoomTab({
 			const socketPayload = {
 				action: "join_single",
 				data: {
-					token: account && account.token,
-					room: room
+					token: account.token,
+					roomId: room.id
 				}
 			}
 			socket.send(JSON.stringify(socketPayload))
@@ -113,6 +109,18 @@ function RoomTab({
 
 			socket.addEventListener("message", socketMessageHandler)
 
+			// heartbeat to ensure connection on both client and server ends
+			const intervalId = setInterval(() => {
+				const socketPayload = {
+					action: "heartbeat",
+					data: {
+						token: account.token,
+						roomId: room.id
+					}
+				}
+				socket.send(JSON.stringify(socketPayload))
+			}, 10 * 1000)
+
 			return () => {
 				console.log("leave room " + room.name)
 				socket.removeEventListener("message", socketMessageHandler)
@@ -126,6 +134,7 @@ function RoomTab({
 					}
 					socket.send(JSON.stringify(socketPayload))
 				}
+				clearInterval(intervalId)
 			}
 		} else {
 			setUsers([])
