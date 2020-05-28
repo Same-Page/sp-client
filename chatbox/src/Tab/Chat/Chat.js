@@ -90,6 +90,7 @@ function Chat({ account, storageData }) {
 		if (account) {
 			console.debug("creating socket")
 			const s = new WebSocket(config.socketUrl)
+			window.spSocket = s
 			const socketOpenHandler = () => {
 				console.debug("socket connected")
 				message.success("聊天服务器连接成功！")
@@ -144,6 +145,9 @@ function Chat({ account, storageData }) {
 	}, [account, disconnectCount])
 
 	useEffect(() => {
+		// we have this separate useEffect which depends on
+		// activeKey, events that don't depend on activeKey
+		// should not be here
 		const checkUnread = e => {
 			const msg = JSON.parse(e.data)
 			if (msg.name === "chat message") {

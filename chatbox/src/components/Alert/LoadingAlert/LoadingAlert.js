@@ -12,7 +12,7 @@ function LoadingAlert({ text }) {
 			message={<span style={{ marginLeft: 10 }}>{text}</span>}
 			icon={<LoadingOutlined />}
 			type="warning"
-			banner
+			// banner
 		/>
 	)
 }

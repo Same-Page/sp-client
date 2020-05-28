@@ -14,6 +14,7 @@ import LoadingAlert from "components/Alert/LoadingAlert"
 
 import Users from "./Users"
 import storageManager from "storage"
+import config from "config"
 
 import { messageUser } from "redux/actions"
 import FloatingAlert from "components/Alert/FloatingAlert"
@@ -40,17 +41,23 @@ function RoomTab({
 
 	useEffect(() => {
 		if (socket && connected && account && room) {
-			console.log("joining room " + room.name)
-			setJoining(true)
-			// TODO: set timeout for join
-			const socketPayload = {
-				action: "join_single",
-				data: {
-					token: account.token,
-					roomId: room.id
+			let lastGoodHeartbeat = 0
+			const joinRoom = () => {
+				console.debug("joining room " + room.name)
+				setJoining(true)
+				setJoined(false)
+				// TODO: set timeout for join
+				// no need, now we have heartbeat
+				const socketPayload = {
+					action: "join_single",
+					data: {
+						token: account.token,
+						roomId: room.id
+					}
 				}
+				socket.send(JSON.stringify(socketPayload))
 			}
-			socket.send(JSON.stringify(socketPayload))
+			joinRoom()
 
 			// register event listeners for this room
 			const socketMessageHandler = e => {
@@ -76,17 +83,15 @@ function RoomTab({
 				} else if (msg.name === "room info") {
 					setJoining(false)
 					setJoined(true)
-					if (data.chatHistory) {
-						data.chatHistory.forEach(msg => {
-							// TODO: mark self can be done on server
-							msg.self =
-								account && msg.user.id.toString() === account.id.toString()
-						})
-						setMessages(data.chatHistory)
-					}
-					if (data.users) {
-						setUsers(data.users)
-					}
+					lastGoodHeartbeat = new Date()
+					data.chatHistory.forEach(msg => {
+						// TODO: mark self can be done on server
+						msg.self =
+							account && msg.user.id.toString() === account.id.toString()
+					})
+					setMessages(data.chatHistory)
+
+					setUsers(data.users)
 				} else if (msg.name === "other join") {
 					setUsers(users => {
 						const user = msg.user
@@ -104,6 +109,16 @@ function RoomTab({
 							return u.id.toString() !== user.id.toString()
 						})
 					})
+				} else if (msg.name === "heartbeat") {
+					if (msg.success) {
+						lastGoodHeartbeat = new Date()
+						// console.debug("heartbeat", lastGoodHeartbeat)
+						setJoined(true)
+						setJoining(false)
+					} else {
+						joinRoom()
+						console.warn(`[${room.name}] heartbeat failed`, msg.error)
+					}
 				}
 			}
 
@@ -111,18 +126,31 @@ function RoomTab({
 
 			// heartbeat to ensure connection on both client and server ends
 			const intervalId = setInterval(() => {
-				const socketPayload = {
-					action: "heartbeat",
-					data: {
-						token: account.token,
-						roomId: room.id
+				const timeSinceLastGoodHeartbeat = new Date() - lastGoodHeartbeat
+				if (timeSinceLastGoodHeartbeat > 2 * config.heartbeatInterval) {
+					console.warn(
+						"last good heartbeat is too old, kill socket",
+						timeSinceLastGoodHeartbeat
+					)
+					// socket.close() wouldn't work right away because it waits
+					// backend to properly close the connection
+					socket.dispatchEvent(new CustomEvent("close", {}))
+					setJoined(false)
+					setJoining(false)
+				} else {
+					const socketPayload = {
+						action: "heartbeat",
+						data: {
+							token: account.token,
+							roomId: room.id
+						}
 					}
+					socket.send(JSON.stringify(socketPayload))
 				}
-				socket.send(JSON.stringify(socketPayload))
-			}, 10 * 1000)
+			}, config.heartbeatInterval)
 
 			return () => {
-				console.log("leave room " + room.name)
+				console.debug("leave room " + room.name)
 				socket.removeEventListener("message", socketMessageHandler)
 				if (!socket.disconnected) {
 					const socketPayload = {
@@ -236,7 +264,7 @@ function RoomTab({
 			/>
 
 			{joining && <LoadingAlert text="连接中。。。" />}
-
+			{!joining && !joined && <FloatingAlert text="未连接" type="info" />}
 			<Conversation
 				backgroundColor="rgb(246, 249, 252)"
 				messageUser={messageUser}

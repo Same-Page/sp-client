@@ -3,13 +3,13 @@ import "./FloatingAlert.css"
 import React from "react"
 import { Alert } from "antd"
 
-function FloatingAlert({ text }) {
+function FloatingAlert({ text, type }) {
 	return (
 		<Alert
-			className="sp-loading-alert"
+			className="sp-floating-alert"
 			message={<span style={{ marginLeft: 5 }}>{text}</span>}
-			type="warning"
-			banner
+			type={type || "warning"}
+			// banner
 		/>
 	)
 }
