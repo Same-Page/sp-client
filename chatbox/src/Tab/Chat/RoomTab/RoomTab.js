@@ -166,6 +166,8 @@ function RoomTab({
 			}
 		} else {
 			setUsers([])
+			setJoined(false)
+			setJoining(false)
 		}
 	}, [room, socket, account, connected])
 
