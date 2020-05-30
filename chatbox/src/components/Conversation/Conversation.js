@@ -4,7 +4,7 @@ import moment from "moment"
 
 import Message from "./Message"
 
-const AUTO_SCROLL_TRESHOLD_DISTANCE = 300
+const AUTO_SCROLL_TRESHOLD_DISTANCE = 500
 
 const conversationBodyStyle = {}
 
@@ -20,6 +20,7 @@ function Conversation({ messages, background, backgroundColor, messageUser }) {
 		bodyStyle.background = backgroundColor
 	}
 	const imageLoadedCb = () => {
+		console.debug("img loaded")
 		scrollToBottomIfNearBottom()
 	}
 

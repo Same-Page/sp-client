@@ -110,14 +110,15 @@ function Chat({ account, storageData }) {
 				setSocket(null)
 
 				console.debug(
-					`socket closed unexpectedly, retry in ${disconnectCount * 10} sec...`
+					`socket closed unexpectedly, retry in ${config.socketReconnectWaitTime} milisec...`
 				)
 
 				setTimeout(() => {
 					setDisconnectCounter(disconnectCount => {
 						return disconnectCount + 1
 					})
-				}, disconnectCount * 10 * 1000)
+				}, config.socketReconnectWaitTime)
+				// }, disconnectCount * 10 * 1000)
 			}
 
 			s.addEventListener("open", socketOpenHandler)

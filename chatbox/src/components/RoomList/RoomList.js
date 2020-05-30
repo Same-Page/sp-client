@@ -135,6 +135,7 @@ function RoomList({ setRoom }) {
 			<Modal
 				transitionName="none"
 				title={title}
+				centered
 				visible={showCreateRoomModal}
 				onCancel={() => {
 					setShowCreateRoomModal(false)

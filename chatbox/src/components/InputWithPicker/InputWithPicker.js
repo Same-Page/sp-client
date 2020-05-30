@@ -3,14 +3,17 @@ import "./InputWithPicker.css"
 // import { useIntl } from "react-intl"
 
 import React, { useState, useRef, useEffect } from "react"
-import { Button, Input, Upload } from "antd"
+import { Button, Input, Upload, message } from "antd"
 import { UploadOutlined } from "@ant-design/icons"
 
 import axios from "axios"
+
+import config from "config"
+
 const { TextArea } = Input
 
 function InputWithPicker(props) {
-	const uploadUrl = `todo/api/v1/chat_upload`
+	const uploadUrl = `${config.apiUrl}/api/v1/chat_upload`
 
 	const [input, setInput] = useState("")
 	const [uploading, setUploading] = useState(false)
@@ -39,6 +42,7 @@ function InputWithPicker(props) {
 					props.send(payload)
 				})
 				.catch(err => {
+					message.error("发送失败")
 					console.error(err)
 				})
 				.then(() => {

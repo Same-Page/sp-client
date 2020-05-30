@@ -7,6 +7,7 @@ import AvatarWithPopover from "components/AvatarWithPopover"
 function RoomInfoModal({ room, showModal, setShowModal, messageUser }) {
 	return (
 		<Modal
+			centered
 			title="房间信息"
 			visible={showModal}
 			onCancel={() => {

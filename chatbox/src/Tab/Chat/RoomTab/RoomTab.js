@@ -125,8 +125,10 @@ function RoomTab({
 			socket.addEventListener("message", socketMessageHandler)
 
 			// heartbeat to ensure connection on both client and server ends
-			// frequent heartbeat can waste bandwidth, should have less
+			// TODO: frequent heartbeat can waste bandwidth, should have less
 			// frequent heartbeat for room not active/open
+			// TODO: if the browser tab is not visible or active, also pause
+			// heartbeat
 			const intervalId = setInterval(() => {
 				const timeSinceLastGoodHeartbeat = new Date() - lastGoodHeartbeat
 				if (timeSinceLastGoodHeartbeat > 2 * config.heartbeatInterval) {

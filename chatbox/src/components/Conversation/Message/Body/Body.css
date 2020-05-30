@@ -36,9 +36,6 @@
 	color: black;
 }
 
-.sp-message-body img {
-	/* max-width: 100px; */
-}
 img.sp-message-image {
 	max-width: 100%;
 	max-height: 350px;
@@ -67,4 +64,11 @@ img.sp-message-image {
 }
 .sp-message-body .sp-invitation-help a {
 	color: rgb(59, 160, 255);
+}
+
+.sp-media-modal .ant-modal-body {
+	padding: 0;
+}
+.sp-media-modal img {
+	width: 100%;
 }

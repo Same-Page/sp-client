@@ -1,7 +1,7 @@
 import "./Body.css"
 
-import React from "react"
-import { Popover, Button } from "antd"
+import React, { useState } from "react"
+import { Popover, Button, Modal } from "antd"
 import {
 	DeleteOutlined,
 	LinkOutlined,
@@ -19,24 +19,43 @@ function MessageBody({ content, self, imageLoadedCb, showMenu }) {
 	// 	metadata: {...} optional
 	// }
 
+	const [showMediaModal, setShowMediaModal] = useState(false)
+
 	const { type, name, value } = content
 	let res = value
 	let className = "sp-message-body " + type
 
 	if (type === "image") {
 		res = (
-			<img
-				onClick={() => {
-					// window.spDebug("click on image")
-					// window.parent.postMessage({ imgSrc: imgSrc }, "*")
-				}}
-				onLoad={() => {
-					imageLoadedCb()
-				}}
-				className="sp-message-image"
-				alt={""}
-				src={value}
-			/>
+			<>
+				{showMediaModal && (
+					<Modal
+						closable={false}
+						centered
+						wrapClassName="sp-media-modal"
+						visible={showMediaModal}
+						onCancel={() => {
+							setShowMediaModal(false)
+						}}
+						footer={null}
+					>
+						<img src={value} />
+					</Modal>
+				)}
+				<img
+					onClick={() => {
+						setShowMediaModal(true)
+						// window.spDebug("click on image")
+						// window.parent.postMessage({ imgSrc: imgSrc }, "*")
+					}}
+					onLoad={() => {
+						imageLoadedCb()
+					}}
+					className="sp-message-image"
+					alt={""}
+					src={value}
+				/>
+			</>
 		)
 	} else if (type === "file") {
 		res = (

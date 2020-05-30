@@ -16,6 +16,7 @@ function ProfileModal({ user, messageUser, setShowModal }) {
 	return (
 		<Modal
 			title="用户信息"
+			centered
 			visible={true}
 			onCancel={() => {
 				setShowModal(false)
