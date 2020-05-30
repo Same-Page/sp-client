@@ -44,7 +44,10 @@ function CommentTab({ account, url = "abc.com", messageUser }) {
 				url: url
 			}
 			const resp = await postComment(payload)
-			setComments(resp.data)
+			setComments(comments => {
+				const res = [resp.data, ...comments]
+				return res
+			})
 		} catch (error) {
 			message.error("留言失败！")
 			console.error(error)
