@@ -39,7 +39,7 @@ function MessageBody({ content, self, imageLoadedCb, showMenu }) {
 						}}
 						footer={null}
 					>
-						<img src={value} />
+						<img alt={value} src={value} />
 					</Modal>
 				)}
 				<img

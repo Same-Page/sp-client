@@ -36,7 +36,7 @@ function CommentItem({ c, messageUser }) {
 	if (c.content.type === "text") {
 		content = c.content.value
 	} else if (c.content.type === "image") {
-		content = <img src={c.content.url} />
+		content = <img alt={c.content.url} src={c.content.url} />
 	}
 
 	return (
@@ -52,7 +52,7 @@ function CommentItem({ c, messageUser }) {
 					}}
 					footer={null}
 				>
-					<img src={c.content.url} />
+					<img alt={c.content.url} src={c.content.url} />
 				</Modal>
 			)}
 			<Comment

@@ -1,6 +1,6 @@
 import "./Comment.css"
 
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useRef } from "react"
 import { connect } from "react-redux"
 import { Select, message } from "antd"
 
@@ -18,6 +18,7 @@ function CommentTab({ account, url = "abc.com", messageUser }) {
 	const [comments, setComments] = useState([])
 	const [orderBy, setOrderBy] = useState("default")
 	const [loading, setLoading] = useState(false)
+	const bodyRef = useRef()
 	useEffect(() => {
 		async function fetchData(payload) {
 			setLoading(true)
@@ -36,6 +37,11 @@ function CommentTab({ account, url = "abc.com", messageUser }) {
 		}
 		fetchData(payload)
 	}, [url, account, orderBy])
+
+	useEffect(() => {
+		const bodyDiv = bodyRef.current
+		bodyDiv.scrollTop = 0
+	}, [comments])
 
 	const send = async content => {
 		try {
@@ -77,7 +83,7 @@ function CommentTab({ account, url = "abc.com", messageUser }) {
 				}
 			/>
 			{loading && <LoadingAlert text="载入中。。。" />}
-			<div className="sp-comment-body">
+			<div ref={bodyRef} className="sp-comment-body">
 				<div className="sp-comment-list">
 					{comments.map(c => (
 						<CommentItem key={c.id} c={c} messageUser={messageUser} />
