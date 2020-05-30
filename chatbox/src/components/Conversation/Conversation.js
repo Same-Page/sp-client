@@ -8,7 +8,13 @@ const AUTO_SCROLL_TRESHOLD_DISTANCE = 500
 
 const conversationBodyStyle = {}
 
-function Conversation({ messages, background, backgroundColor, messageUser }) {
+function Conversation({
+	messages,
+	background,
+	backgroundColor,
+	messageUser,
+	messageActions
+}) {
 	// scroll to bottom when first time load room messages
 	// regardless distannce to bottom
 	const [firstTimeAutoScroll, setFirstTimeAutoScroll] = useState(true)
@@ -88,7 +94,12 @@ function Conversation({ messages, background, backgroundColor, messageUser }) {
 
 		res.push(
 			<Message
-				showMenu={true}
+				messageActions={() => {
+					if (messageActions) {
+						return messageActions(msg)
+					}
+					return null
+				}}
 				key={msg.id}
 				self={msg.self}
 				content={msg.content}

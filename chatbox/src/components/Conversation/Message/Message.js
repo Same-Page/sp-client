@@ -10,9 +10,9 @@ function ChatMessage({
 	user,
 	messageUser,
 	self,
-	showMenu,
 	timeDisplay,
-	imageLoadedCb
+	imageLoadedCb,
+	messageActions
 }) {
 	let userInfo = ""
 	let messageTime = timeDisplay ? (
@@ -68,7 +68,7 @@ function ChatMessage({
 				imageLoadedCb={imageLoadedCb}
 				content={content}
 				self={self}
-				showMenu={showMenu}
+				messageActions={messageActions}
 			/>
 		</div>
 	)

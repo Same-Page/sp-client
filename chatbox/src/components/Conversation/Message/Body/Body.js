@@ -8,7 +8,7 @@ import {
 	CloudDownloadOutlined
 } from "@ant-design/icons"
 
-function MessageBody({ content, self, imageLoadedCb, showMenu }) {
+function MessageBody({ content, self, imageLoadedCb, messageActions }) {
 	// contentType can be image|text|url|file|video|music|etc.
 	// content is always an object with name and value, there
 	// could be more fields on it in the futrue
@@ -75,30 +75,11 @@ function MessageBody({ content, self, imageLoadedCb, showMenu }) {
 			</div>
 		)
 	}
-	const popoverContent = (
-		<div>
-			<Button
-				onClick={() => {
-					// TODO: this should be passed down
-					// const payload = {
-					// 	action: "delete_message",
-					// 	data: {
-					// 		messageId: props.data.id,
-					// 		roomId: props.room.id,
-					// 		token: props.account.token
-					// 	}
-					// }
-					// socketManager.sendEvent(payload)
-				}}
-			>
-				<DeleteOutlined />
-			</Button>
-		</div>
-	)
+	const popoverContent = messageActions()
 
 	let contentWrapper = <div className={className}>{res}</div>
 
-	return showMenu ? (
+	return popoverContent ? (
 		<Popover
 			overlayClassName="sp-message-menu"
 			placement={self ? "left" : "right"}

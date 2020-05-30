@@ -4,7 +4,12 @@ import React, { useState, useEffect } from "react"
 import { connect } from "react-redux"
 
 import { message, Button, Popover } from "antd"
-import { LogoutOutlined, TeamOutlined, HomeOutlined } from "@ant-design/icons"
+import {
+	LogoutOutlined,
+	TeamOutlined,
+	HomeOutlined,
+	DeleteOutlined
+} from "@ant-design/icons"
 
 import InputWithPicker from "components/InputWithPicker"
 import RoomInfoModal from "components/RoomInfoModal"
@@ -66,19 +71,25 @@ function RoomTab({
 				if (msg.roomId !== room.id) return
 				const data = msg.data
 				if (msg.error) {
-					setJoining(false)
-
 					if (msg.error === 401) {
+						setJoining(false)
 						storageManager.set("account", null)
 						setUsers([])
 					}
-					// message.error("没有登录")
+
+					message.error(msg.message)
 				} else if (msg.name === "chat message") {
-					// TODO: mark self can be done on server
 					data.self =
 						account && data.user.id.toString() === account.id.toString()
 					setMessages(prevMessages => {
 						return [...prevMessages, data]
+					})
+				} else if (msg.name === "delete message") {
+					setMessages(prevMessages => {
+						const res = prevMessages.filter(m => {
+							return m.id.toString() !== data.toString()
+						})
+						return [...res]
 					})
 				} else if (msg.name === "room info") {
 					setJoining(false)
@@ -199,6 +210,27 @@ function RoomTab({
 			return false
 		}
 	}
+	const messageActions = msg => {
+		return (
+			<>
+				<Button
+					onClick={() => {
+						const payload = {
+							action: "delete_message",
+							data: {
+								messageId: msg.id,
+								roomId: room.id,
+								token: account.token
+							}
+						}
+						socket.send(JSON.stringify(payload))
+					}}
+				>
+					<DeleteOutlined />
+				</Button>
+			</>
+		)
+	}
 
 	return (
 		<div className="sp-flex-body  sp-room-tab">
@@ -276,6 +308,7 @@ function RoomTab({
 				messageUser={messageUser}
 				messages={messages}
 				background={room.background}
+				messageActions={messageActions}
 			/>
 			{!account && <FloatingAlert text={"请先登录"} />}
 			{active && connected && <InputWithPicker autoFocus={true} send={send} />}
