@@ -33,7 +33,7 @@ function MessageBody({ content, self, imageLoadedCb, showMenu }) {
 						closable={false}
 						centered
 						wrapClassName="sp-media-modal"
-						visible={showMediaModal}
+						visible={true}
 						onCancel={() => {
 							setShowMediaModal(false)
 						}}

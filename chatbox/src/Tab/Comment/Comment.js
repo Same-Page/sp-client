@@ -40,7 +40,7 @@ function CommentTab({ account, url = "abc.com", messageUser }) {
 	const send = async content => {
 		try {
 			const payload = {
-				content: content.value,
+				content: content,
 				url: url
 			}
 			const resp = await postComment(payload)
