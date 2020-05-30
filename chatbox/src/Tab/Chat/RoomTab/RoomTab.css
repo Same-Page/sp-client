@@ -24,3 +24,8 @@
 	/* this popover can open modal so it should be behind the newly opened modal */
 	z-index: 1001;
 }
+
+.ant-popover {
+	/* in chat view, message menu popover shows above image modal sometimes */
+	z-index: 999;
+}
