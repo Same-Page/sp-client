@@ -16,7 +16,7 @@ function Inbox({ account, user, setInboxUser, messageUser }) {
 	const [conversations, setConversations] = useState([])
 	const [selectedCon, setSelectedCon] = useState()
 	const [loading, setLoading] = useState(false)
-
+	const token = account && account.token
 	const fetchData = async () => {
 		setLoading(true)
 		try {
@@ -36,10 +36,10 @@ function Inbox({ account, user, setInboxUser, messageUser }) {
 	}
 
 	useEffect(() => {
-		if (account) {
+		if (token) {
 			fetchData()
 		}
-	}, [account])
+	}, [token])
 
 	useEffect(() => {
 		// Pick selected conversation base on user

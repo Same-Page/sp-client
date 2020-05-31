@@ -7,11 +7,18 @@ import AccountButtons from "./AccountButtons"
 
 function Account({ account }) {
 	const [signup, setSignup] = useState(false)
+
 	if (account) {
+		const followerCount = account.followers.length
+		const followingCount = account.followings.length
 		return (
 			<div className="sp-flex-body">
 				<div style={{ width: 250, margin: "50px auto" }}>
-					<Profile user={account} />
+					<Profile
+						user={account}
+						followerCount={followerCount}
+						followingCount={followingCount}
+					/>
 					<AccountButtons />
 				</div>
 			</div>

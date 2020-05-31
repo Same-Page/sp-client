@@ -42,9 +42,10 @@ function RoomTab({
 	const [showModal, setShowModal] = useState(false)
 	const [users, setUsers] = useState([])
 	const [showUsers, setShowUsers] = useState(false)
-
+	const token = account && account.token
+	const userId = account && account.id
 	useEffect(() => {
-		if (socket && connected && account && room) {
+		if (socket && connected && token && room) {
 			let lastGoodHeartbeat = 0
 			const joinRoom = () => {
 				console.debug("joining room " + room.name)
@@ -55,7 +56,7 @@ function RoomTab({
 				const socketPayload = {
 					action: "join_single",
 					data: {
-						token: account.token,
+						token: token,
 						roomId: room.id
 					}
 				}
@@ -78,8 +79,7 @@ function RoomTab({
 
 					message.error(msg.message)
 				} else if (msg.name === "chat message") {
-					data.self =
-						account && data.user.id.toString() === account.id.toString()
+					data.self = data.user.id.toString() === userId.toString()
 					setMessages(prevMessages => {
 						return [...prevMessages, data]
 					})
@@ -95,9 +95,7 @@ function RoomTab({
 					setJoined(true)
 					lastGoodHeartbeat = new Date()
 					data.chatHistory.forEach(msg => {
-						// TODO: mark self can be done on server
-						msg.self =
-							account && msg.user.id.toString() === account.id.toString()
+						msg.self = msg.user.id.toString() === userId.toString()
 					})
 					setMessages(data.chatHistory)
 
@@ -171,7 +169,7 @@ function RoomTab({
 						action: "leave_single",
 						data: {
 							roomId: room.id,
-							token: account && account.token
+							token: token
 						}
 					}
 					socket.send(JSON.stringify(socketPayload))
@@ -183,7 +181,7 @@ function RoomTab({
 			setJoined(false)
 			setJoining(false)
 		}
-	}, [room, socket, account, connected])
+	}, [room, socket, token, userId, connected])
 
 	useEffect(() => {
 		// close room info modal and online users when tab switched

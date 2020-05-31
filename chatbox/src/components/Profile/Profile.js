@@ -24,7 +24,7 @@ const aboutStyle = {
 	marginTop: 20
 }
 
-function Profile({ user, self, gutter }) {
+function Profile({ user, self, gutter, followerCount, followingCount }) {
 	return (
 		<div>
 			<Avatar
@@ -61,7 +61,7 @@ function Profile({ user, self, gutter }) {
 						// onClick={props.showFollowings}
 					>
 						关注了
-						<br /> <b>{user.followingCount || 7}</b>
+						<br /> <b>{followingCount}</b>
 					</span>
 				</Col>
 				<Col style={{ textAlign: "center" }} span={12}>
@@ -70,7 +70,7 @@ function Profile({ user, self, gutter }) {
 						// onClick={props.showFollowers}
 					>
 						关注者
-						<br /> <b>{user.followerCount || 21}</b>
+						<br /> <b>{followerCount}</b>
 					</span>
 				</Col>
 			</Row>

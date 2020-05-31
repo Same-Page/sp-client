@@ -18,6 +18,7 @@ function CommentTab({ account }) {
 	const [orderBy, setOrderBy] = useState("default")
 	const [loading, setLoading] = useState(false)
 	const bodyRef = useRef()
+	const token = account && account.token
 	useEffect(() => {
 		async function fetchData(payload) {
 			setLoading(true)
@@ -35,7 +36,7 @@ function CommentTab({ account }) {
 			order: orderBy
 		}
 		fetchData(payload)
-	}, [url, account, orderBy])
+	}, [url, token, orderBy])
 
 	useEffect(() => {
 		const bodyDiv = bodyRef.current

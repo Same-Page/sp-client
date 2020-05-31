@@ -1,21 +1,61 @@
 import "./AvatarWithPopover.css"
 
 import React, { useState } from "react"
-import { Avatar, Popover, Button, Row, Col } from "antd"
+import { Avatar, Popover, Button, Row, Col, message } from "antd"
 import { connect } from "react-redux"
 
 import {
 	MailOutlined,
 	// StopOutlined,
 	// FlagOutlined,
-	UserAddOutlined
+	// UserAddOutlined,
+	PlusOutlined,
+	MinusOutlined
 } from "@ant-design/icons"
 import Profile from "components/Profile"
 import { messageUser } from "redux/actions"
+import { follow } from "./service"
+import storageManager from "storage"
 
-function AvatarWithPopover({ user, size, messageUser, popoverPlacement }) {
+function AvatarWithPopover({
+	account,
+	user,
+	size,
+	messageUser,
+	popoverPlacement
+}) {
 	const [popoverVisible, setPopoverVisible] = useState(false)
 	const gutter = 10
+	const isFollowing = account && account.followings.includes(user.id)
+	const [togglingFollow, setToggleingFollow] = useState(false)
+	const [followBtnOnHover, setFollowBtnOnHover] = useState(false)
+	const toggleFollow = async () => {
+		setToggleingFollow(true)
+		try {
+			if (isFollowing) {
+				account.followings = account.followings.filter(f => {
+					return f !== user.id
+				})
+			} else {
+				account.followings.push(user.id)
+			}
+			storageManager.set("account", account)
+			await follow(user.id, !isFollowing)
+		} catch (error) {
+			message.error("关注失败！")
+			console.error(error)
+		}
+		setToggleingFollow(false)
+	}
+	let followBtnText = "关注"
+	if (isFollowing) {
+		if (!followBtnOnHover && !togglingFollow) {
+			followBtnText = "已关注"
+		} else {
+			followBtnText = "取关"
+		}
+	}
+
 	return (
 		<Popover
 			overlayClassName="sp-user-info-popover"
@@ -29,11 +69,19 @@ function AvatarWithPopover({ user, size, messageUser, popoverPlacement }) {
 						<Row gutter={gutter} style={{ textAlign: "center" }}>
 							<Col style={{ textAlign: "center", marginBottom: 10 }} span={12}>
 								<Button
-									type="primary"
-									icon={<UserAddOutlined />}
-									onClick={() => {}}
+									onMouseEnter={() => {
+										setFollowBtnOnHover(true)
+									}}
+									onMouseLeave={() => {
+										setFollowBtnOnHover(false)
+									}}
+									style={{ width: 80 }}
+									// loading={togglingFollow}
+									type={isFollowing ? "default" : "primary"}
+									icon={!isFollowing && <PlusOutlined />}
+									onClick={toggleFollow}
 								>
-									关注
+									{followBtnText}
 								</Button>
 							</Col>
 							<Col style={{ textAlign: "center" }} span={12}>
@@ -65,4 +113,10 @@ function AvatarWithPopover({ user, size, messageUser, popoverPlacement }) {
 	)
 }
 
-export default connect(null, { messageUser })(AvatarWithPopover)
+const stateToProps = state => {
+	return {
+		account: state.account
+	}
+}
+
+export default connect(stateToProps, { messageUser })(AvatarWithPopover)

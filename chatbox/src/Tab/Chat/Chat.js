@@ -86,8 +86,9 @@ function Chat({ account, storageData }) {
 	const [disconnectCount, setDisconnectCounter] = useState(0)
 	const [minSideBar, setMinSideBar] = useState(false)
 	const [closeSideBar, setCloseSideBar] = useState(false)
+	const token = account && account.token
 	useEffect(() => {
-		if (account) {
+		if (token) {
 			console.debug("creating socket")
 			const s = new WebSocket(config.socketUrl)
 			window.spSocket = s
@@ -110,7 +111,9 @@ function Chat({ account, storageData }) {
 				setSocket(null)
 
 				console.debug(
-					`socket closed unexpectedly, retry in ${config.socketReconnectWaitTime} milisec...`
+					`socket closed unexpectedly, retry in ${
+						config.socketReconnectWaitTime / 1000
+					} sec...`
 				)
 
 				setTimeout(() => {
@@ -143,7 +146,7 @@ function Chat({ account, storageData }) {
 				})
 			}
 		}
-	}, [account, disconnectCount])
+	}, [token, disconnectCount])
 
 	useEffect(() => {
 		// we have this separate useEffect which depends on
