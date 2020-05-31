@@ -1,14 +1,13 @@
 import React from "react"
-import { Avatar, Row, Col } from "antd"
-import { UserOutlined } from "@ant-design/icons"
+import { Row, Col } from "antd"
 
-const avatarStyle = {
-	display: "block",
-	margin: "auto"
-	// width: "100%",
-	// height: "auto",
-	// borderRadius: 0
-}
+// const avatarStyle = {
+// 	display: "block",
+// 	margin: "auto"
+// 	// width: "100%",
+// 	// height: "auto",
+// 	// borderRadius: 0
+// }
 const aboutStyle = {
 	display: "inline-block",
 	minWidth: 200,
@@ -27,20 +26,11 @@ const aboutStyle = {
 function Profile({ user, self, gutter, followerCount, followingCount }) {
 	return (
 		<div>
-			<Avatar
-				style={avatarStyle}
-				size={128}
-				// shape="square"
-				src={user.avatarSrc}
-				icon={<UserOutlined />}
-			/>
-			<center style={{ margin: 20 }}>
-				<b>{user.name}</b>
-			</center>
 			<Row gutter={gutter} style={{ textAlign: "center" }}>
 				<Col style={{ textAlign: "center" }} span={12}>
 					ID <br />
-					<b>{user.id}</b>
+					<b>{user && user.id} </b>
+					{!user && <br />}
 				</Col>
 				<Col style={{ textAlign: "center" }} span={12}>
 					<span
@@ -50,7 +40,8 @@ function Profile({ user, self, gutter, followerCount, followingCount }) {
 						}}
 					>
 						房间
-						<br /> <b>{user.rooms && user.rooms.length}</b>
+						<br /> <b>{user && user.rooms && user.rooms.length} </b>
+						{!user && <br />}
 					</span>
 				</Col>
 			</Row>
@@ -61,7 +52,8 @@ function Profile({ user, self, gutter, followerCount, followingCount }) {
 						// onClick={props.showFollowings}
 					>
 						关注了
-						<br /> <b>{followingCount}</b>
+						<br /> <b>{followingCount} </b>
+						{!user && <br />}
 					</span>
 				</Col>
 				<Col style={{ textAlign: "center" }} span={12}>
@@ -70,7 +62,8 @@ function Profile({ user, self, gutter, followerCount, followingCount }) {
 						// onClick={props.showFollowers}
 					>
 						关注者
-						<br /> <b>{followerCount}</b>
+						<br /> <b>{followerCount} </b>
+						{!user && <br />}
 					</span>
 				</Col>
 			</Row>
@@ -102,7 +95,7 @@ function Profile({ user, self, gutter, followerCount, followingCount }) {
 					</Row>
 				</span>
 			)}
-			{user.about && <div style={aboutStyle}>{user.about}</div>}
+			{user && user.about && <div style={aboutStyle}>{user.about}</div>}
 		</div>
 	)
 }

@@ -8,3 +8,7 @@ export const follow = (userId, follow) => {
 	}
 	return axios.post(config.apiUrl + "/api/v1/follow", payload)
 }
+
+export const getUser = userId => {
+	return axios.get(config.apiUrl + "/api/v1/user/" + userId)
+}
