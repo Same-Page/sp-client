@@ -1,17 +1,9 @@
 export const getUrl = () => {
-	return window.location.href
+	return window.location.hostname + window.location.pathname
 }
 
 export const getDomain = () => {
-	const url = getUrl()
-	let parsedUrl = ""
-	try {
-		parsedUrl = new URL(url)
-	} catch (error) {
-		console.error(error)
-		return "unknown"
-	}
-	return parsedUrl.hostname
+	return window.location.hostname
 }
 
 export const url = getUrl()

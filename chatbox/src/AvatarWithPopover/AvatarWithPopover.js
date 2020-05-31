@@ -54,8 +54,14 @@ function AvatarWithPopover({
 				account.followings = account.followings.filter(f => {
 					return f !== user.id
 				})
+				setCompleteUserData(u => {
+					return { ...u, followerCount: u.followerCount - 1 }
+				})
 			} else {
 				account.followings.push(user.id)
+				setCompleteUserData(u => {
+					return { ...u, followerCount: u.followerCount + 1 }
+				})
 			}
 			storageManager.set("account", account)
 			await follow(user.id, !isFollowing)
