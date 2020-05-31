@@ -1,12 +1,8 @@
 import "./Body.css"
 
 import React, { useState } from "react"
-import { Popover, Button, Modal } from "antd"
-import {
-	DeleteOutlined,
-	LinkOutlined,
-	CloudDownloadOutlined
-} from "@ant-design/icons"
+import { Popover, Modal } from "antd"
+import { LinkOutlined, CloudDownloadOutlined } from "@ant-design/icons"
 
 function MessageBody({ content, self, imageLoadedCb, messageActions }) {
 	// contentType can be image|text|url|file|video|music|etc.

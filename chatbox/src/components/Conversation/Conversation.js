@@ -12,13 +12,15 @@ function Conversation({
 	messages,
 	background,
 	backgroundColor,
-	messageUser,
 	messageActions
 }) {
 	// scroll to bottom when first time load room messages
 	// regardless distannce to bottom
 	const [firstTimeAutoScroll, setFirstTimeAutoScroll] = useState(true)
 	const bodyStyle = { ...conversationBodyStyle }
+	const msgCountRef = useRef()
+
+	const bodyRef = useRef(null)
 
 	if (background) {
 		bodyStyle.backgroundImage = `url('${background}')`
@@ -48,12 +50,13 @@ function Conversation({
 			}, timeout)
 		}
 	}, [])
-	const bodyRef = useRef(null)
+
 	useEffect(() => {
-		if (messages.length > 0) {
+		if (messages.length > msgCountRef.current) {
 			scrollToBottomIfNearBottom(firstTimeAutoScroll)
 			setFirstTimeAutoScroll(false)
 		}
+		msgCountRef.current = messages.length
 	}, [messages.length, firstTimeAutoScroll, scrollToBottomIfNearBottom])
 
 	let res = []

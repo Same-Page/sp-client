@@ -1,7 +1,7 @@
 import "./AvatarWithPopover.css"
 
 import React, { useState, useEffect } from "react"
-import { Avatar, Skeleton, Popover, Button, Row, Col, message } from "antd"
+import { Avatar, Popover, Button, Row, Col, message } from "antd"
 import { connect } from "react-redux"
 
 import {
@@ -46,7 +46,7 @@ function AvatarWithPopover({
 		if (popoverVisible && !completeUserData) {
 			fetchData()
 		}
-	}, [popoverVisible])
+	}, [popoverVisible, completeUserData, user.id])
 	const toggleFollow = async () => {
 		setToggleingFollow(true)
 		try {

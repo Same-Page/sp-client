@@ -153,7 +153,7 @@ function RoomTab({
 					const socketPayload = {
 						action: "heartbeat",
 						data: {
-							token: account.token,
+							token: token,
 							roomId: room.id
 						}
 					}

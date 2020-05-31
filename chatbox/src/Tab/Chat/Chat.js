@@ -13,12 +13,12 @@ import TabName from "components/TabName"
 import RoomList from "components/RoomList"
 import Header from "components/Header"
 import RoomTab from "./RoomTab"
-import { url, domain } from "utils"
+
 import storageManager from "storage"
 
 const { TabPane } = Tabs
 
-const getPanesFromRooms = rooms => {
+const getPanesFromRooms = (rooms, url, domain) => {
 	const res = rooms.map(r => {
 		// dynamic room id for site/page type of room
 		if (r.type === "site") {
@@ -37,14 +37,14 @@ const getPanesFromRooms = rooms => {
 	return res
 }
 
-const getInitialPanes = storageData => {
+const getInitialPanes = (storageData, url, domain) => {
 	// merge rooms from config and localStorage
 	// return array of panes
 	let res = []
 	if (storageData.rooms) {
-		res = getPanesFromRooms(storageData.rooms)
+		res = getPanesFromRooms(storageData.rooms, url, domain)
 	} else {
-		res = getPanesFromRooms(config.defaultRooms)
+		res = getPanesFromRooms(config.defaultRooms, url, domain)
 	}
 	return res
 }
@@ -71,8 +71,12 @@ const getInitialActiveKey = (initPanes, storageData) => {
 // user can open multiple empty tabs
 let newTabIndex = 0
 
-function Chat({ account, storageData }) {
-	const initPanes = getInitialPanes(storageData)
+function Chat({ account, storageData, url, domain }) {
+	const initPanes = getInitialPanes(storageData, url, domain)
+	// TODO: url change won't trigger any update
+	// but maybe user does want to stay in pervious same page chat room
+	// low priority, depend on feedbacks
+
 	const [panes, setPanes] = useState(initPanes)
 	const [activeKey, setActiveKey] = useState(
 		getInitialActiveKey(initPanes, storageData)

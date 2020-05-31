@@ -9,16 +9,16 @@ import LoadingAlert from "components/Alert/LoadingAlert"
 import Alert from "components/Alert"
 import CommentItem from "./CommentItem"
 import { getComments, postComment } from "./service"
-import { url } from "utils"
 
 const { Option } = Select
 
-function CommentTab({ account }) {
+function CommentTab({ account, url }) {
 	const [comments, setComments] = useState([])
 	const [orderBy, setOrderBy] = useState("default")
 	const [loading, setLoading] = useState(false)
 	const bodyRef = useRef()
 	const token = account && account.token
+	// TODO: url might change, should use state
 	useEffect(() => {
 		async function fetchData(payload) {
 			setLoading(true)

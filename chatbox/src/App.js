@@ -8,6 +8,7 @@ import storageManager from "storage"
 import config from "config"
 import Tab from "Tab"
 import { setAccount, setActiveTab } from "redux/actions"
+import { getUrl, getDomain } from "utils"
 
 require("moment/locale/zh-cn") //moment.js bug, has to manually include
 
@@ -22,6 +23,10 @@ function App({ account, setAccount, activeTab, setActiveTab }) {
 
 	const position = config.position
 	const size = config.size
+
+	// TODO: check url change
+	const [url, setUrl] = useState(getUrl())
+	const [domain, setDomain] = useState(getDomain())
 
 	useEffect(() => {
 		// Load everything from localStorage
@@ -80,6 +85,8 @@ function App({ account, setAccount, activeTab, setActiveTab }) {
 						account={account}
 						activeTab={activeTab}
 						setActiveTab={setActiveTab}
+						url={url}
+						domain={domain}
 					/>
 				</Rnd>
 			)}

@@ -23,7 +23,7 @@ message.config({
 	maxCount: 3
 })
 
-function Tab({ account, activeTab, setActiveTab, storageData }) {
+function Tab({ account, activeTab, setActiveTab, storageData, url, domain }) {
 	return (
 		<div className="sp-main-tabs">
 			<Tabs
@@ -43,7 +43,12 @@ function Tab({ account, activeTab, setActiveTab, storageData }) {
 					}
 					key="chat"
 				>
-					<Chat storageData={storageData} account={account} />
+					<Chat
+						storageData={storageData}
+						account={account}
+						url={url}
+						domain={domain}
+					/>
 				</TabPane>
 				<TabPane
 					tab={
@@ -54,7 +59,7 @@ function Tab({ account, activeTab, setActiveTab, storageData }) {
 					}
 					key="comment"
 				>
-					<Comment account={account} />
+					<Comment account={account} url={url} />
 				</TabPane>
 				<TabPane
 					tab={
