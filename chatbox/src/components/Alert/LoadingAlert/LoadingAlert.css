@@ -1,8 +1,8 @@
 .sp-loading-alert {
 	/* border-bottom: 1px solid #ffe58f; */
-	position: fixed;
+	/* position: fixed; */
 	width: 100%;
-	top: 79px;
+	/* top: 79px; */
 	z-index: 1;
 	opacity: 0.95;
 }

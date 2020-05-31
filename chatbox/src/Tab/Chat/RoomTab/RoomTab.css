@@ -27,5 +27,5 @@
 
 .ant-popover {
 	/* in chat view, message menu popover shows above image modal sometimes */
-	z-index: 999;
+	z-index: 1000;
 }
