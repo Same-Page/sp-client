@@ -43,10 +43,12 @@ function AvatarWithPopover({
 			setLoading(false)
 		}
 
-		if (popoverVisible && !completeUserData) {
+		if (popoverVisible) {
+			// always fetch latest data
+			// if (popoverVisible && !completeUserData) {
 			fetchData()
 		}
-	}, [popoverVisible, completeUserData, user.id])
+	}, [popoverVisible, user.id])
 	const toggleFollow = async () => {
 		setToggleingFollow(true)
 		try {
