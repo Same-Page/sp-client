@@ -1,13 +1,13 @@
 import React from "react"
 import "./Users.css"
-import AvatarWithPopover from "components/AvatarWithPopover"
+import AvatarWithPopover from "AvatarWithPopover"
 
-function Users({ users, messageUser }) {
+function Users({ users }) {
 	return (
 		<div className="spp-room-users">
 			{users.map(user => (
 				<span key={user.id} className="sp-online-user">
-					<AvatarWithPopover messageUser={messageUser} user={user} />
+					<AvatarWithPopover user={user} />
 					<div className="sp-online-user-username">{user.name}</div>
 				</span>
 			))}

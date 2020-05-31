@@ -21,20 +21,19 @@ import Users from "./Users"
 import storageManager from "storage"
 import config from "config"
 
-import { messageUser } from "redux/actions"
 import FloatingAlert from "components/Alert/FloatingAlert"
 
 const MESSAGE_TIME_GAP = 500
 let lastMsgTime = 0
 
 function RoomTab({
+	activeTab,
 	socket,
 	connected,
 	account,
 	room,
 	exit,
 	extraButton,
-	messageUser,
 	active
 }) {
 	const [messages, setMessages] = useState([])
@@ -186,6 +185,12 @@ function RoomTab({
 		}
 	}, [room, socket, account, connected])
 
+	useEffect(() => {
+		// close room info modal and online users when tab switched
+		setShowModal(false)
+		setShowUsers(false)
+	}, [activeTab])
+
 	const send = payload => {
 		const now = new Date()
 		if (payload.type === "file" || now - lastMsgTime > MESSAGE_TIME_GAP) {
@@ -238,7 +243,6 @@ function RoomTab({
 				room={room}
 				showModal={showModal}
 				setShowModal={setShowModal}
-				messageUser={messageUser}
 			/>
 			<Header
 				leftItems={
@@ -261,15 +265,7 @@ function RoomTab({
 							onVisibleChange={setShowUsers}
 							visible={showUsers}
 							overlayClassName="sp-room-users-popover"
-							content={
-								<Users
-									users={users}
-									messageUser={u => {
-										messageUser(u)
-										setShowUsers(false)
-									}}
-								/>
-							}
+							content={<Users users={users} />}
 							trigger="click"
 							title="在线用户"
 						>
@@ -305,7 +301,6 @@ function RoomTab({
 			{!joining && !joined && <FloatingAlert text="未连接" type="info" />}
 			<Conversation
 				backgroundColor="rgb(246, 249, 252)"
-				messageUser={messageUser}
 				messages={messages}
 				background={room.background}
 				messageActions={messageActions}
@@ -316,6 +311,9 @@ function RoomTab({
 	)
 }
 
-export default connect(null, {
-	messageUser
-})(RoomTab)
+const stateToProps = state => {
+	return {
+		activeTab: state.activeTab
+	}
+}
+export default connect(stateToProps)(RoomTab)

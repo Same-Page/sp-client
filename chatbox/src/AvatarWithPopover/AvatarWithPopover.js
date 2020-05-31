@@ -2,7 +2,7 @@ import "./AvatarWithPopover.css"
 
 import React, { useState } from "react"
 import { Avatar, Popover, Button, Row, Col } from "antd"
-import PropTypes from "prop-types"
+import { connect } from "react-redux"
 
 import {
 	MailOutlined,
@@ -11,6 +11,7 @@ import {
 	UserAddOutlined
 } from "@ant-design/icons"
 import Profile from "components/Profile"
+import { messageUser } from "redux/actions"
 
 function AvatarWithPopover({ user, size, messageUser, popoverPlacement }) {
 	const [popoverVisible, setPopoverVisible] = useState(false)
@@ -63,7 +64,5 @@ function AvatarWithPopover({ user, size, messageUser, popoverPlacement }) {
 		</Popover>
 	)
 }
-AvatarWithPopover.propTypes = {
-	messageUser: PropTypes.func.isRequired
-}
-export default AvatarWithPopover
+
+export default connect(null, { messageUser })(AvatarWithPopover)

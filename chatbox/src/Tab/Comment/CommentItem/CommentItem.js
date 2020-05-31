@@ -8,11 +8,11 @@ import {
 import { Comment, Modal, message } from "antd"
 import moment from "moment"
 
-import AvatarWithPopover from "components/AvatarWithPopover"
+import AvatarWithPopover from "AvatarWithPopover"
 
 import { voteComment } from "../service"
 
-function CommentItem({ c, messageUser }) {
+function CommentItem({ c }) {
 	const [score, setScore] = useState(c.my_score)
 	const [likes, setLikes] = useState(c.like_count)
 	const [dislikes, setDislikes] = useState(c.dislike_count)
@@ -129,13 +129,7 @@ function CommentItem({ c, messageUser }) {
 					</span>
 				]}
 				author={c.user.name}
-				avatar={
-					<AvatarWithPopover
-						user={c.user}
-						messageUser={messageUser}
-						popoverPlacement="right"
-					/>
-				}
+				avatar={<AvatarWithPopover user={c.user} popoverPlacement="right" />}
 				content={
 					<span
 						onClick={() => {

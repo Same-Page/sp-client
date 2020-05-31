@@ -104,7 +104,6 @@ function Conversation({
 				self={msg.self}
 				content={msg.content}
 				user={showUser && msg.user}
-				messageUser={messageUser}
 				timeDisplay={timeDisplay}
 				imageLoadedCb={imageLoadedCb}
 			/>

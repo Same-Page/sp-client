@@ -2,9 +2,9 @@ import "./RoomInfoModal.css"
 import React from "react"
 
 import { Modal } from "antd"
-import AvatarWithPopover from "components/AvatarWithPopover"
+import AvatarWithPopover from "AvatarWithPopover"
 
-function RoomInfoModal({ room, showModal, setShowModal, messageUser }) {
+function RoomInfoModal({ room, showModal, setShowModal }) {
 	return (
 		<Modal
 			centered
@@ -37,14 +37,7 @@ function RoomInfoModal({ room, showModal, setShowModal, messageUser }) {
 					<h4>房主</h4>
 
 					<div>
-						<AvatarWithPopover
-							user={room.owner}
-							messageUser={() => {
-								messageUser(room.owner)
-								setShowModal(false)
-							}}
-							popoverPlacement="right"
-						/>
+						<AvatarWithPopover user={room.owner} popoverPlacement="right" />
 						<span style={{ marginLeft: 10 }}>{room.owner.name}</span>
 					</div>
 				</div>

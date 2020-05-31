@@ -64,7 +64,6 @@ function ConversationTab({
 			<Conversation
 				backgroundColor="rgb(246, 249, 252)"
 				messages={messagesWithUserData(user, messages)}
-				messageUser={messageUser}
 			/>
 			<InputWithPicker
 				autoFocus={true}

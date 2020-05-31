@@ -3,12 +3,11 @@ import "./Message.css"
 import React from "react"
 import MessageBody from "./Body"
 
-import AvatarWithPopover from "components/AvatarWithPopover"
+import AvatarWithPopover from "AvatarWithPopover"
 
 function ChatMessage({
 	content,
 	user,
-	messageUser,
 	self,
 	timeDisplay,
 	imageLoadedCb,
@@ -35,7 +34,6 @@ function ChatMessage({
 
 		const avatar = (
 			<AvatarWithPopover
-				messageUser={messageUser}
 				user={user}
 				popoverPlacement={self ? "left" : "right"}
 			/>

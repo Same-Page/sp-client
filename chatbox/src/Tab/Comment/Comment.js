@@ -1,7 +1,6 @@
 import "./Comment.css"
 
 import React, { useState, useEffect, useRef } from "react"
-import { connect } from "react-redux"
 import { Select, message } from "antd"
 
 import InputWithPicker from "components/InputWithPicker"
@@ -9,12 +8,12 @@ import Header from "components/Header"
 import LoadingAlert from "components/Alert/LoadingAlert"
 import Alert from "components/Alert"
 import CommentItem from "./CommentItem"
-import { messageUser } from "redux/actions"
 import { getComments, postComment } from "./service"
+import { url } from "utils"
 
 const { Option } = Select
 
-function CommentTab({ account, url = "abc.com", messageUser }) {
+function CommentTab({ account }) {
 	const [comments, setComments] = useState([])
 	const [orderBy, setOrderBy] = useState("default")
 	const [loading, setLoading] = useState(false)
@@ -86,7 +85,7 @@ function CommentTab({ account, url = "abc.com", messageUser }) {
 			<div ref={bodyRef} className="sp-comment-body">
 				<div className="sp-comment-list">
 					{comments.map(c => (
-						<CommentItem key={c.id} c={c} messageUser={messageUser} />
+						<CommentItem key={c.id} c={c} />
 					))}
 				</div>
 			</div>
@@ -110,4 +109,4 @@ function CommentTab({ account, url = "abc.com", messageUser }) {
 	)
 }
 
-export default connect(null, { messageUser })(CommentTab)
+export default CommentTab
