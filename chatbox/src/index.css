@@ -4,7 +4,8 @@
 	top: unset !important;
 	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
 	z-index: 100;
-	overflow: hidden;
+	/* overflow: hidden; */
+	/* right resize needs overflow */
 }
 .ant-tabs-top-bar {
 	cursor: move;

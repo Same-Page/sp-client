@@ -59,6 +59,7 @@ function App({ account, setAccount, activeTab, setActiveTab }) {
 						width: size.width,
 						height: size.height
 					}}
+					resizeHandleStyles={{ right: { right: -10 } }}
 					dragHandleClassName="ant-tabs-top-bar"
 					minWidth={size.minWidth}
 					minHeight={size.minHeight}

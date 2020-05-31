@@ -36,6 +36,7 @@
 }
 .sp-comment-body .ant-comment-avatar {
 	margin-right: 5px;
+	cursor: unset;
 }
 .sp-comment-body .ant-comment-avatar img {
 	width: 100%;

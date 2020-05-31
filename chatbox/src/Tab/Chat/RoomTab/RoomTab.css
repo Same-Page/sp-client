@@ -22,7 +22,7 @@
 }
 .sp-room-users-popover.ant-popover {
 	/* this popover can open modal so it should be behind the newly opened modal */
-	z-index: 1001;
+	/* z-index: 1001; */
 }
 
 .ant-popover {
