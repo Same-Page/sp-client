@@ -10,8 +10,10 @@ import { getFollowers, getFollowings } from "./service"
 import LoadingAlert from "components/Alert/LoadingAlert"
 import FollowRow from "./FollowRow"
 import ProfileModal from "ProfileModal"
+import storageManager from "storage"
 
 function Follow({
+	account,
 	activeTab,
 	view,
 	setFollowView,
@@ -26,7 +28,34 @@ function Follow({
 	// modal needs to be with Follow component so that
 	// if unfollow, the modal won't be unmounted right away
 	const [showUserModal, setShowUserModal] = useState(null)
-
+	useEffect(() => {
+		// update the follow data on account
+		let shouldUpdate = false
+		if (followings) {
+			const followingUserIds = followings.map(u => u.id)
+			if (
+				account.followings.sort().toString() !==
+				followingUserIds.sort().toString()
+			) {
+				account.followings = followingUserIds
+				shouldUpdate = true
+			}
+		}
+		if (followers) {
+			const followerUserIds = followers.map(u => u.id)
+			if (
+				account.followers.sort().toString() !==
+				followerUserIds.sort().toString()
+			) {
+				account.followers = followerUserIds
+				shouldUpdate = true
+			}
+		}
+		if (shouldUpdate) {
+			console.debug("sync follow data")
+			storageManager.set("account", account)
+		}
+	}, [followings, followers, account])
 	useEffect(() => {
 		async function fetchData() {
 			try {
@@ -108,7 +137,8 @@ function Follow({
 
 const stateToProps = state => {
 	return {
-		activeTab: state.activeTab
+		activeTab: state.activeTab,
+		account: state.account
 	}
 }
 

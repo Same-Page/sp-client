@@ -1,6 +1,6 @@
 import "./Inbox.css"
 
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useCallback } from "react"
 import { connect } from "react-redux"
 import { message } from "antd"
 
@@ -38,7 +38,7 @@ function Inbox({ account, user, setInboxUser, messageUser, storageData }) {
 
 	const accountId = account && account.id
 
-	const mergeNewConversations = newConsDict => {
+	const mergeNewConversations = useCallback(newConsDict => {
 		// newConsDict = {
 		// 	<userId>: {
 		// 		user: {},
@@ -46,48 +46,60 @@ function Inbox({ account, user, setInboxUser, messageUser, storageData }) {
 		// 	},
 		//  ...
 		// }
+		setConsDict(consDict => {
+			for (let [userId, newCon] of Object.entries(newConsDict)) {
+				if (userId in consDict) {
+					const con = consDict[userId]
+					// use latest user data
+					con.user = newCon.user
 
-		for (let [userId, newCon] of Object.entries(newConsDict)) {
-			if (userId in consDict) {
-				const con = consDict[userId]
-				// use latest user data
-				con.user = newCon.user
-				console.log(con.messages)
-				console.log(newCon.messages)
+					con.messages.push(...newCon.messages)
 
-				con.messages.push(...newCon.messages)
-				console.log(con.messages)
-			} else {
-				consDict[userId] = newCon
+					// ensure unique messages, due to race condition
+					// server can return messages already received
+
+					const uniqueMsgs = []
+					const msgIds = new Set()
+					con.messages.forEach(m => {
+						if (!msgIds.has(m.id)) {
+							uniqueMsgs.push(m)
+							msgIds.add(m.id)
+						}
+					})
+					con.messages = uniqueMsgs
+				} else {
+					consDict[userId] = newCon
+				}
 			}
-		}
-		setConsDict({ ...consDict })
-		storageManager.set("inbox-" + account.id, consDict)
-	}
+			return { ...consDict }
+		})
+	}, [])
 
-	const fetchData = async offset => {
-		offset = offset || -1
-		offset = Math.max(offset, lastMsgId)
+	const fetchData = useCallback(
+		async offset => {
+			offset = offset || -1
+			offset = Math.max(offset, lastMsgId)
 
-		setLoading(true)
-		try {
-			console.debug("get inbox messages")
-			const resp = await getConversations(offset)
-			const newConsDict = resp.data
-			if (Object.keys(newConsDict).length > 0) {
-				message.success("收到新消息")
-				mergeNewConversations(newConsDict)
+			setLoading(true)
+			try {
+				console.debug("get inbox messages")
+				const resp = await getConversations(offset)
+				const newConsDict = resp.data
+				if (Object.keys(newConsDict).length > 0) {
+					message.success("收到新消息")
+					mergeNewConversations(newConsDict)
+				}
+			} catch (error) {
+				message.error("无法读取新消息！")
+				console.error(error)
 			}
-		} catch (error) {
-			message.error("无法读取新消息！")
-			console.error(error)
-		}
-		setLoading(false)
-	}
+			setLoading(false)
+		},
+		[lastMsgId, mergeNewConversations]
+	)
 
 	useEffect(() => {
 		const lastMsgId = getLastMsgId(consDict)
-		console.debug("lastMsgId", lastMsgId)
 		setLastMsgId(lastMsgId)
 
 		// convert dict to array
@@ -97,9 +109,11 @@ function Inbox({ account, user, setInboxUser, messageUser, storageData }) {
 				a.messages[a.messages.length - 1].id -
 				b.messages[b.messages.length - 1].id
 		)
-		console.debug(cons)
 		setConversations(cons)
-	}, [consDict])
+		if (accountId) {
+			storageManager.set("inbox-" + accountId, consDict)
+		}
+	}, [consDict, accountId])
 
 	useEffect(() => {
 		if (accountId) {
@@ -109,7 +123,7 @@ function Inbox({ account, user, setInboxUser, messageUser, storageData }) {
 		} else {
 			setConsDict({})
 		}
-	}, [accountId, storageData])
+	}, [accountId, storageData, fetchData, mergeNewConversations])
 
 	useEffect(() => {
 		// Pick selected conversation base on user

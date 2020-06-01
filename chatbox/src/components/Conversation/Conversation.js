@@ -33,7 +33,7 @@ function Conversation({
 
 	const scrollToBottomIfNearBottom = useCallback(forceScroll => {
 		const timeout = 100 // need this still?
-
+		// console.log("scroll")
 		const bodyDiv = bodyRef.current
 		if (!bodyDiv) {
 			console.error("no chat body div to scroll to bottom")
@@ -51,7 +51,10 @@ function Conversation({
 	}, [])
 
 	useEffect(() => {
-		if (messages.length > msgCountRef.current) {
+		if (
+			messages.length > 0 &&
+			(!msgCountRef.current || messages.length > msgCountRef.current)
+		) {
 			scrollToBottomIfNearBottom(firstTimeAutoScroll)
 			setFirstTimeAutoScroll(false)
 		}
