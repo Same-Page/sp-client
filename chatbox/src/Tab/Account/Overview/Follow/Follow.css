@@ -1,0 +1,13 @@
+.sp-follow-row {
+	padding: 10px 15px;
+	border-bottom: 1px solid #f1f1f1;
+	cursor: pointer;
+}
+
+.sp-follow-row:hover {
+	background: #f1f1f1;
+}
+
+.sp-follow-row .sp-username {
+	margin-left: 15px;
+}

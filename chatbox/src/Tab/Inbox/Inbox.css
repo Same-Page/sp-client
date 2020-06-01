@@ -4,7 +4,7 @@
 	cursor: pointer;
 }
 .sp-inbox-item:hover {
-	background: rgb(224, 224, 224);
+	background: #f1f1f1;
 }
 .sp-inbox-item .sp-username-msgtime-row {
 	margin-bottom: 5px;
@@ -15,7 +15,7 @@
 	/* margin-top: 5px; */
 }
 .sp-inbox-item .sp-username {
-	font-weight: bold;
+	font-weight: 400;
 }
 .sp-inbox-item .sp-lastmsg-time {
 	float: right;

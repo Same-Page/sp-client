@@ -3,7 +3,7 @@ import "./AvatarWithModal.css"
 import React, { useState } from "react"
 import { Avatar, Popover, Button } from "antd"
 import { MailOutlined, StopOutlined, UserAddOutlined } from "@ant-design/icons"
-import ProfileModal from "components/ProfileModal"
+// import ProfileModal from "components/ProfileModal"
 
 function AvatarWithModal({ user, messageUser, popoverPlacement }) {
 	const [showModal, setShowModal] = useState(false)
@@ -60,13 +60,13 @@ function AvatarWithModal({ user, messageUser, popoverPlacement }) {
 			) : (
 				<>{avatar}</>
 			)}
-			{showModal && (
+			{/* {showModal && (
 				<ProfileModal
 					user={user}
 					messageUser={messageUser}
 					setShowModal={setShowModal}
 				/>
-			)}
+			)} */}
 		</>
 	)
 }

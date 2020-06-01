@@ -4,19 +4,12 @@ import { LeftOutlined } from "@ant-design/icons"
 
 import Conversation from "components/Conversation"
 import InputWithPicker from "components/InputWithPicker"
-import ProfileModal from "components/ProfileModal"
+import ProfileModal from "ProfileModal"
 import Header from "components/Header"
 
 import { postMessage } from "../service"
 
-function ConversationTab({
-	account,
-	user,
-	messages,
-	setConversations,
-	messageUser,
-	back
-}) {
+function ConversationTab({ account, user, messages, setConversations, back }) {
 	const [showProfileModal, setShowProfileModal] = useState(false)
 	const [sending, setSending] = useState(false)
 	const messagesWithUserData = (otherUser, messages) => {
@@ -37,11 +30,7 @@ function ConversationTab({
 	return (
 		<div className="sp-flex-body sp-conversation-tab">
 			{showProfileModal && (
-				<ProfileModal
-					user={user}
-					messageUser={messageUser}
-					setShowModal={setShowProfileModal}
-				/>
+				<ProfileModal user={user} setShowModal={setShowProfileModal} />
 			)}
 
 			<Header

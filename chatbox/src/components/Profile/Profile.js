@@ -1,3 +1,5 @@
+import "./Profile.css"
+
 import React from "react"
 import { Row, Col } from "antd"
 
@@ -23,9 +25,16 @@ const aboutStyle = {
 	marginTop: 20
 }
 
-function Profile({ user, self, gutter, followerCount, followingCount }) {
+function Profile({
+	user,
+	self,
+	gutter,
+	followerCount,
+	followingCount,
+	setFollowView
+}) {
 	return (
-		<div>
+		<div className={self ? "sp-self-profile" : ""}>
 			<Row gutter={gutter} style={{ textAlign: "center" }}>
 				<Col style={{ textAlign: "center" }} span={12}>
 					ID <br />
@@ -34,7 +43,6 @@ function Profile({ user, self, gutter, followerCount, followingCount }) {
 				</Col>
 				<Col style={{ textAlign: "center" }} span={12}>
 					<span
-						className="sp-follow-stats"
 						onClick={() => {
 							// props.showRooms()
 						}}
@@ -49,7 +57,9 @@ function Profile({ user, self, gutter, followerCount, followingCount }) {
 				<Col style={{ textAlign: "center" }} span={12}>
 					<span
 						className="sp-follow-stats"
-						// onClick={props.showFollowings}
+						onClick={() => {
+							setFollowView && setFollowView("followings")
+						}}
 					>
 						关注了
 						<br /> <b>{followingCount} </b>
@@ -59,7 +69,9 @@ function Profile({ user, self, gutter, followerCount, followingCount }) {
 				<Col style={{ textAlign: "center" }} span={12}>
 					<span
 						className="sp-follow-stats"
-						// onClick={props.showFollowers}
+						onClick={() => {
+							setFollowView && setFollowView("followers")
+						}}
 					>
 						关注者
 						<br /> <b>{followerCount} </b>

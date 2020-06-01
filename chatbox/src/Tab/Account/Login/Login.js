@@ -17,12 +17,16 @@ const NormalLoginForm = ({ signup }) => {
 		try {
 			const resp = await login(values.username, values.password)
 			message.success("登录成功！")
+			setLoading(false)
+
 			storageManager.set("account", resp.data)
 		} catch (error) {
 			message.error("登录失败！")
 			console.error(error)
 		}
-		setLoading(false)
+		// setLoading(false) is commented out because component is
+		// already unmounted?
+		// setLoading(false)
 	}
 
 	return (

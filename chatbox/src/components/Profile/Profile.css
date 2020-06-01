@@ -1,0 +1,5 @@
+.sp-self-profile .sp-follow-stats:hover {
+	color: #40a9ff;
+	text-decoration: underline;
+	cursor: pointer;
+}
