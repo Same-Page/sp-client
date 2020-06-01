@@ -17,18 +17,18 @@ function Follow({ view, setFollowView, back, followingCount, followerCount }) {
 		async function fetchData() {
 			try {
 				if (view === "followers") {
-					if (!followers) {
-						setLoading(true)
-						const resp = await getFollowers()
-						setFollowers(resp.data)
-					}
+					// if (!followers) {
+					setLoading(true)
+					const resp = await getFollowers()
+					setFollowers(resp.data)
+					// }
 				} else {
-					if (!followings) {
-						setLoading(true)
+					// if (!followings) {
+					setLoading(true)
 
-						const resp = await getFollowings()
-						setFollowings(resp.data)
-					}
+					const resp = await getFollowings()
+					setFollowings(resp.data)
+					// }
 				}
 			} catch (error) {
 				message.error("载入失败！")
@@ -38,7 +38,7 @@ function Follow({ view, setFollowView, back, followingCount, followerCount }) {
 		}
 
 		fetchData()
-	}, [view])
+	}, [view, followingCount, followerCount])
 
 	return (
 		<>

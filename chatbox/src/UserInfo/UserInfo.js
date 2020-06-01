@@ -18,7 +18,7 @@ function UserInfo({ account, user, messageUser }) {
 	const [completeUserData, setCompleteUserData] = useState()
 	const gutter = 10
 	const isFollowing = account && account.followings.includes(user.id)
-	const [togglingFollow, setToggleingFollow] = useState(false)
+	const [togglingFollow, setTogglingFollow] = useState(false)
 	const [followBtnOnHover, setFollowBtnOnHover] = useState(false)
 
 	useEffect(() => {
@@ -37,19 +37,24 @@ function UserInfo({ account, user, messageUser }) {
 		fetchData()
 	}, [user.id])
 	const toggleFollow = async () => {
-		setToggleingFollow(true)
+		setTogglingFollow(true)
 		try {
 			if (isFollowing) {
 				account.followings = account.followings.filter(f => {
 					return f !== user.id
 				})
 				setCompleteUserData(u => {
-					return { ...u, followerCount: u.followerCount - 1 }
+					if (u) {
+						return { ...u, followerCount: u.followerCount - 1 }
+					}
 				})
 			} else {
 				account.followings.push(user.id)
+
 				setCompleteUserData(u => {
-					return { ...u, followerCount: u.followerCount + 1 }
+					if (u) {
+						return { ...u, followerCount: u.followerCount + 1 }
+					}
 				})
 			}
 			storageManager.set("account", account)
@@ -58,7 +63,7 @@ function UserInfo({ account, user, messageUser }) {
 			message.error("关注失败！")
 			console.error(error)
 		}
-		setToggleingFollow(false)
+		setTogglingFollow(false)
 	}
 	let followBtnText = "关注"
 	if (isFollowing) {
