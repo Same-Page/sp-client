@@ -70,7 +70,7 @@ function Tab({ account, activeTab, setActiveTab, storageData, url, domain }) {
 					}
 					key="inbox"
 				>
-					<Inbox account={account} />
+					<Inbox account={account} storageData={storageData} />
 				</TabPane>
 				<TabPane
 					tab={

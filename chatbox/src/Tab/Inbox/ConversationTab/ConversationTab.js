@@ -9,7 +9,14 @@ import Header from "components/Header"
 
 import { postMessage } from "../service"
 
-function ConversationTab({ account, user, messages, setConversations, back }) {
+function ConversationTab({
+	account,
+	user,
+	messages,
+	lastMsgId,
+	mergeNewConversations,
+	back
+}) {
 	const [showProfileModal, setShowProfileModal] = useState(false)
 	const [sending, setSending] = useState(false)
 	const messagesWithUserData = (otherUser, messages) => {
@@ -64,9 +71,9 @@ function ConversationTab({ account, user, messages, setConversations, back }) {
 				sending={sending}
 				send={input => {
 					setSending(true)
-					postMessage(user.id, input, -1)
+					postMessage(user.id, input, lastMsgId)
 						.then(resp => {
-							setConversations(resp.data)
+							mergeNewConversations(resp.data)
 
 							// TODO: let socket server help ping user right away
 							// socketManager.sendEvent("private message", { userId: other.id })

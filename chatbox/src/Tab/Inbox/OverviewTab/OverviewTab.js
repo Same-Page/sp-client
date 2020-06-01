@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import moment from "moment"
 import { Avatar, Button, Radio } from "antd"
-import { ReloadOutlined } from "@ant-design/icons"
+import { ReloadOutlined, LoadingOutlined } from "@ant-design/icons"
 import LoadingAlert from "components/Alert/LoadingAlert"
 import Header from "components/Header"
 
@@ -20,7 +20,12 @@ function OverviewTab({ conversations, setInboxUser, loading, fetchData }) {
 			<Header
 				leftItems={
 					<>
-						<Button icon={<ReloadOutlined />} onClick={fetchData} />
+						<Button
+							icon={loading ? <LoadingOutlined /> : <ReloadOutlined />}
+							onClick={() => {
+								fetchData()
+							}}
+						/>
 					</>
 				}
 				centerItems={
