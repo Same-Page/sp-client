@@ -5,15 +5,13 @@ import { Modal } from "antd"
 
 import UserInfo from "UserInfo"
 
-function ProfileModal({ user, setShowModal }) {
+function ProfileModal({ user, closeModal }) {
 	return (
 		<Modal
 			title="用户信息"
 			centered
 			visible={true}
-			onCancel={() => {
-				setShowModal(false)
-			}}
+			onCancel={closeModal}
 			footer={null}
 			className="sp-modal sp-profile-modal"
 		>

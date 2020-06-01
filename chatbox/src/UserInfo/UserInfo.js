@@ -6,6 +6,7 @@ import {
 	MailOutlined,
 	PlusOutlined,
 	UserOutlined,
+	MinusOutlined,
 	LoadingOutlined
 } from "@ant-design/icons"
 import Profile from "components/Profile"
@@ -39,6 +40,8 @@ function UserInfo({ account, user, messageUser }) {
 	const toggleFollow = async () => {
 		setTogglingFollow(true)
 		try {
+			await follow(user.id, !isFollowing)
+
 			if (isFollowing) {
 				account.followings = account.followings.filter(f => {
 					return f !== user.id
@@ -58,19 +61,21 @@ function UserInfo({ account, user, messageUser }) {
 				})
 			}
 			storageManager.set("account", account)
-			await follow(user.id, !isFollowing)
 		} catch (error) {
 			message.error("关注失败！")
 			console.error(error)
 		}
 		setTogglingFollow(false)
 	}
+	let followIcon = <PlusOutlined />
 	let followBtnText = "关注"
 	if (isFollowing) {
 		if (!followBtnOnHover && !togglingFollow) {
 			followBtnText = "已关注"
+			followIcon = ""
 		} else {
 			followBtnText = "取关"
+			followIcon = <MinusOutlined />
 		}
 	}
 
@@ -107,9 +112,9 @@ function UserInfo({ account, user, messageUser }) {
 									setFollowBtnOnHover(false)
 								}}
 								style={{ width: 80 }}
-								// loading={togglingFollow}
+								loading={togglingFollow}
 								type={isFollowing ? "default" : "primary"}
-								icon={!isFollowing && <PlusOutlined />}
+								icon={followIcon}
 								onClick={toggleFollow}
 							>
 								{followBtnText}

@@ -28,7 +28,6 @@ function Conversation({
 		bodyStyle.background = backgroundColor
 	}
 	const imageLoadedCb = () => {
-		console.debug("img loaded")
 		scrollToBottomIfNearBottom()
 	}
 

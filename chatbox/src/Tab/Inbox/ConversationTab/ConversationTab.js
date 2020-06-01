@@ -30,7 +30,12 @@ function ConversationTab({ account, user, messages, setConversations, back }) {
 	return (
 		<div className="sp-flex-body sp-conversation-tab">
 			{showProfileModal && (
-				<ProfileModal user={user} setShowModal={setShowProfileModal} />
+				<ProfileModal
+					user={user}
+					closeModal={() => {
+						setShowProfileModal(false)
+					}}
+				/>
 			)}
 
 			<Header

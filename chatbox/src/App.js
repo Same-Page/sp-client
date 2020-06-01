@@ -27,7 +27,7 @@ function App({ account, setAccount, activeTab, setActiveTab }) {
 	// TODO: check url change
 	const [url, setUrl] = useState(getUrl())
 	const [domain, setDomain] = useState(getDomain())
-
+	const token = account && account.token
 	useEffect(() => {
 		// Load everything from localStorage
 		// register all localstorage listeners
@@ -46,11 +46,9 @@ function App({ account, setAccount, activeTab, setActiveTab }) {
 	}, [setAccount])
 
 	useEffect(() => {
-		if (account) {
-			console.info("account id changed to " + account.id)
-			axios.defaults.headers.common["token"] = account.token
-		}
-	}, [account])
+		console.info("token changed")
+		axios.defaults.headers.common["token"] = token
+	}, [token])
 
 	return (
 		<div className="sp-all">

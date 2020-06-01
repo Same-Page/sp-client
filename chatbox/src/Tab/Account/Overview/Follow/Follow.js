@@ -3,16 +3,30 @@ import "./Follow.css"
 import React, { useState, useEffect } from "react"
 import { Radio, Button, message } from "antd"
 import { LeftOutlined } from "@ant-design/icons"
+import { connect } from "react-redux"
 
 import Header from "components/Header"
 import { getFollowers, getFollowings } from "./service"
 import LoadingAlert from "components/Alert/LoadingAlert"
 import FollowRow from "./FollowRow"
+import ProfileModal from "ProfileModal"
 
-function Follow({ view, setFollowView, back, followingCount, followerCount }) {
+function Follow({
+	activeTab,
+	view,
+	setFollowView,
+	back,
+	followingCount,
+	followerCount
+}) {
 	const [loading, setLoading] = useState(false)
 	const [followers, setFollowers] = useState()
 	const [followings, setFollowings] = useState()
+	// showUserModal = the user to show in the modal
+	// modal needs to be with Follow component so that
+	// if unfollow, the modal won't be unmounted right away
+	const [showUserModal, setShowUserModal] = useState(null)
+
 	useEffect(() => {
 		async function fetchData() {
 			try {
@@ -39,9 +53,20 @@ function Follow({ view, setFollowView, back, followingCount, followerCount }) {
 
 		fetchData()
 	}, [view, followingCount, followerCount])
-
+	useEffect(() => {
+		setShowUserModal(false)
+	}, [activeTab])
 	return (
 		<>
+			{showUserModal && (
+				<ProfileModal
+					user={showUserModal}
+					closeModal={() => {
+						setShowUserModal(false)
+					}}
+				/>
+			)}
+
 			<Header
 				leftItems={
 					<>
@@ -69,12 +94,22 @@ function Follow({ view, setFollowView, back, followingCount, followerCount }) {
 			{loading && <LoadingAlert text="载入中。。。" />}
 			{view === "followings" &&
 				followings &&
-				followings.map(u => <FollowRow key={u.id} user={u} />)}
+				followings.map(u => (
+					<FollowRow setShowUserModal={setShowUserModal} key={u.id} user={u} />
+				))}
 			{view === "followers" &&
 				followers &&
-				followers.map(u => <FollowRow key={u.id} user={u} />)}
+				followers.map(u => (
+					<FollowRow setShowUserModal={setShowUserModal} key={u.id} user={u} />
+				))}
 		</>
 	)
 }
 
-export default Follow
+const stateToProps = state => {
+	return {
+		activeTab: state.activeTab
+	}
+}
+
+export default connect(stateToProps)(Follow)
