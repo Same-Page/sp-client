@@ -19,6 +19,7 @@ function UserInfo({ account, user, messageUser, visible }) {
 	const [completeUserData, setCompleteUserData] = useState()
 	const gutter = 10
 	const isFollowing = completeUserData && completeUserData.isFollowing
+	const mutualFollow = isFollowing && completeUserData.isFollower
 	const [togglingFollow, setTogglingFollow] = useState(false)
 	const [followBtnOnHover, setFollowBtnOnHover] = useState(false)
 
@@ -40,6 +41,7 @@ function UserInfo({ account, user, messageUser, visible }) {
 		// put visible here to force refresh data
 	}, [user, visible])
 	const toggleFollow = async () => {
+		if (togglingFollow) return
 		setTogglingFollow(true)
 		try {
 			await follow(user.id, !isFollowing)
@@ -80,11 +82,17 @@ function UserInfo({ account, user, messageUser, visible }) {
 	if (isFollowing) {
 		if (!followBtnOnHover && !togglingFollow) {
 			followBtnText = "已关注"
+			if (mutualFollow) {
+				followBtnText = "互相关注"
+			}
 			followIcon = ""
 		} else {
 			followBtnText = "取关"
 			followIcon = <MinusOutlined />
 		}
+	}
+	if (togglingFollow) {
+		followIcon = <LoadingOutlined />
 	}
 
 	return (
@@ -114,8 +122,11 @@ function UserInfo({ account, user, messageUser, visible }) {
 									onMouseLeave={() => {
 										setFollowBtnOnHover(false)
 									}}
-									style={{ width: 80 }}
-									loading={togglingFollow}
+									// style={{ width: 80 }}
+									// not using loading attribute because of
+									// delayed animation which shift space
+									// loading={togglingFollow}
+									// disabled={togglingFollow}
 									type={isFollowing ? "default" : "primary"}
 									icon={followIcon}
 									onClick={toggleFollow}
