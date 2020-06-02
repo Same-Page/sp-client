@@ -23,6 +23,7 @@ const NormalLoginForm = ({ signup }) => {
 		} catch (error) {
 			message.error("登录失败！")
 			console.error(error)
+			setLoading(false)
 		}
 		// setLoading(false) is commented out because component is
 		// already unmounted?

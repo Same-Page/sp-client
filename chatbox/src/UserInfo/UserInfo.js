@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react"
-import { Avatar, Button, Row, Col, message } from "antd"
+import { Avatar, Button, Row, Col, message, Skeleton } from "antd"
 import { connect } from "react-redux"
 
 import {
@@ -18,7 +18,7 @@ function UserInfo({ account, user, messageUser }) {
 	const [loading, setLoading] = useState(false)
 	const [completeUserData, setCompleteUserData] = useState()
 	const gutter = 10
-	const isFollowing = account && account.followings.includes(user.id)
+	const isFollowing = completeUserData && completeUserData.isFollowing
 	const [togglingFollow, setTogglingFollow] = useState(false)
 	const [followBtnOnHover, setFollowBtnOnHover] = useState(false)
 
@@ -41,26 +41,32 @@ function UserInfo({ account, user, messageUser }) {
 		setTogglingFollow(true)
 		try {
 			await follow(user.id, !isFollowing)
-
+			// maybe it's better to let backend return new number
 			if (isFollowing) {
-				account.followings = account.followings.filter(f => {
-					return f !== user.id
-				})
 				setCompleteUserData(u => {
 					if (u) {
-						return { ...u, followerCount: u.followerCount - 1 }
+						return {
+							...u,
+							followerCount: u.followerCount - 1,
+							isFollowing: false
+						}
 					}
 				})
+				account.followingCount--
+				storageManager.set("account", account)
 			} else {
-				account.followings.push(user.id)
-
 				setCompleteUserData(u => {
 					if (u) {
-						return { ...u, followerCount: u.followerCount + 1 }
+						return {
+							...u,
+							followerCount: u.followerCount + 1,
+							isFollowing: true
+						}
 					}
 				})
+				account.followingCount++
+				storageManager.set("account", account)
 			}
-			storageManager.set("account", account)
 		} catch (error) {
 			message.error("关注失败！")
 			console.error(error)
@@ -81,8 +87,8 @@ function UserInfo({ account, user, messageUser }) {
 
 	return (
 		<div>
-			{loading && <LoadingOutlined style={{ position: "absolute" }} />}
-			<div style={{ maxWidth: 250, margin: "auto" }}>
+			{/* {loading && <LoadingOutlined style={{ position: "absolute" }} />} */}
+			<div style={{ width: 200, margin: "auto" }}>
 				<Avatar
 					style={{ display: "block", margin: "auto" }}
 					size={128}
@@ -93,45 +99,41 @@ function UserInfo({ account, user, messageUser }) {
 					<b>{user.name}</b>
 				</center>
 
-				<Profile
-					user={completeUserData}
-					followerCount={completeUserData && completeUserData.followerCount}
-					followingCount={completeUserData && completeUserData.followingCount}
-					gutter={gutter}
-					self={false}
-				/>
+				<Skeleton active loading={loading}>
+					<Profile user={completeUserData} gutter={gutter} self={false} />
 
-				<div style={{ margin: "auto", marginTop: 20 }}>
-					<Row gutter={gutter} style={{ textAlign: "center" }}>
-						<Col style={{ textAlign: "center", marginBottom: 10 }} span={12}>
-							<Button
-								onMouseEnter={() => {
-									setFollowBtnOnHover(true)
-								}}
-								onMouseLeave={() => {
-									setFollowBtnOnHover(false)
-								}}
-								style={{ width: 80 }}
-								loading={togglingFollow}
-								type={isFollowing ? "default" : "primary"}
-								icon={followIcon}
-								onClick={toggleFollow}
-							>
-								{followBtnText}
-							</Button>
-						</Col>
-						<Col style={{ textAlign: "center" }} span={12}>
-							<Button
-								icon={<MailOutlined />}
-								onClick={() => {
-									messageUser(user)
-								}}
-							>
-								私信
-							</Button>
-						</Col>
-					</Row>
-				</div>
+					<div style={{ margin: "auto", marginTop: 20 }}>
+						<Row gutter={gutter} style={{ textAlign: "center" }}>
+							<Col style={{ textAlign: "center", marginBottom: 10 }} span={12}>
+								<Button
+									onMouseEnter={() => {
+										setFollowBtnOnHover(true)
+									}}
+									onMouseLeave={() => {
+										setFollowBtnOnHover(false)
+									}}
+									style={{ width: 80 }}
+									loading={togglingFollow}
+									type={isFollowing ? "default" : "primary"}
+									icon={followIcon}
+									onClick={toggleFollow}
+								>
+									{followBtnText}
+								</Button>
+							</Col>
+							<Col style={{ textAlign: "center" }} span={12}>
+								<Button
+									icon={<MailOutlined />}
+									onClick={() => {
+										messageUser(user)
+									}}
+								>
+									私信
+								</Button>
+							</Col>
+						</Row>
+					</div>
+				</Skeleton>
 			</div>
 		</div>
 	)

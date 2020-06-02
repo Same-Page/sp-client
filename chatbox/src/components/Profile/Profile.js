@@ -25,14 +25,7 @@ const aboutStyle = {
 	marginTop: 20
 }
 
-function Profile({
-	user,
-	self,
-	gutter,
-	followerCount,
-	followingCount,
-	setFollowView
-}) {
+function Profile({ user, self, gutter, setFollowView }) {
 	return (
 		<div className={self ? "sp-self-profile" : ""}>
 			<Row gutter={gutter} style={{ textAlign: "center" }}>
@@ -62,7 +55,7 @@ function Profile({
 						}}
 					>
 						关注了
-						<br /> <b>{followingCount} </b>
+						<br /> <b>{user && user.followingCount} </b>
 						{!user && <br />}
 					</span>
 				</Col>
@@ -74,39 +67,12 @@ function Profile({
 						}}
 					>
 						关注者
-						<br /> <b>{followerCount} </b>
+						<br /> <b>{user && user.followerCount} </b>
 						{!user && <br />}
 					</span>
 				</Col>
 			</Row>
-			{false && (
-				<span>
-					<Row gutter={gutter} style={{ marginTop: 10, textAlign: "center" }}>
-						<Col style={{ textAlign: "center" }} span={12}>
-							<span
-								className="sp-follow-stats"
-								onClick={() => {
-									// props.showRooms()
-								}}
-							>
-								房间
-								<br /> <b>{user.rooms && user.rooms.length}</b>
-							</span>
-						</Col>
-						<Col style={{ textAlign: "center" }} span={12}>
-							<span
-								className="sp-follow-stats"
-								onClick={() => {
-									// props.showBlacklist()
-								}}
-							>
-								黑名单
-								{/* <br /> <b>{props.blacklist.length}</b> */}
-							</span>
-						</Col>
-					</Row>
-				</span>
-			)}
+
 			{user && user.about && <div style={aboutStyle}>{user.about}</div>}
 		</div>
 	)

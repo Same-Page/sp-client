@@ -6,12 +6,10 @@ import { UserOutlined } from "@ant-design/icons"
 import Profile from "components/Profile"
 import AccountButtons from "./AccountButtons"
 import Follow from "./Follow"
+import storageManager from "storage"
 
 function Overview({ account }) {
 	const [followView, setFollowView] = useState(false)
-
-	const followerCount = account.followers.length
-	const followingCount = account.followings.length
 
 	return (
 		<div className="sp-flex-body">
@@ -26,21 +24,23 @@ function Overview({ account }) {
 					<center style={{ margin: 20 }}>
 						<b>{account.name}</b>
 					</center>
-					<Profile
-						self={true}
-						user={account}
-						followerCount={followerCount}
-						followingCount={followingCount}
-						setFollowView={setFollowView}
-					/>
+					<Profile self={true} user={account} setFollowView={setFollowView} />
 					<AccountButtons />
 				</div>
 			)}
 			{followView && (
 				<Follow
 					view={followView}
-					followerCount={followerCount}
-					followingCount={followingCount}
+					followerCount={account.followerCount}
+					followingCount={account.followingCount}
+					setFollowerCount={num => {
+						account.followerCount = num
+						storageManager.set("account", account)
+					}}
+					setFollowingCount={num => {
+						account.followingCount = num
+						storageManager.set("account", account)
+					}}
 					setFollowView={setFollowView}
 					back={() => {
 						setFollowView(false)

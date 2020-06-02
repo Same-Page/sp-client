@@ -10,16 +10,16 @@ import { getFollowers, getFollowings } from "./service"
 import LoadingAlert from "components/Alert/LoadingAlert"
 import FollowRow from "./FollowRow"
 import ProfileModal from "ProfileModal"
-import storageManager from "storage"
 
 function Follow({
-	account,
 	activeTab,
 	view,
 	setFollowView,
 	back,
 	followingCount,
-	followerCount
+	followerCount,
+	setFollowingCount,
+	setFollowerCount
 }) {
 	const [loading, setLoading] = useState(false)
 	const [followers, setFollowers] = useState()
@@ -29,49 +29,28 @@ function Follow({
 	// if unfollow, the modal won't be unmounted right away
 	const [showUserModal, setShowUserModal] = useState(null)
 	useEffect(() => {
-		// update the follow data on account
-		let shouldUpdate = false
 		if (followings) {
-			const followingUserIds = followings.map(u => u.id)
-			if (
-				account.followings.sort().toString() !==
-				followingUserIds.sort().toString()
-			) {
-				account.followings = followingUserIds
-				shouldUpdate = true
-			}
+			setFollowingCount(followings.length)
 		}
+	}, [followings])
+	useEffect(() => {
 		if (followers) {
-			const followerUserIds = followers.map(u => u.id)
-			if (
-				account.followers.sort().toString() !==
-				followerUserIds.sort().toString()
-			) {
-				account.followers = followerUserIds
-				shouldUpdate = true
-			}
+			setFollowerCount(followers.length)
 		}
-		if (shouldUpdate) {
-			console.debug("sync follow data")
-			storageManager.set("account", account)
-		}
-	}, [followings, followers, account])
+	}, [followers])
+
 	useEffect(() => {
 		async function fetchData() {
 			try {
 				if (view === "followers") {
-					// if (!followers) {
 					setLoading(true)
 					const resp = await getFollowers()
 					setFollowers(resp.data)
-					// }
 				} else {
-					// if (!followings) {
 					setLoading(true)
 
 					const resp = await getFollowings()
 					setFollowings(resp.data)
-					// }
 				}
 			} catch (error) {
 				message.error("载入失败！")
