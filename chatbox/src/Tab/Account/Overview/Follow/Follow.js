@@ -10,6 +10,7 @@ import { getFollowers, getFollowings } from "./service"
 import LoadingAlert from "components/Alert/LoadingAlert"
 import FollowRow from "./FollowRow"
 import ProfileModal from "ProfileModal"
+import storageManager from "storage"
 
 function Follow({
 	activeTab,
@@ -17,9 +18,7 @@ function Follow({
 	setFollowView,
 	back,
 	followingCount,
-	followerCount,
-	setFollowingCount,
-	setFollowerCount
+	followerCount
 }) {
 	const [loading, setLoading] = useState(false)
 	const [followers, setFollowers] = useState()
@@ -30,12 +29,24 @@ function Follow({
 	const [showUserModal, setShowUserModal] = useState(null)
 	useEffect(() => {
 		if (followings) {
-			setFollowingCount(followings.length)
+			console.debug("update followings")
+
+			storageManager.get("account", account => {
+				// only way to avoid infinite update
+				account.followingCount = followings.length
+				storageManager.set("account", account)
+			})
 		}
 	}, [followings])
 	useEffect(() => {
 		if (followers) {
-			setFollowerCount(followers.length)
+			console.debug("update followings")
+
+			storageManager.get("account", account => {
+				// only way to avoid infinite update
+				account.followerCount = followers.length
+				storageManager.set("account", account)
+			})
 		}
 	}, [followers])
 

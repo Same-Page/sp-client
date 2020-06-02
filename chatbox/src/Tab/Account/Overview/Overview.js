@@ -6,7 +6,6 @@ import { UserOutlined } from "@ant-design/icons"
 import Profile from "components/Profile"
 import AccountButtons from "./AccountButtons"
 import Follow from "./Follow"
-import storageManager from "storage"
 
 function Overview({ account }) {
 	const [followView, setFollowView] = useState(false)
@@ -33,14 +32,6 @@ function Overview({ account }) {
 					view={followView}
 					followerCount={account.followerCount}
 					followingCount={account.followingCount}
-					setFollowerCount={num => {
-						account.followerCount = num
-						storageManager.set("account", account)
-					}}
-					setFollowingCount={num => {
-						account.followingCount = num
-						storageManager.set("account", account)
-					}}
 					setFollowView={setFollowView}
 					back={() => {
 						setFollowView(false)
