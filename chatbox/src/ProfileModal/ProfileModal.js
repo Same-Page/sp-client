@@ -15,7 +15,7 @@ function ProfileModal({ user, closeModal }) {
 			footer={null}
 			className="sp-modal sp-profile-modal"
 		>
-			<UserInfo user={user} />
+			<UserInfo user={user} visible={true} />
 		</Modal>
 	)
 }

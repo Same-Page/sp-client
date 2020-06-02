@@ -14,7 +14,7 @@ import { messageUser } from "redux/actions"
 import { follow, getUser } from "./service"
 import storageManager from "storage"
 
-function UserInfo({ account, user, messageUser }) {
+function UserInfo({ account, user, messageUser, visible }) {
 	const [loading, setLoading] = useState(false)
 	const [completeUserData, setCompleteUserData] = useState()
 	const gutter = 10
@@ -34,9 +34,11 @@ function UserInfo({ account, user, messageUser }) {
 			}
 			setLoading(false)
 		}
-
-		fetchData()
-	}, [user.id])
+		if (user && visible) {
+			fetchData()
+		}
+		// put visible here to force refresh data
+	}, [user, visible])
 	const toggleFollow = async () => {
 		setTogglingFollow(true)
 		try {
@@ -87,7 +89,7 @@ function UserInfo({ account, user, messageUser }) {
 
 	return (
 		<div>
-			{/* {loading && <LoadingOutlined style={{ position: "absolute" }} />} */}
+			{loading && <LoadingOutlined style={{ position: "absolute" }} />}
 			<div style={{ width: 200, margin: "auto" }}>
 				<Avatar
 					style={{ display: "block", margin: "auto" }}
@@ -99,7 +101,7 @@ function UserInfo({ account, user, messageUser }) {
 					<b>{user.name}</b>
 				</center>
 
-				<Skeleton active loading={loading}>
+				<Skeleton active loading={loading && !completeUserData}>
 					<Profile user={completeUserData} gutter={gutter} self={false} />
 
 					<div style={{ margin: "auto", marginTop: 20 }}>
