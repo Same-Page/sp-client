@@ -2,7 +2,7 @@ import "./Follow.css"
 
 import React, { useState, useEffect } from "react"
 import { Radio, Button, message } from "antd"
-import { LeftOutlined } from "@ant-design/icons"
+import { LeftOutlined, LoadingOutlined } from "@ant-design/icons"
 import { connect } from "react-redux"
 
 import Header from "components/Header"
@@ -109,8 +109,9 @@ function Follow({
 						</Radio.Button>
 					</Radio.Group>
 				}
+				rightItems={loading && <LoadingOutlined style={{ marginRight: 10 }} />}
 			/>
-			{loading && <LoadingAlert text="载入中。。。" />}
+			{/* {loading && <LoadingAlert text="载入中。。。" />} */}
 			{view === "followings" &&
 				followings &&
 				followings.map(u => (
