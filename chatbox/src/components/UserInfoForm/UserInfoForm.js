@@ -143,6 +143,7 @@ const UserInfoForm = ({ submit, submitBtn, fields, user }) => {
 			{fields.includes("avatar") && (
 				<Form.Item>
 					<AvatarUploader
+						avatarSrc={user && user.avatarSrc}
 						setFile={file => {
 							avatarFile = file
 						}}

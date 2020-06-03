@@ -14,7 +14,7 @@ function MessageBody({ content, self, imageLoadedCb, messageActions }) {
 	// 	value: text|url|img_src|video_src etc.,
 	// 	metadata: {...} optional
 	// }
-
+	const [menuVisible, setMenuVisible] = useState(false)
 	const [showMediaModal, setShowMediaModal] = useState(false)
 
 	const { type, name, value } = content
@@ -41,6 +41,8 @@ function MessageBody({ content, self, imageLoadedCb, messageActions }) {
 				<img
 					onClick={() => {
 						setShowMediaModal(true)
+						// close popover menu
+						setMenuVisible(false)
 						// window.spDebug("click on image")
 						// window.parent.postMessage({ imgSrc: imgSrc }, "*")
 					}}
@@ -81,6 +83,12 @@ function MessageBody({ content, self, imageLoadedCb, messageActions }) {
 			placement={self ? "left" : "right"}
 			content={popoverContent}
 			trigger="hover"
+			// had to add this logic to account for clicking image
+			// which opens a modal and mouse leave is never triggered
+			visible={menuVisible}
+			onVisibleChange={val => {
+				setMenuVisible(val)
+			}}
 		>
 			{contentWrapper}
 		</Popover>
