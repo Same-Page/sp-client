@@ -75,7 +75,7 @@ const NormalLoginForm = ({ signup }) => {
 						type="primary"
 						htmlType="submit"
 						className="login-form-button"
-						disabled={loading}
+						loading={loading}
 					>
 						登录
 					</Button>

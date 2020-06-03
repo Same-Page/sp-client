@@ -1,13 +1,14 @@
 import React, { useState } from "react"
 import { Button, message } from "antd"
+import { LeftOutlined, LoadingOutlined } from "@ant-design/icons"
 
 import Header from "components/Header"
 import UserInfoForm from "components/UserInfoForm"
-import { signup } from "./service"
+import { updateInfo } from "./service"
 import storageManager from "storage"
 import LoadingAlert from "components/Alert/LoadingAlert"
 
-const Signup = ({ login }) => {
+const UpdateInfo = ({ account, back }) => {
 	const [loading, setLoading] = useState(false)
 
 	const onFinish = async values => {
@@ -15,25 +16,33 @@ const Signup = ({ login }) => {
 		setLoading(true)
 
 		try {
-			const resp = await signup(values)
+			const resp = await updateInfo(values)
 
-			message.success("注册成功！")
+			message.success("保存成功！")
 			storageManager.set("account", resp.data)
 		} catch (error) {
-			message.error("注册失败！")
+			message.error("保存失败！")
 			console.error(error)
 		}
 		setLoading(false)
 	}
 
 	return (
-		<div className="sp-flex-body">
-			<Header centerItems={<span>注册</span>} />
-			{loading && <LoadingAlert text="注册中。。。" />}
+		<>
+			<Header
+				leftItems={
+					<>
+						<Button icon={<LeftOutlined />} onClick={back} />
+					</>
+				}
+				centerItems={<span>编辑资料</span>}
+			/>
+			{loading && <LoadingAlert text="保存中。。。" />}
 
 			<div style={{ flexGrow: 1, overflowY: "auto", paddingBottom: 30 }}>
 				<UserInfoForm
-					fields={["email", "name", "password", "about"]}
+					user={account}
+					fields={["name", "about", "avatar"]}
 					submit={onFinish}
 					submitBtn={
 						<>
@@ -41,20 +50,16 @@ const Signup = ({ login }) => {
 								type="primary"
 								className="login-form-button"
 								htmlType="submit"
-								loading={loading}
+								disabled={loading}
 							>
-								注册
+								保存
 							</Button>
-							或 {/* eslint-disable-next-line */}
-							<a href="#" onClick={login}>
-								登录!
-							</a>
 						</>
 					}
 				/>
 			</div>
-		</div>
+		</>
 	)
 }
 
-export default Signup
+export default UpdateInfo

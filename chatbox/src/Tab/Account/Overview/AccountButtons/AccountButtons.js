@@ -10,20 +10,21 @@ import { logout } from "./service"
 import storageManager from "storage"
 const { confirm } = Modal
 
-function AccountButtons({ gutter }) {
+function AccountButtons({ gutter, updateInfo, width }) {
 	gutter = gutter || 10
+	width = width || 250
 	const [loggingOut, setLoggingOut] = useState(false)
 	return (
-		<div style={{ margin: "auto", marginTop: 30 }}>
+		<div style={{ margin: "auto", width: width }}>
 			<Row gutter={gutter} style={{ textAlign: "center" }}>
 				<Col style={{ textAlign: "center" }} span={12}>
 					<Button
 						icon={<EditOutlined />}
 						type="primary"
 						// size="large"
-						//   onClick={props.showEditProfile}
+						onClick={updateInfo}
 					>
-						修改资料
+						编辑
 					</Button>
 				</Col>
 				<Col style={{ textAlign: "center" }} span={12}>

@@ -96,7 +96,7 @@ function InputWithPicker(props) {
 	}
 
 	const addonBefore = (
-		<span>
+		<span style={{ marginRight: 5 }}>
 			<Upload {...uploadProps} disabled={uploading}>
 				<Button loading={uploading}>
 					<UploadOutlined />

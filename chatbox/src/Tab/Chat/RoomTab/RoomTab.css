@@ -25,7 +25,19 @@
 	/* z-index: 1001; */
 }
 
-.ant-popover {
+.sp-message-menu.ant-popover {
 	/* in chat view, message menu popover shows above image modal sometimes */
+	/* message menu should be always behind modal and user info popover  */
+	z-index: 999;
+}
+.sp-user-info-popover.ant-popover,
+.sp-room-users-popover.ant-popover {
+	/* modal's z-index is 1000, make popover the same z-index
+	so later added element is above
+	*/
+	z-index: 1000;
+}
+.ant-popover {
+	/* this makes sense for sp, but may break website also using antd */
 	z-index: 1000;
 }

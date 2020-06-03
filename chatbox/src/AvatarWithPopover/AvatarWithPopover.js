@@ -18,7 +18,14 @@ function AvatarWithPopover({ activeTab, user, size, popoverPlacement }) {
 			visible={popoverVisible}
 			onVisibleChange={setPopoverVisible}
 			// mount and unmount <UserInfo /> to force refresh
-			content={<UserInfo user={user} visible={popoverVisible} />}
+			content={
+				<UserInfo
+					aboutWidth={200}
+					rowWidth={200}
+					user={user}
+					visible={popoverVisible}
+				/>
+			}
 			trigger="click"
 		>
 			<Avatar

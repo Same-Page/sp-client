@@ -198,7 +198,8 @@ header-body-footer with sticky header and footer*/
 	height: calc(100% - 38px);
 	display: flex;
 	flex-direction: column;
-	overflow: auto;
+	overflow-y: auto;
+	overflow-x: hidden;
 	flex: auto;
 }
 

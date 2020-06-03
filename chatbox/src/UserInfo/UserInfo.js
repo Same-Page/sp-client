@@ -14,7 +14,15 @@ import { messageUser } from "redux/actions"
 import { follow, getUser } from "./service"
 import storageManager from "storage"
 
-function UserInfo({ account, user, messageUser, visible }) {
+function UserInfo({
+	aboutWidth,
+	rowWidth,
+	account,
+	user,
+	messageUser,
+	visible,
+	close
+}) {
 	const [loading, setLoading] = useState(false)
 	const [completeUserData, setCompleteUserData] = useState()
 	const gutter = 10
@@ -94,25 +102,40 @@ function UserInfo({ account, user, messageUser, visible }) {
 	if (togglingFollow) {
 		followIcon = <LoadingOutlined />
 	}
+	let avatarSrc = user && user.avatarSrc
+	let username = user && user.name
+	if (completeUserData) {
+		// more up to date data
+		avatarSrc = completeUserData.avatarSrc
+		username = completeUserData.name
+	}
 
 	return (
-		<div>
+		<>
+			{/* loading icon is outside width restriction for profile modal's sake */}
 			{loading && <LoadingOutlined style={{ position: "absolute" }} />}
-			<div style={{ width: 200, margin: "auto" }}>
+
+			<div style={{ width: Math.max(aboutWidth, rowWidth), margin: "auto" }}>
 				<Avatar
 					style={{ display: "block", margin: "auto" }}
 					size={128}
-					src={user.avatarSrc}
+					src={avatarSrc}
 					icon={<UserOutlined />}
 				/>
-				<center style={{ margin: 20 }}>
-					<b>{user.name}</b>
+				<center style={{ margin: "20px 20px 0px 20px" }}>
+					<b>{username}</b>
 				</center>
 
 				<Skeleton active loading={loading && !completeUserData}>
-					<Profile user={completeUserData} gutter={gutter} self={false} />
+					<Profile
+						aboutWidth={aboutWidth}
+						rowWidth={rowWidth}
+						user={completeUserData}
+						gutter={gutter}
+						self={false}
+					/>
 
-					<div style={{ margin: "auto", marginTop: 20 }}>
+					<div style={{ margin: "auto", width: rowWidth, marginTop: 20 }}>
 						<Row gutter={gutter} style={{ textAlign: "center" }}>
 							<Col style={{ textAlign: "center", marginBottom: 10 }} span={12}>
 								<Button
@@ -138,6 +161,7 @@ function UserInfo({ account, user, messageUser, visible }) {
 								<Button
 									icon={<MailOutlined />}
 									onClick={() => {
+										close && close()
 										messageUser(user)
 									}}
 								>
@@ -148,7 +172,7 @@ function UserInfo({ account, user, messageUser, visible }) {
 					</div>
 				</Skeleton>
 			</div>
-		</div>
+		</>
 	)
 }
 
