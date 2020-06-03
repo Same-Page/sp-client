@@ -1,5 +1,6 @@
 import React, { useState } from "react"
 import { Button, message } from "antd"
+import { SmileOutlined } from "@ant-design/icons"
 
 import Header from "components/Header"
 import UserInfoForm from "components/UserInfoForm"
@@ -42,6 +43,7 @@ const Signup = ({ login }) => {
 								className="login-form-button"
 								htmlType="submit"
 								loading={loading}
+								icon={<SmileOutlined />}
 							>
 								注册
 							</Button>

@@ -2,7 +2,7 @@ import React, { useState } from "react"
 import "./Login.css"
 
 import { Form, Input, Button, message } from "antd"
-import { UserOutlined, LockOutlined } from "@ant-design/icons"
+import { UserOutlined, LockOutlined, LoginOutlined } from "@ant-design/icons"
 
 import Header from "components/Header"
 import { login } from "./service"
@@ -76,6 +76,7 @@ const NormalLoginForm = ({ signup }) => {
 						htmlType="submit"
 						className="login-form-button"
 						loading={loading}
+						icon={<LoginOutlined />}
 					>
 						登录
 					</Button>

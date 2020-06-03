@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import { Button, message } from "antd"
-import { LeftOutlined } from "@ant-design/icons"
+import { LeftOutlined, SaveOutlined } from "@ant-design/icons"
 
 import Header from "components/Header"
 import UserInfoForm from "components/UserInfoForm"
@@ -54,6 +54,7 @@ const UpdateInfo = ({ account, back }) => {
 								className="login-form-button"
 								htmlType="submit"
 								loading={loading}
+								icon={<SaveOutlined />}
 							>
 								保存
 							</Button>
