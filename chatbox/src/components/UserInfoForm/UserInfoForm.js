@@ -65,6 +65,7 @@ const UserInfoForm = ({ submit, submitBtn, fields, user }) => {
 		<Form
 			className="sp-user-info-form"
 			{...formItemLayout}
+			labelAlign="left"
 			form={form}
 			name="sp-user-info"
 			onFinish={values => {
