@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import { Button, message } from "antd"
-import { LeftOutlined, LoadingOutlined } from "@ant-design/icons"
+import { LeftOutlined } from "@ant-design/icons"
 
 import Header from "components/Header"
 import UserInfoForm from "components/UserInfoForm"
