@@ -48,7 +48,7 @@ function Overview({ account }) {
 					/>
 					<div
 						style={{
-							padding: "50px 10px",
+							padding: "30px 10px",
 							overflowY: "auto"
 						}}
 					>
