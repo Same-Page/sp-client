@@ -75,8 +75,8 @@ function Tab({ account, activeTab, setActiveTab, storageData, url, domain }) {
 				<TabPane
 					tab={
 						<span>
-							<UserOutlined title="账户信息" />
-							账户
+							<UserOutlined title="账号信息与偏好设置" />
+							账号
 						</span>
 					}
 					key="account"

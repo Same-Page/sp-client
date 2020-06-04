@@ -26,15 +26,16 @@ function Overview({ account }) {
 					<Header
 						leftItems={
 							<>
-								<Button
+								{/* <span style={{ marginLeft: 10 }}>个人主页</span> */}
+								{/* <Button
 									icon={loading ? <LoadingOutlined /> : <ReloadOutlined />}
 									onClick={() => {
 										// fetchData()
 									}}
-								/>
+								/> */}
 							</>
 						}
-						centerItems="个人主页"
+						centerItems="个人资料"
 						rightItems={
 							<Button icon={<SettingOutlined />}>
 								<span>设置</span>

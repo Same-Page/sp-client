@@ -24,7 +24,7 @@ function AccountButtons({ gutter, updateInfo, width }) {
 						// size="large"
 						onClick={updateInfo}
 					>
-						编辑
+						编辑资料
 					</Button>
 				</Col>
 				<Col style={{ textAlign: "center" }} span={12}>
