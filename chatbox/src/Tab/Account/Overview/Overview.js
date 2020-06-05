@@ -25,7 +25,10 @@ function Overview({ account }) {
 					<Header
 						leftItems={
 							<>
-								<span style={{ marginLeft: 10 }}>个人主页</span>
+								<span style={{ marginLeft: 10 }}>
+									{/* <UserOutlined style={{ marginRight: 5 }} /> */}
+									个人主页
+								</span>
 							</>
 						}
 						// centerItems="个人资料"

@@ -2,6 +2,7 @@ import "./Comment.css"
 
 import React, { useState, useEffect, useRef } from "react"
 import { Select, message } from "antd"
+import { EditOutlined } from "@ant-design/icons"
 
 import InputWithPicker from "components/InputWithPicker"
 import Header from "components/Header"
@@ -65,6 +66,7 @@ function CommentTab({ account, url }) {
 			<Header
 				leftItems={
 					<span style={{ marginLeft: 10 }}>
+						{/* <EditOutlined style={{ marginRight: 5 }} /> */}
 						当前网页有{comments.length}条留言
 					</span>
 				}
