@@ -27,10 +27,10 @@ function Overview({ account }) {
 					<Header
 						leftItems={
 							<>
-								<Button icon={<LockOutlined />}>
+								{/* <Button icon={<LockOutlined />}>
 									<span>修改密码</span>
-								</Button>
-								{/* <span style={{ marginLeft: 10 }}>个人主页</span> */}
+								</Button> */}
+								<span style={{ marginLeft: 10 }}>个人主页</span>
 								{/* <Button
 									icon={loading ? <LoadingOutlined /> : <ReloadOutlined />}
 									onClick={() => {
@@ -39,11 +39,16 @@ function Overview({ account }) {
 								/> */}
 							</>
 						}
-						centerItems="个人资料"
+						// centerItems="个人资料"
 						rightItems={
-							<Button icon={<SettingOutlined />}>
-								<span>设置</span>
-							</Button>
+							<>
+								<Button icon={<LockOutlined />}>
+									<span>修改密码</span>
+								</Button>
+								<Button icon={<SettingOutlined />}>
+									<span>设置</span>
+								</Button>
+							</>
 						}
 					/>
 					<div
