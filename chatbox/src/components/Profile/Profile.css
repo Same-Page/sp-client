@@ -1,10 +1,11 @@
-.sp-self-profile .sp-follow-stats:hover {
-	color: #40a9ff;
-	text-decoration: underline;
-	cursor: pointer;
-}
-
 .sp-profile .sp-field-label {
 	/* font-weight: bold; */
 	color: gray;
+}
+
+.sp-self-profile .sp-follow-stats:hover,
+.sp-self-profile .sp-follow-stats:hover .sp-field-label {
+	color: #40a9ff;
+	text-decoration: underline;
+	cursor: pointer;
 }
