@@ -3,3 +3,8 @@
 	text-decoration: underline;
 	cursor: pointer;
 }
+
+.sp-profile .sp-field-label {
+	/* font-weight: bold; */
+	color: gray;
+}

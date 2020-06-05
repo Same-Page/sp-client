@@ -37,6 +37,9 @@
 	*/
 	z-index: 1000;
 }
+.sp-user-info-popover.ant-popover .ant-popover-inner-content {
+	padding: 20px 15px;
+}
 .ant-popover {
 	/* this makes sense for sp, but may break website also using antd */
 	z-index: 1000;

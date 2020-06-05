@@ -24,6 +24,9 @@ function AvatarWithPopover({ activeTab, user, size, popoverPlacement }) {
 					rowWidth={200}
 					user={user}
 					visible={popoverVisible}
+					// partial means show important fields only
+					// because space is limited, font and buttons are smaller too
+					partial={true}
 				/>
 			}
 			trigger="click"

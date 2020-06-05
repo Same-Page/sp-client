@@ -1,7 +1,9 @@
 import "./Profile.css"
 
-import React from "react"
-import { Row, Col } from "antd"
+import React, { useState } from "react"
+import { Row, Col, Button } from "antd"
+
+import ProfileModal from "ProfileModal"
 
 const aboutStyle = {
 	// borderBottom: "1px solid lightgray",
@@ -17,65 +19,108 @@ const aboutStyle = {
 	margin: "auto"
 }
 
-function Profile({ aboutWidth, rowWidth, user, self, gutter, setFollowView }) {
+function Profile({
+	aboutWidth,
+	rowWidth,
+	user,
+	self,
+	partial,
+	gutter,
+	setFollowView
+}) {
 	aboutWidth = aboutWidth || 200
 	rowWidth = rowWidth || 200
+	const [showProfileModal, setShowProfileModal] = useState(false)
+
 	return (
-		<div className={self ? "sp-self-profile" : ""}>
-			{user && user.about && (
-				<div style={{ ...aboutStyle, width: aboutWidth }}>
-					<span style={{ textAlign: "left", display: "inline-block" }}>
-						{user.about}
-					</span>
-				</div>
+		<>
+			{showProfileModal && (
+				<ProfileModal
+					user={user}
+					closeModal={() => {
+						setShowProfileModal(false)
+					}}
+				/>
 			)}
-			<div style={{ width: rowWidth, margin: "auto" }}>
-				<Row gutter={gutter} style={{ textAlign: "center", marginTop: 20 }}>
-					<Col style={{ textAlign: "center" }} span={12}>
-						ID <br />
-						<b>{user && user.id} </b>
-						{!user && <br />}
-					</Col>
-					<Col style={{ textAlign: "center" }} span={12}>
-						<span
-							onClick={() => {
-								// props.showRooms()
-							}}
-						>
-							房间
-							<br /> <b>{user && user.rooms && user.rooms.length} </b>
-							{!user && <br />}
+			<div className={self ? "sp-profile sp-self-profile" : "sp-profile"}>
+				{user && user.about && (
+					<div style={{ ...aboutStyle, width: aboutWidth }}>
+						<span style={{ textAlign: "left", display: "inline-block" }}>
+							{user.about}
 						</span>
-					</Col>
-				</Row>
-				<Row gutter={gutter} style={{ marginTop: 10, textAlign: "center" }}>
-					<Col style={{ textAlign: "center" }} span={12}>
-						<span
-							className="sp-follow-stats"
+					</div>
+				)}
+
+				<div style={{ width: rowWidth, margin: "auto", textAlign: "center" }}>
+					{partial && (
+						<Button
 							onClick={() => {
-								setFollowView && setFollowView("followings")
+								setShowProfileModal(true)
 							}}
+							size="small"
+							type="link"
+							style={{ margin: "auto", fontSize: "small", display: "block" }}
 						>
-							关注了
-							<br /> <b>{user && user.followingCount} </b>
-							{!user && <br />}
-						</span>
-					</Col>
-					<Col style={{ textAlign: "center" }} span={12}>
-						<span
-							className="sp-follow-stats"
-							onClick={() => {
-								setFollowView && setFollowView("followers")
-							}}
-						>
-							关注者
-							<br /> <b>{user && user.followerCount} </b>
-							{!user && <br />}
-						</span>
-					</Col>
-				</Row>
+							详细资料
+						</Button>
+					)}
+					{!partial && (
+						<Row gutter={gutter} style={{ marginTop: 20 }}>
+							<Col span={12}>
+								<span className="sp-field-label">ID</span>
+								<br />
+								<b>{user && user.id} </b>
+								{!user && <br />}
+							</Col>
+							<Col span={12}>
+								<span
+									onClick={() => {
+										// props.showRooms()
+									}}
+								>
+									<span className="sp-field-label">房间</span>
+									<br />
+									<b>{user && user.rooms && user.rooms.length} </b>
+									{!user && <br />}
+								</span>
+							</Col>
+						</Row>
+					)}
+					<Row gutter={gutter} style={{ textAlign: "center", marginTop: 10 }}>
+						<Col span={12}>
+							<span
+								className="sp-follow-stats"
+								onClick={() => {
+									setFollowView && setFollowView("followings")
+								}}
+							>
+								<span className="sp-field-label">关注了</span>
+								<br />
+								{/* {!partial && <br />} */}
+								{/* {partial && <span style={{ marginRight: 5 }}></span>} */}
+								<b>{user && user.followingCount} </b>
+								{!user && <br />}
+							</span>
+						</Col>
+						<Col span={12}>
+							<span
+								className="sp-follow-stats"
+								onClick={() => {
+									setFollowView && setFollowView("followers")
+								}}
+							>
+								<span className="sp-field-label">关注者</span>
+								<br />
+								{/* {!partial && <br />} */}
+								{/* {partial && <span style={{ marginRight: 5 }}></span>} */}
+								<b>{user && user.followerCount} </b>
+								{!user && <br />}
+							</span>
+						</Col>
+					</Row>
+				</div>
 			</div>
-		</div>
+		</>
 	)
 }
 

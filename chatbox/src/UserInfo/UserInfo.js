@@ -1,3 +1,5 @@
+import "./UserInfo.css"
+
 import React, { useState, useEffect } from "react"
 import { Avatar, Button, Row, Col, message, Skeleton } from "antd"
 import { connect } from "react-redux"
@@ -14,6 +16,8 @@ import { messageUser } from "redux/actions"
 import { follow, getUser } from "./service"
 import storageManager from "storage"
 
+// This is only for other users, not for displaying info of logged in user
+// Profile componnent is shared
 function UserInfo({
 	aboutWidth,
 	rowWidth,
@@ -21,7 +25,8 @@ function UserInfo({
 	user,
 	messageUser,
 	visible,
-	close
+	close,
+	partial
 }) {
 	const [loading, setLoading] = useState(false)
 	const [completeUserData, setCompleteUserData] = useState()
@@ -115,10 +120,13 @@ function UserInfo({
 			{/* loading icon is outside width restriction for profile modal's sake */}
 			{loading && <LoadingOutlined style={{ position: "absolute" }} />}
 
-			<div style={{ width: Math.max(aboutWidth, rowWidth), margin: "auto" }}>
+			<div
+				className="sp-user-info"
+				style={{ width: Math.max(aboutWidth, rowWidth), margin: "auto" }}
+			>
 				<Avatar
 					style={{ display: "block", margin: "auto" }}
-					size={128}
+					size={partial ? 96 : 128}
 					src={avatarSrc}
 					icon={<UserOutlined />}
 				/>
@@ -126,13 +134,18 @@ function UserInfo({
 					<b>{username}</b>
 				</center>
 
-				<Skeleton active loading={loading && !completeUserData}>
+				<Skeleton
+					active
+					paragraph={{ rows: partial ? 3 : 5, width: "100%" }}
+					loading={loading && !completeUserData}
+				>
 					<Profile
 						aboutWidth={aboutWidth}
 						rowWidth={rowWidth}
 						user={completeUserData}
 						gutter={gutter}
 						self={false}
+						partial={partial}
 					/>
 
 					<div style={{ margin: "auto", width: rowWidth, marginTop: 20 }}>
@@ -153,6 +166,7 @@ function UserInfo({
 									type={isFollowing ? "default" : "primary"}
 									icon={followIcon}
 									onClick={toggleFollow}
+									// size={partial ? "small" : "middle"}
 								>
 									{followBtnText}
 								</Button>
@@ -164,6 +178,7 @@ function UserInfo({
 										close && close()
 										messageUser(user)
 									}}
+									// size={partial ? "small" : "middle"}
 								>
 									私信
 								</Button>

@@ -21,6 +21,7 @@ function ProfileModal({ user, closeModal }) {
 				user={user}
 				visible={true}
 				close={closeModal}
+				partial={false}
 			/>
 		</Modal>
 	)
