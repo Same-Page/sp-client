@@ -14,7 +14,7 @@ function ChangePassword({ back }) {
 		setLoading(true)
 
 		try {
-			const resp = await changePassword(values)
+			await changePassword(values)
 
 			message.success("密码更新成功！")
 		} catch (error) {

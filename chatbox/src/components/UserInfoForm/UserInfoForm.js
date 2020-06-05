@@ -1,6 +1,6 @@
 import "./UserInfoForm.css"
-import React, { useState } from "react"
-import { Form, Input, AutoComplete } from "antd"
+import React from "react"
+import { Form, Input } from "antd"
 
 import AvatarUploader from "components/AvatarUploader"
 
@@ -42,25 +42,9 @@ const tailFormItemLayout = {
 }
 let avatarFile = null
 
-const UserInfoForm = ({ submit, submitBtn, fields, user }) => {
+const UserInfoForm = ({ submit, submitBtn, fields, user, validateEmail }) => {
 	const [form] = Form.useForm()
 
-	const [autoCompleteResult, setAutoCompleteResult] = useState([])
-
-	const onWebsiteChange = value => {
-		if (!value) {
-			setAutoCompleteResult([])
-		} else {
-			setAutoCompleteResult(
-				[".com", ".org", ".net", ".me"].map(domain => `${value}${domain}`)
-			)
-		}
-	}
-
-	const websiteOptions = autoCompleteResult.map(website => ({
-		label: website,
-		value: website
-	}))
 	return (
 		<Form
 			className="sp-user-info-form"
@@ -80,10 +64,21 @@ const UserInfoForm = ({ submit, submitBtn, fields, user }) => {
 			}}
 			scrollToFirstError
 		>
+			{fields.includes("avatar") && (
+				<Form.Item>
+					<AvatarUploader
+						avatarSrc={user && user.avatarSrc}
+						setFile={file => {
+							avatarFile = file
+						}}
+					/>
+				</Form.Item>
+			)}
 			{fields.includes("email") && (
 				<Form.Item
 					name="email"
 					label="电子邮箱"
+					hasFeedback
 					rules={[
 						{
 							type: "email",
@@ -92,7 +87,12 @@ const UserInfoForm = ({ submit, submitBtn, fields, user }) => {
 						{
 							required: true,
 							message: "请输入电子邮箱地址!"
-						}
+						},
+						({ getFieldValue }) => ({
+							validator(rule, value) {
+								return validateEmail(value)
+							}
+						})
 					]}
 				>
 					<Input />
@@ -140,16 +140,7 @@ const UserInfoForm = ({ submit, submitBtn, fields, user }) => {
 					<Input.Password />
 				</Form.Item>
 			)}
-			{fields.includes("avatar") && (
-				<Form.Item>
-					<AvatarUploader
-						avatarSrc={user && user.avatarSrc}
-						setFile={file => {
-							avatarFile = file
-						}}
-					/>
-				</Form.Item>
-			)}
+
 			{fields.includes("name") && (
 				<Form.Item
 					name="name"
@@ -190,13 +181,7 @@ const UserInfoForm = ({ submit, submitBtn, fields, user }) => {
 						}
 					]}
 				>
-					<AutoComplete
-						options={websiteOptions}
-						onChange={onWebsiteChange}
-						placeholder="你的个人网站或者常去的网站"
-					>
-						<Input />
-					</AutoComplete>
+					<Input placeholder="你的个人网站或者常去的网站" />
 				</Form.Item>
 			)}
 

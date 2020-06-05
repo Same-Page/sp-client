@@ -7,6 +7,7 @@ import UserInfoForm from "components/UserInfoForm"
 import { signup } from "./service"
 import storageManager from "storage"
 import LoadingAlert from "components/Alert/LoadingAlert"
+import { checkEmailNotRegistered } from "../emailValidation"
 
 const Signup = ({ login }) => {
 	const [loading, setLoading] = useState(false)
@@ -34,7 +35,8 @@ const Signup = ({ login }) => {
 
 			<div style={{ flexGrow: 1, overflowY: "auto", paddingBottom: 30 }}>
 				<UserInfoForm
-					fields={["email", "name", "password", "about"]}
+					validateEmail={checkEmailNotRegistered}
+					fields={["email", "name", "password", "about", "website"]}
 					submit={onFinish}
 					submitBtn={
 						<>

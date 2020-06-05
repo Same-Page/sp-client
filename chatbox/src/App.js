@@ -46,8 +46,12 @@ function App({ account, setAccount, activeTab, setActiveTab }) {
 	}, [setAccount])
 
 	useEffect(() => {
-		console.info("token changed")
-		axios.defaults.headers.common["token"] = token
+		console.info("token changed", token)
+		if (token) {
+			axios.defaults.headers.common["token"] = token
+		} else {
+			delete axios.defaults.headers.common["token"]
+		}
 	}, [token])
 
 	return (

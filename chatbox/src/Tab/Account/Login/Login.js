@@ -2,7 +2,7 @@ import React, { useState } from "react"
 import "./Login.css"
 
 import { Form, Input, Button, message } from "antd"
-import { UserOutlined, LockOutlined, LoginOutlined } from "@ant-design/icons"
+import { LockOutlined, LoginOutlined, MailOutlined } from "@ant-design/icons"
 
 import Header from "components/Header"
 import { login } from "./service"
@@ -15,7 +15,7 @@ const NormalLoginForm = ({ signup }) => {
 		// console.debug("Received values of form: ", values)
 		setLoading(true)
 		try {
-			const resp = await login(values.username, values.password)
+			const resp = await login(values)
 			message.success("登录成功！")
 			setLoading(false)
 
@@ -41,7 +41,7 @@ const NormalLoginForm = ({ signup }) => {
 				onFinish={onFinish}
 			>
 				<Form.Item
-					name="username"
+					name="email"
 					rules={[
 						{
 							required: true,
@@ -50,7 +50,7 @@ const NormalLoginForm = ({ signup }) => {
 					]}
 				>
 					<Input
-						prefix={<UserOutlined className="site-form-item-icon" />}
+						prefix={<MailOutlined className="site-form-item-icon" />}
 						placeholder="电子邮箱"
 					/>
 				</Form.Item>

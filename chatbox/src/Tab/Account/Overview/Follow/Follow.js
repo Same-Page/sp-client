@@ -7,7 +7,7 @@ import { connect } from "react-redux"
 
 import Header from "components/Header"
 import { getFollowers, getFollowings } from "./service"
-import LoadingAlert from "components/Alert/LoadingAlert"
+// import LoadingAlert from "components/Alert/LoadingAlert"
 import FollowRow from "./FollowRow"
 import ProfileModal from "ProfileModal"
 import storageManager from "storage"

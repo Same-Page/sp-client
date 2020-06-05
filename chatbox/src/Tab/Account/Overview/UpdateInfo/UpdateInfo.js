@@ -8,6 +8,8 @@ import { updateInfo } from "./service"
 import storageManager from "storage"
 import LoadingAlert from "components/Alert/LoadingAlert"
 import FloatingAlert from "components/Alert/FloatingAlert"
+import { checkEmailNotRegistered } from "Tab/Account/emailValidation"
+
 const UpdateInfo = ({ account, back }) => {
 	const [loading, setLoading] = useState(false)
 	const [updated, setUpdated] = useState(false)
@@ -45,7 +47,14 @@ const UpdateInfo = ({ account, back }) => {
 			<div style={{ flexGrow: 1, overflowY: "auto", paddingBottom: 30 }}>
 				<UserInfoForm
 					user={account}
-					fields={["name", "about", "avatar"]}
+					validateEmail={email => {
+						if (email !== account.email) {
+							// check email not used if changing email
+							return checkEmailNotRegistered(email)
+						}
+						return Promise.resolve()
+					}}
+					fields={["name", "email", "about", "avatar", "website"]}
 					submit={onFinish}
 					submitBtn={
 						<>
