@@ -2,24 +2,22 @@ import React, { useState } from "react"
 
 import { Avatar, Button } from "antd"
 
-import {
-	ReloadOutlined,
-	LoadingOutlined,
-	LockOutlined,
-	UserOutlined,
-	SettingOutlined
-} from "@ant-design/icons"
+import { LockOutlined, UserOutlined, SettingOutlined } from "@ant-design/icons"
 
 import Profile from "components/Profile"
 import AccountButtons from "./AccountButtons"
 import Follow from "./Follow"
 import UpdateInfo from "./UpdateInfo"
 import Header from "components/Header"
+import ChangePassword from "./ChangePassword"
+import Settings from "./Settings"
 
 function Overview({ account }) {
-	// view: profile, followers/followings, edit-profile
+	// view: profile, followers/followings, edit-profile, change-password, settings
 	const [view, setView] = useState("profile")
-	const [loading, setLoading] = useState(false)
+	const back = () => {
+		setView("profile")
+	}
 	return (
 		<div className="sp-flex-body">
 			{view === "profile" && (
@@ -27,25 +25,26 @@ function Overview({ account }) {
 					<Header
 						leftItems={
 							<>
-								{/* <Button icon={<LockOutlined />}>
-									<span>修改密码</span>
-								</Button> */}
 								<span style={{ marginLeft: 10 }}>个人主页</span>
-								{/* <Button
-									icon={loading ? <LoadingOutlined /> : <ReloadOutlined />}
-									onClick={() => {
-										// fetchData()
-									}}
-								/> */}
 							</>
 						}
 						// centerItems="个人资料"
 						rightItems={
 							<>
-								<Button icon={<LockOutlined />}>
+								<Button
+									onClick={() => {
+										setView("change-password")
+									}}
+									icon={<LockOutlined />}
+								>
 									<span>修改密码</span>
 								</Button>
-								<Button icon={<SettingOutlined />}>
+								<Button
+									onClick={() => {
+										setView("settings")
+									}}
+									icon={<SettingOutlined />}
+								>
 									<span>设置</span>
 								</Button>
 							</>
@@ -95,19 +94,12 @@ function Overview({ account }) {
 					followerCount={account.followerCount}
 					followingCount={account.followingCount}
 					setFollowView={setView}
-					back={() => {
-						setView("profile")
-					}}
+					back={back}
 				/>
 			)}
-			{view === "edit-profile" && (
-				<UpdateInfo
-					account={account}
-					back={() => {
-						setView("profile")
-					}}
-				/>
-			)}
+			{view === "edit-profile" && <UpdateInfo account={account} back={back} />}
+			{view === "change-password" && <ChangePassword back={back} />}
+			{view === "settings" && <Settings back={back} />}
 		</div>
 	)
 }
