@@ -1,12 +1,12 @@
 .sp-room-tab .sp-room-name {
-	max-width: calc(100% - 160px);
+	max-width: calc(100% - 150px);
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
 	transition: none;
 }
 .sp-closed .sp-room-tab .sp-room-name {
-	max-width: calc(100% - 235px);
+	max-width: calc(100% - 190px);
 }
 
 .sp-room-alert.sp-alert-float.ant-alert {
