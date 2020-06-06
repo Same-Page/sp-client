@@ -9,3 +9,24 @@
 	text-decoration: underline;
 	cursor: pointer;
 }
+
+.sp-profile-about {
+	display: block;
+	margin: 10px auto 0px auto;
+	text-align: center;
+	color: gray;
+	padding: 0px 10px;
+}
+
+.sp-profile-website,
+.sp-partial-profile .sp-profile-about {
+	padding: 0px 10px;
+
+	text-overflow: ellipsis;
+	overflow: hidden;
+	display: block;
+	margin: 10px auto;
+	text-align: center;
+	white-space: nowrap;
+	color: gray;
+}

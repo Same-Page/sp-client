@@ -5,20 +5,6 @@ import { Row, Col, Button } from "antd"
 
 import ProfileModal from "ProfileModal"
 
-const aboutStyle = {
-	// borderBottom: "1px solid lightgray",
-	textAlign: "center",
-	overflow: "auto",
-	fontSize: "small",
-	color: "gray",
-	maxHeight: 72,
-	padding: 5,
-	paddingLeft: 10,
-	paddingRight: 10,
-	wordBreak: "break-word",
-	margin: "auto"
-}
-
 function Profile({
 	aboutWidth,
 	rowWidth,
@@ -31,6 +17,20 @@ function Profile({
 	aboutWidth = aboutWidth || 200
 	rowWidth = rowWidth || 200
 	const [showProfileModal, setShowProfileModal] = useState(false)
+	const massageLink = url => {
+		if (!url.startsWith("http")) {
+			// TODO: can be improved
+			return "https://" + url
+		}
+		return url
+	}
+	let className = "sp-profile"
+	if (self) {
+		className += " sp-self-profile"
+	}
+	if (partial) {
+		className += " sp-partial-profile"
+	}
 
 	return (
 		<>
@@ -42,15 +42,32 @@ function Profile({
 					}}
 				/>
 			)}
-			<div className={self ? "sp-profile sp-self-profile" : "sp-profile"}>
+			<div className={className}>
 				{user && user.about && (
-					<div style={{ ...aboutStyle, width: aboutWidth }}>
-						<span style={{ textAlign: "left", display: "inline-block" }}>
+					<div style={{ maxWidth: aboutWidth }} className="sp-profile-about">
+						<span
+							style={{
+								textAlign: "left",
+								// block wouldn't show ellipsis
+								display: partial ? "inline" : "inline-block"
+							}}
+						>
 							{user.about}
 						</span>
 					</div>
 				)}
-
+				{!partial && user && user.website && (
+					<span style={{ maxWidth: aboutWidth }} className="sp-profile-website">
+						网站:{" "}
+						<a
+							rel="noopener noreferrer"
+							target="_blank"
+							href={massageLink(user.website)}
+						>
+							{user.website}
+						</a>
+					</span>
+				)}
 				<div style={{ width: rowWidth, margin: "auto", textAlign: "center" }}>
 					{partial && (
 						<Button
