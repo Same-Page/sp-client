@@ -126,7 +126,8 @@ function UserInfo({
 			>
 				<Avatar
 					style={{ display: "block", margin: "auto" }}
-					size={partial ? 96 : 128}
+					// size={partial ? 96 : 128}
+					size={128}
 					src={avatarSrc}
 					icon={<UserOutlined />}
 				/>

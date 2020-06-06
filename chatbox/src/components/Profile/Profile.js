@@ -24,6 +24,7 @@ function Profile({
 		}
 		return url
 	}
+
 	let className = "sp-profile"
 	if (self) {
 		className += " sp-self-profile"
@@ -46,6 +47,7 @@ function Profile({
 				{user && user.about && (
 					<div style={{ maxWidth: aboutWidth }} className="sp-profile-about">
 						<span
+							title={user.about}
 							style={{
 								textAlign: "left",
 								// block wouldn't show ellipsis
