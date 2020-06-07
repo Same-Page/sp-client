@@ -47,7 +47,7 @@ const UserInfoForm = ({ submit, submitBtn, fields, user, validateEmail }) => {
 
 	return (
 		<Form
-			className="sp-user-info-form"
+			className="sp-user-info-form sp-form"
 			{...formItemLayout}
 			labelAlign="left"
 			form={form}

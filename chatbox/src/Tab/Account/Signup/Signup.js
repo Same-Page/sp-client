@@ -36,7 +36,7 @@ const Signup = ({ login }) => {
 			<div style={{ flexGrow: 1, overflowY: "auto", paddingBottom: 30 }}>
 				<UserInfoForm
 					validateEmail={checkEmailNotRegistered}
-					fields={["email", "name", "password", "about", "website"]}
+					fields={["avatar", "email", "name", "password", "about", "website"]}
 					submit={onFinish}
 					submitBtn={
 						<>

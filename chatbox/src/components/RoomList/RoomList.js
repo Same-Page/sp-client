@@ -29,7 +29,7 @@ const title = (
 		创建房间<span style={{ color: "gray" }}>（需10积分）</span>
 	</span>
 )
-function RoomList({ setRoom }) {
+function RoomList({ joinRoom }) {
 	const [loadingRooms, setLoadingRooms] = useState(false)
 	// rooms here mean room list returned from backend
 	// do not confuse with state.rooms
@@ -107,7 +107,7 @@ function RoomList({ setRoom }) {
 							title={r.about}
 							key={r.id}
 							onClick={() => {
-								setRoom(r)
+								joinRoom(r)
 							}}
 							className="sp-discover-entry"
 							style={style}

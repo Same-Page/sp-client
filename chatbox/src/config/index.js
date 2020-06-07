@@ -1,6 +1,6 @@
 const config = {
-	apiUrl: "http://167.172.6.226",
-	// apiUrl: "http://localhost:8080",
+	// apiUrl: "http://167.172.6.226",
+	apiUrl: "http://localhost:8080",
 	socketUrl: "ws://167.172.6.238:8765",
 	// socketUrl: "ws://0.0.0.0:8765",
 	heartbeatInterval: 10 * 1000,

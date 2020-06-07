@@ -12,7 +12,7 @@ import {
 } from "@ant-design/icons"
 
 import InputWithPicker from "components/InputWithPicker"
-import RoomInfoModal from "components/RoomInfoModal"
+import RoomInfoModal from "Tab/Chat/RoomInfoModal"
 import Conversation from "components/Conversation"
 import Header from "components/Header"
 import LoadingAlert from "components/Alert/LoadingAlert"
@@ -32,6 +32,7 @@ function RoomTab({
 	connected,
 	account,
 	room,
+	updateRoom,
 	exit,
 	extraButton,
 	active
@@ -44,6 +45,7 @@ function RoomTab({
 	const [showUsers, setShowUsers] = useState(false)
 	const token = account && account.token
 	const userId = account && account.id
+	const isRoomOwner = account && room.owner && account.id === room.owner.id
 	useEffect(() => {
 		if (socket && connected && token && room) {
 			let lastGoodHeartbeat = 0
@@ -238,7 +240,9 @@ function RoomTab({
 	return (
 		<div className="sp-flex-body  sp-room-tab">
 			<RoomInfoModal
+				isOwner={isRoomOwner}
 				room={room}
+				updateRoom={updateRoom}
 				showModal={showModal}
 				setShowModal={setShowModal}
 			/>

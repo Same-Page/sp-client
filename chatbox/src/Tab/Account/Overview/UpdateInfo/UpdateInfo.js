@@ -17,6 +17,7 @@ const UpdateInfo = ({ account, back }) => {
 	const onFinish = async values => {
 		console.debug("Received values of form: ", values)
 		setLoading(true)
+		setUpdated(false)
 
 		try {
 			const resp = await updateInfo(values)

@@ -8,13 +8,13 @@ import {
 	CloseOutlined,
 	MenuOutlined
 } from "@ant-design/icons"
+
 import config from "config"
 import TabName from "components/TabName"
-import RoomList from "components/RoomList"
-import Header from "components/Header"
 import RoomTab from "./RoomTab"
 
 import storageManager from "storage"
+import NewTab from "./NewTab/NewTab"
 
 const { TabPane } = Tabs
 
@@ -90,6 +90,7 @@ function Chat({ account, storageData, url, domain }) {
 	const [disconnectCount, setDisconnectCounter] = useState(0)
 	const [minSideBar, setMinSideBar] = useState(false)
 	const [closeSideBar, setCloseSideBar] = useState(false)
+
 	const token = account && account.token
 	useEffect(() => {
 		if (token) {
@@ -253,16 +254,10 @@ function Chat({ account, storageData, url, domain }) {
 			console.error(action)
 		}
 	}
-	// const setRoomUnread = paneIndex => {
-	// 	setPanes(panes => {
-	// 		return panes.map((p, i) => {
-	// 			if (i === paneIndex) {
-	// 				return { ...p, unread: true }
-	// 			}
-	// 			return p
-	// 		})
-	// 	})
-	// }
+	const updateRoom = (room, paneIndex) => {
+		panes[paneIndex].room = room
+		setPanes([...panes])
+	}
 	const setRoom = (room, paneIndex) => {
 		// If room already open, set it to be active
 		const existingPane = panes.filter(
@@ -342,32 +337,20 @@ function Chat({ account, storageData, url, domain }) {
 						key={pane.key}
 					>
 						{!pane.room && (
-							<div className="sp-flex-body">
-								<Header
-									leftItems={<span style={{ marginLeft: 10 }}>房间列表</span>}
-									rightItems={
-										<>
-											<Button icon={<PlusOutlined />}>新建</Button>
-											<Button
-												onClick={() => {
-													setCloseSideBar(false)
-													remove(pane.key)
-												}}
-												icon={<CloseOutlined />}
-											>
-												关闭
-											</Button>
-										</>
-									}
-								/>
-
-								<RoomList
-									setRoom={room => {
-										setRoom(room, paneIndex)
-										setMinSideBar(true)
-									}}
-								/>
-							</div>
+							<NewTab
+								paneIndex={paneIndex}
+								pane={pane}
+								setCloseSideBar={setCloseSideBar}
+								close={() => {
+									setCloseSideBar(false)
+									remove(pane.key)
+								}}
+								setMinSideBar={setMinSideBar}
+								joinRoom={room => {
+									setRoom(room, paneIndex)
+									setMinSideBar(true)
+								}}
+							/>
 						)}
 
 						{pane.room && (
@@ -389,6 +372,9 @@ function Chat({ account, storageData, url, domain }) {
 								socket={socket}
 								account={account}
 								room={pane.room}
+								updateRoom={room => {
+									updateRoom(room, paneIndex)
+								}}
 								exit={() => {
 									// setMinSideBar(false)
 									setCloseSideBar(false)

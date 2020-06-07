@@ -206,3 +206,9 @@ header-body-footer with sticky header and footer*/
 .sp-main-tabs .ant-alert-icon {
 	left: 20px;
 }
+
+.sp-form {
+	max-width: 300px;
+	margin: auto;
+	margin-top: 20px;
+}

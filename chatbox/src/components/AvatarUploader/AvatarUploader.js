@@ -1,6 +1,6 @@
 import React from "react"
 import { Avatar } from "antd"
-import { UserOutlined } from "@ant-design/icons"
+import { UserOutlined, UploadOutlined } from "@ant-design/icons"
 
 import ImageUploader from "react-images-upload"
 import "./AvatarUploader.css"
@@ -51,7 +51,12 @@ class App extends React.Component {
 					withIcon={false}
 					withLabel={false}
 					// buttonText={this.props.intl.formatMessage({ id: "choose.image" })}
-					buttonText="更换头像"
+					buttonText={
+						<>
+							<UploadOutlined style={{ marginRight: 10 }} />
+							更换头像
+						</>
+					}
 					fileTypeError="文件类型不支持"
 					fileSizeError="文件太大"
 					onChange={this.onDrop}

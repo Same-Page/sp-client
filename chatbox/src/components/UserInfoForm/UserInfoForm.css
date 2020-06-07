@@ -1,5 +1,6 @@
 .sp-user-info-form {
-	max-width: 300px;
+	/* already defined in sp-form */
+	/* max-width: 300px;
 	margin: auto;
-	margin-top: 30px;
+	margin-top: 30px; */
 }
