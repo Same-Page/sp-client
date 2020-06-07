@@ -99,7 +99,7 @@ function Profile({
 								>
 									<span className="sp-field-label">房间</span>
 									<br />
-									<b>{user && user.rooms && user.rooms.length} </b>
+									<b>{user && user.roomCount} </b>
 									{!user && <br />}
 								</span>
 							</Col>
