@@ -1,8 +1,6 @@
 import "./UserInfoForm.css"
-import React from "react"
-import { Form, Input } from "antd"
-
-import AvatarUploader from "components/AvatarUploader"
+import React, { useState } from "react"
+import { Form, Input, Upload, message } from "antd"
 
 const formItemLayout = {
 	labelCol: {
@@ -40,11 +38,36 @@ const tailFormItemLayout = {
 		}
 	}
 }
-let avatarFile = null
+
+function getBase64(img, callback) {
+	const reader = new FileReader()
+	reader.addEventListener("load", () => callback(reader.result))
+	reader.readAsDataURL(img)
+}
+
+function beforeUpload(file) {
+	const isJpgOrPng = file.type === "image/jpeg" || file.type === "image/png"
+	if (!isJpgOrPng) {
+		message.error("只能上传图片!")
+	}
+	const isLt2M = file.size / 1024 / 1024 < 2
+	if (!isLt2M) {
+		message.error("图片必须小于 2MB")
+	}
+	// return false so it won't auto upload
+	return isJpgOrPng && isLt2M
+}
 
 const UserInfoForm = ({ submit, submitBtn, fields, user, validateEmail }) => {
 	const [form] = Form.useForm()
+	const [avatarUrl, setAvatarUrl] = useState(null)
+	const [avatarFile, setAvatarFile] = useState(null)
+	const originalAvatarUrl = user && user.avatarSrc
 
+	const avatarImgHandleChange = info => {
+		setAvatarFile(info.file.originFileObj)
+		getBase64(info.file.originFileObj, imageUrl => setAvatarUrl(imageUrl))
+	}
 	return (
 		<Form
 			className="sp-user-info-form sp-form"
@@ -65,14 +88,28 @@ const UserInfoForm = ({ submit, submitBtn, fields, user, validateEmail }) => {
 			scrollToFirstError
 		>
 			{fields.includes("avatar") && (
-				<Form.Item>
-					<AvatarUploader
-						avatarSrc={user && user.avatarSrc}
-						setFile={file => {
-							avatarFile = file
-						}}
-					/>
-				</Form.Item>
+				<>
+					<div style={{ marginBottom: 10 }}>头像</div>
+					<Upload
+						name="avatar"
+						listType="picture-card"
+						showUploadList={false}
+						accept="image/*"
+						customRequest={() => {}}
+						beforeUpload={beforeUpload}
+						onChange={avatarImgHandleChange}
+					>
+						{avatarUrl || originalAvatarUrl ? (
+							<img
+								src={avatarUrl || originalAvatarUrl}
+								alt="头像"
+								style={{ width: "100%" }}
+							/>
+						) : (
+							<span>点击上传</span>
+						)}
+					</Upload>
+				</>
 			)}
 			{fields.includes("email") && (
 				<Form.Item

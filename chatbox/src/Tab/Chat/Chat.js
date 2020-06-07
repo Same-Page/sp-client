@@ -222,6 +222,7 @@ function Chat({ account, storageData, url, domain }) {
 
 		setPanes([...panes, { title: "选择房间", key: key }])
 		setActiveKey(key)
+		setMinSideBar(false)
 	}
 
 	const remove = targetKey => {
@@ -259,6 +260,13 @@ function Chat({ account, storageData, url, domain }) {
 		setPanes([...panes])
 	}
 	const setRoom = (room, paneIndex) => {
+		// fill in room id for site/page type of rooms
+		if (room.type === "site") {
+			room.id = domain
+		} else if (room.type === "page") {
+			room.id = url
+		}
+
 		// If room already open, set it to be active
 		const existingPane = panes.filter(
 			pane => pane.room && pane.room.id === room.id
@@ -267,12 +275,7 @@ function Chat({ account, storageData, url, domain }) {
 			setActiveKey(existingPane[0].key)
 			return
 		}
-		// fill in room id for site/page type of rooms
-		if (room.type === "site") {
-			room.id = domain
-		} else if (room.type === "page") {
-			room.id = url
-		}
+
 		// build a new pane to replace the old pane
 		// pane key is also different
 		const pane = {

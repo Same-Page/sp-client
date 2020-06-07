@@ -50,6 +50,7 @@ function App({ account, setAccount, activeTab, setActiveTab }) {
 		if (token) {
 			axios.defaults.headers.common["token"] = token
 		} else {
+			setActiveTab("account")
 			delete axios.defaults.headers.common["token"]
 		}
 	}, [token])
