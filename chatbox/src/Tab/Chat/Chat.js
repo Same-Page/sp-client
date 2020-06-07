@@ -267,13 +267,18 @@ function Chat({ account, storageData, url, domain }) {
 			setActiveKey(existingPane[0].key)
 			return
 		}
+		// fill in room id for site/page type of rooms
+		if (room.type === "site") {
+			room.id = domain
+		} else if (room.type === "page") {
+			room.id = url
+		}
 		// build a new pane to replace the old pane
-		// keep the same old key? NO
+		// pane key is also different
 		const pane = {
 			title: room.name,
 			room: room,
 			key: room.id
-			// key: panes[paneIndex].key
 		}
 		panes[paneIndex] = pane
 		setActiveKey(room.id)

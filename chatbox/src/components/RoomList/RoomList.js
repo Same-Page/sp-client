@@ -1,15 +1,12 @@
 import "./RoomList.css"
 import React, { useState, useEffect } from "react"
 
-import { Modal, Alert } from "antd"
+import { Alert } from "antd"
 import {
 	LoadingOutlined,
 	TeamOutlined,
 	PlayCircleFilled
 } from "@ant-design/icons"
-
-// import CreateRoomForm from "./CreateRoom"
-import { getRooms } from "./service"
 
 const roomColorCache = {}
 function getRandomRolor(roomId) {
@@ -24,45 +21,31 @@ function getRandomRolor(roomId) {
 	roomColorCache[roomId] = color
 	return color
 }
-const title = (
-	<span>
-		创建房间<span style={{ color: "gray" }}>（需10积分）</span>
-	</span>
-)
-function RoomList({ joinRoom }) {
+
+function RoomList({ user, joinRoom, getRooms }) {
 	const [loadingRooms, setLoadingRooms] = useState(false)
 	// rooms here mean room list returned from backend
 	// do not confuse with state.rooms
 	const [rooms, setRooms] = useState([])
-	const [showCreateRoomModal, setShowCreateRoomModal] = useState(false)
 
-	const loadRooms = user => {
+	useEffect(() => {
 		setLoadingRooms(true)
-
-		const params = {}
-		if (user) {
-			params["userId"] = user.id
-		}
-		getRooms(params)
+		getRooms(user && user.id)
 			.then(resp => {
-				resp.data.sort((a, b) => {
-					return b.userCount - a.userCount
-				})
+				// resp.data.sort((a, b) => {
+				// 	return b.userCount - a.userCount
+				// })
 
-				resp.data.forEach(r => {
-					r.id = r.id.toString()
-				})
+				// resp.data.forEach(r => {
+				// 	r.id = r.id.toString()
+				// })
 				setRooms(resp.data)
 			})
 			.catch(err => {})
 			.then(() => {
 				setLoadingRooms(false)
 			})
-	}
-
-	useEffect(() => {
-		loadRooms()
-	}, [])
+	}, [user, getRooms])
 
 	return (
 		<>
@@ -131,18 +114,6 @@ function RoomList({ joinRoom }) {
 				<br />
 				<br />
 			</div>
-
-			<Modal
-				transitionName="none"
-				title={title}
-				centered
-				visible={showCreateRoomModal}
-				onCancel={() => {
-					setShowCreateRoomModal(false)
-				}}
-				footer={null}
-				wrapClassName="sp-modal"
-			></Modal>
 		</>
 	)
 }

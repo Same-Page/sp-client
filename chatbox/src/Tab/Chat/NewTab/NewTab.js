@@ -1,15 +1,11 @@
 import React, { useState } from "react"
-import { Tabs, Button, message } from "antd"
-import {
-	PlusOutlined,
-	LeftOutlined,
-	CloseOutlined,
-	MenuOutlined
-} from "@ant-design/icons"
+import { Button } from "antd"
+import { PlusOutlined, CloseOutlined } from "@ant-design/icons"
 
 import RoomList from "components/RoomList"
 import Header from "components/Header"
 import CreateRoom from "./CreateRoom"
+import { getRooms } from "Tab/Chat/service"
 
 function NewTab({ close, joinRoom }) {
 	const [showCreateRoomModal, setShowCreateRoomModal] = useState(false)
@@ -40,7 +36,7 @@ function NewTab({ close, joinRoom }) {
 					}
 				/>
 
-				<RoomList joinRoom={joinRoom} />
+				<RoomList joinRoom={joinRoom} getRooms={getRooms} />
 			</div>
 		</>
 	)

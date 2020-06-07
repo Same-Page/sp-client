@@ -1,7 +1,7 @@
 import "./RoomInfoModal.css"
 import React, { useState } from "react"
 
-import { Modal, Form, message } from "antd"
+import { Modal, Form, message, Button } from "antd"
 import { SaveOutlined } from "@ant-design/icons"
 
 import AvatarWithPopover from "AvatarWithPopover"
@@ -39,6 +39,7 @@ function RoomInfoModal({ room, updateRoom, isOwner, showModal, setShowModal }) {
 			title="房间信息"
 			visible={showModal}
 			onCancel={() => {
+				setEditRoom(false)
 				setShowModal(false)
 			}}
 			footer={editRoom ? Modal.footer : null}
@@ -78,14 +79,15 @@ function RoomInfoModal({ room, updateRoom, isOwner, showModal, setShowModal }) {
 					)}
 
 					{isOwner && (
-						<a
-							href="#"
+						<Button
+							style={{ padding: 0 }}
+							type="link"
 							onClick={() => {
 								setEditRoom(true)
 							}}
 						>
 							修改房间
-						</a>
+						</Button>
 					)}
 				</div>
 			)}
