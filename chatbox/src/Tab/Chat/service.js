@@ -10,9 +10,11 @@ export const updateRoomInfo = payload => {
 	return axios.put(config.apiUrl + "/api/v1/room", buildFormData(payload))
 }
 
-export const getRooms = userId => {
-	const params = {
-		userId: userId
+export const getRooms = (url, domain, userId) => {
+	const payload = {
+		userId,
+		url,
+		domain
 	}
-	return axios.get(config.apiUrl + "/api/v1/rooms", { params: params })
+	return axios.post(config.apiUrl + "/api/v1/get_rooms", payload)
 }

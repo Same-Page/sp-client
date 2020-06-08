@@ -22,7 +22,7 @@ function getRandomRolor(roomId) {
 	return color
 }
 
-function RoomList({ userId, joinRoom, getRooms }) {
+function RoomList({ joinRoom, getRooms }) {
 	const [loadingRooms, setLoadingRooms] = useState(false)
 	// rooms here mean room list returned from backend
 	// do not confuse with state.rooms
@@ -30,7 +30,7 @@ function RoomList({ userId, joinRoom, getRooms }) {
 
 	useEffect(() => {
 		setLoadingRooms(true)
-		getRooms(userId)
+		getRooms()
 			.then(resp => {
 				// resp.data.sort((a, b) => {
 				// 	return b.userCount - a.userCount
@@ -45,7 +45,7 @@ function RoomList({ userId, joinRoom, getRooms }) {
 			.then(() => {
 				setLoadingRooms(false)
 			})
-	}, [userId, getRooms])
+	}, [getRooms])
 
 	return (
 		<>

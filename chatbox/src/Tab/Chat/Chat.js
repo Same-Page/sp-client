@@ -15,6 +15,7 @@ import RoomTab from "./RoomTab"
 
 import storageManager from "storage"
 import NewTab from "./NewTab/NewTab"
+import { getRooms } from "Tab/Chat/service"
 
 const { TabPane } = Tabs
 
@@ -71,7 +72,7 @@ const getInitialActiveKey = (initPanes, storageData) => {
 // user can open multiple empty tabs
 let newTabIndex = 0
 
-function Chat({ account, storageData, url, domain }) {
+function Chat({ account, storageData, url, domain, setActiveTab }) {
 	const initPanes = getInitialPanes(storageData, url, domain)
 	// TODO: url change won't trigger any update
 	// but maybe user does want to stay in pervious same page chat room
@@ -296,6 +297,7 @@ function Chat({ account, storageData, url, domain }) {
 	useEffect(() => {
 		const joinRoomEventHandler = e => {
 			const room = e.detail
+			setActiveTab("chat")
 			setRoom(room, -1)
 		}
 		window.addEventListener("join_room", joinRoomEventHandler)
@@ -360,17 +362,16 @@ function Chat({ account, storageData, url, domain }) {
 						{!pane.room && (
 							<NewTab
 								account={account}
-								paneIndex={paneIndex}
-								pane={pane}
-								setCloseSideBar={setCloseSideBar}
 								close={() => {
 									setCloseSideBar(false)
 									remove(pane.key)
 								}}
-								setMinSideBar={setMinSideBar}
 								joinRoom={room => {
 									setRoom(room, paneIndex)
 									setMinSideBar(true)
+								}}
+								getRooms={() => {
+									return getRooms(url, domain)
 								}}
 							/>
 						)}

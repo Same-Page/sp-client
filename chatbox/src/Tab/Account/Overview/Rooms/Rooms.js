@@ -1,14 +1,12 @@
-import React, { useState } from "react"
-import { connect } from "react-redux"
+import React from "react"
 import { Button } from "antd"
-import { LeftOutlined, SaveOutlined } from "@ant-design/icons"
+import { LeftOutlined } from "@ant-design/icons"
 
-import { setActiveTab } from "redux/actions"
 import RoomList from "components/RoomList"
 import Header from "components/Header"
 import { getRooms } from "Tab/Chat/service"
 
-function Rooms({ back, account, setActiveTab }) {
+function Rooms({ back, account, url, domain }) {
 	return (
 		<>
 			<Header
@@ -23,15 +21,14 @@ function Rooms({ back, account, setActiveTab }) {
 				joinRoom={room => {
 					var event = new CustomEvent("join_room", { detail: room })
 					window.dispatchEvent(event)
-					setActiveTab("chat")
 				}}
-				getRooms={getRooms}
+				getRooms={() => {
+					return getRooms(url, domain, account.id)
+				}}
 				userId={account.id}
 			/>
 		</>
 	)
 }
 
-export default connect(null, {
-	setActiveTab
-})(Rooms)
+export default Rooms

@@ -48,6 +48,7 @@ function Tab({ account, activeTab, setActiveTab, storageData, url, domain }) {
 						account={account}
 						url={url}
 						domain={domain}
+						setActiveTab={setActiveTab}
 					/>
 				</TabPane>
 				<TabPane

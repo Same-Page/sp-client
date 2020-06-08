@@ -5,9 +5,8 @@ import { PlusOutlined, CloseOutlined } from "@ant-design/icons"
 import RoomList from "components/RoomList"
 import Header from "components/Header"
 import CreateRoom from "./CreateRoom"
-import { getRooms } from "Tab/Chat/service"
 
-function NewTab({ account, close, joinRoom }) {
+function NewTab({ account, close, joinRoom, getRooms }) {
 	const [showCreateRoomModal, setShowCreateRoomModal] = useState(false)
 	return (
 		<>
