@@ -40,6 +40,7 @@ function RoomTab({
 	const [messages, setMessages] = useState([])
 	const [joining, setJoining] = useState(false)
 	const [joined, setJoined] = useState(false)
+	const [forbiddenToJoin, setFobbidenToJoin] = useState(false)
 	const [showModal, setShowModal] = useState(false)
 	const [users, setUsers] = useState([])
 	const [showUsers, setShowUsers] = useState(false)
@@ -47,7 +48,7 @@ function RoomTab({
 	const userId = account && account.id
 	const isRoomOwner = account && room.owner && account.id === room.owner.id
 	useEffect(() => {
-		if (socket && connected && token && room) {
+		if (socket && connected && token && room && !forbiddenToJoin) {
 			let lastGoodHeartbeat = 0
 			const joinRoom = () => {
 				console.debug("joining room " + room.name)
@@ -74,25 +75,29 @@ function RoomTab({
 				const data = msg.data
 				if (msg.error) {
 					if (msg.error === 401) {
-						setJoining(false)
+						// setJoining(false)
+						// setJoined(false)
+						// setUsers([])
 						storageManager.set("account", null)
-						setUsers([])
 					}
 
-					message.error(msg.message)
-				} else if (msg.name === "chat message") {
+					message.error(msg.error)
+				}
+				if (msg.name === "forbidden_to_join") {
+					setFobbidenToJoin(true)
+				} else if (msg.name === "chat_message") {
 					data.self = data.user.id.toString() === userId.toString()
 					setMessages(prevMessages => {
 						return [...prevMessages, data]
 					})
-				} else if (msg.name === "delete message") {
+				} else if (msg.name === "delete_message") {
 					setMessages(prevMessages => {
 						const res = prevMessages.filter(m => {
 							return m.id.toString() !== data.toString()
 						})
 						return [...res]
 					})
-				} else if (msg.name === "room info") {
+				} else if (msg.name === "room_info") {
 					setJoining(false)
 					setJoined(true)
 					lastGoodHeartbeat = new Date()
@@ -102,7 +107,7 @@ function RoomTab({
 					setMessages(data.chatHistory)
 
 					setUsers(data.users)
-				} else if (msg.name === "other join") {
+				} else if (msg.name === "other_join") {
 					setUsers(users => {
 						const user = msg.user
 						// in case of duplicate
@@ -111,7 +116,7 @@ function RoomTab({
 						})
 						return [...existingUsersWithoutNewUser, user]
 					})
-				} else if (msg.name === "other left") {
+				} else if (msg.name === "other_left") {
 					const user = msg.user
 
 					setUsers(users => {
@@ -183,7 +188,7 @@ function RoomTab({
 			setJoined(false)
 			setJoining(false)
 		}
-	}, [room, socket, token, userId, connected])
+	}, [room, socket, token, userId, connected, forbiddenToJoin])
 
 	useEffect(() => {
 		// close room info modal and online users when tab switched
@@ -300,7 +305,12 @@ function RoomTab({
 			/>
 
 			{joining && <LoadingAlert text="连接中。。。" />}
-			{!joining && !joined && <FloatingAlert text="未连接" type="info" />}
+			{forbiddenToJoin && (
+				<FloatingAlert showIcon={true} text="禁止入内" type="error" />
+			)}
+			{!joining && !joined && !forbiddenToJoin && (
+				<FloatingAlert text="未连接" type="info" />
+			)}
 			<Conversation
 				backgroundColor="rgb(246, 249, 252)"
 				messages={messages}

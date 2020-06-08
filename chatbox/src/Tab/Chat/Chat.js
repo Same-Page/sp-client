@@ -159,7 +159,7 @@ function Chat({ account, storageData, url, domain }) {
 		// should not be here
 		const checkUnread = e => {
 			const msg = JSON.parse(e.data)
-			if (msg.name === "chat message") {
+			if (msg.name === "chat_message") {
 				const roomId = msg.roomId
 
 				if (roomId !== activeKey) {
