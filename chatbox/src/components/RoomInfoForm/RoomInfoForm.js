@@ -48,14 +48,20 @@ const RoomInfoForm = ({ room, form, submit }) => {
 	const originalBg = room && room.background
 
 	const coverImageHandleChange = info => {
-		setCoverImage(info.file.originFileObj)
-		getBase64(info.file.originFileObj, imageUrl => setCoverImageUrl(imageUrl))
+		if (info.file.status === "uploading") {
+			// if beforeUpload return true, then status become uploading
+			// and file.originaFileObj is set
+			setCoverImage(info.file.originFileObj)
+			getBase64(info.file.originFileObj, imageUrl => setCoverImageUrl(imageUrl))
+		}
 	}
 	const backgroundImageHandleChange = info => {
-		setBackgroundImage(info.file.originFileObj)
-		getBase64(info.file.originFileObj, imageUrl =>
-			setBackgroundImageUrl(imageUrl)
-		)
+		if (info.file.status === "uploading") {
+			setBackgroundImage(info.file.originFileObj)
+			getBase64(info.file.originFileObj, imageUrl =>
+				setBackgroundImageUrl(imageUrl)
+			)
+		}
 	}
 
 	const submitForm = values => {

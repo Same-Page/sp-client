@@ -39,6 +39,8 @@ function App({ account, setAccount, activeTab, setActiveTab }) {
 			setStorageData(data)
 			if (data.account) {
 				setAccount(data.account)
+			} else {
+				setActiveTab("account")
 			}
 		})
 
@@ -50,7 +52,6 @@ function App({ account, setAccount, activeTab, setActiveTab }) {
 		if (token) {
 			axios.defaults.headers.common["token"] = token
 		} else {
-			setActiveTab("account")
 			delete axios.defaults.headers.common["token"]
 		}
 	}, [token])
