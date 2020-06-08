@@ -36,7 +36,7 @@ function NewTab({ account, close, joinRoom, getRooms }) {
 					}
 				/>
 
-				<RoomList joinRoom={joinRoom} getRooms={getRooms} />
+				<RoomList listStyle={true} joinRoom={joinRoom} getRooms={getRooms} />
 			</div>
 		</>
 	)

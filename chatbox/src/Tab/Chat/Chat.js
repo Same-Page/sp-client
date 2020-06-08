@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useCallback } from "react"
 import "./Chat.css"
 
 import { Tabs, Button, message } from "antd"
@@ -257,43 +257,55 @@ function Chat({ account, storageData, url, domain, setActiveTab }) {
 		}
 	}
 	const updateRoom = (room, paneIndex) => {
-		panes[paneIndex].room = room
-		setPanes([...panes])
-	}
-	const setRoom = (room, paneIndex) => {
-		// fill in room id for site/page type of rooms
-		if (room.type === "site") {
-			room.id = domain
-		} else if (room.type === "page") {
-			room.id = url
-		}
-
-		// If room already open, set it to be active
-		const existingPane = panes.filter(
-			pane => pane.room && pane.room.id === room.id
-		)
-		if (existingPane.length) {
-			setActiveKey(existingPane[0].key)
-			return
-		}
-
-		// build a new pane to replace the old pane
-		// pane key is also different
-		const pane = {
-			title: room.name,
+		const newPanes = [...panes]
+		newPanes[paneIndex] = {
+			...newPanes[paneIndex],
 			room: room,
-			key: room.id
+			title: room.name
 		}
-		if (paneIndex === -1) {
-			// user jump here from account/rooms tab
-			// without creating a new tab first
-			setPanes([...panes, pane])
-		} else {
-			panes[paneIndex] = pane
-			setPanes([...panes])
-		}
-		setActiveKey(room.id)
+
+		setPanes(newPanes)
 	}
+	const getAllRooms = useCallback(() => {
+		return getRooms(url, domain)
+	}, [url, domain])
+	const setRoom = useCallback(
+		(room, paneIndex) => {
+			// fill in room id for site/page type of rooms
+			if (room.type === "site") {
+				room.id = domain
+			} else if (room.type === "page") {
+				room.id = url
+			}
+
+			// If room already open, set it to be active
+			const existingPane = panes.filter(
+				pane => pane.room && pane.room.id === room.id
+			)
+			if (existingPane.length) {
+				setActiveKey(existingPane[0].key)
+				return
+			}
+
+			// build a new pane to replace the old pane
+			// pane key is also different
+			const pane = {
+				title: room.name,
+				room: room,
+				key: room.id
+			}
+			if (paneIndex === -1) {
+				// user jump here from account/rooms tab
+				// without creating a new tab first
+				setPanes([...panes, pane])
+			} else {
+				panes[paneIndex] = pane
+				setPanes([...panes])
+			}
+			setActiveKey(room.id)
+		},
+		[panes, url, domain]
+	)
 	useEffect(() => {
 		const joinRoomEventHandler = e => {
 			const room = e.detail
@@ -304,7 +316,7 @@ function Chat({ account, storageData, url, domain, setActiveTab }) {
 		return () => {
 			window.removeEventListener("join_room", joinRoomEventHandler)
 		}
-	}, [setRoom])
+	}, [setRoom, setActiveTab])
 	const wrapperClassName =
 		"sp-chat-tab" +
 		(minSideBar ? " sp-minimized" : "") +
@@ -370,9 +382,7 @@ function Chat({ account, storageData, url, domain, setActiveTab }) {
 									setRoom(room, paneIndex)
 									setMinSideBar(true)
 								}}
-								getRooms={() => {
-									return getRooms(url, domain)
-								}}
+								getRooms={getAllRooms}
 							/>
 						)}
 

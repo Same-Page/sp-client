@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useCallback } from "react"
 import { Button } from "antd"
 import { LeftOutlined } from "@ant-design/icons"
 
@@ -7,6 +7,9 @@ import Header from "components/Header"
 import { getRooms } from "Tab/Chat/service"
 
 function Rooms({ back, account, url, domain }) {
+	const getUserRooms = useCallback(() => {
+		return getRooms(url, domain, account.id)
+	}, [url, domain, account.id])
 	return (
 		<>
 			<Header
@@ -24,9 +27,7 @@ function Rooms({ back, account, url, domain }) {
 					var event = new CustomEvent("join_room", { detail: room })
 					window.dispatchEvent(event)
 				}}
-				getRooms={() => {
-					return getRooms(url, domain, account.id)
-				}}
+				getRooms={getUserRooms}
 				userId={account.id}
 			/>
 		</>
