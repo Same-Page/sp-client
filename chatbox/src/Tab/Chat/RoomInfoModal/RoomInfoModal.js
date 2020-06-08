@@ -52,21 +52,27 @@ function RoomInfoModal({ room, updateRoom, isOwner, showModal, setShowModal }) {
 			{!editRoom && (
 				<div>
 					<div className="sp-room-info-row">
-						<h4>房间名</h4>
+						<h4>ID</h4>
+						<div>{room.id}</div>
+					</div>
+
+					<div className="sp-room-info-row">
+						<h4>名称</h4>
 						<div>{room.name}</div>
 					</div>
 					{room.about && (
 						<div className="sp-room-info-row">
-							<h4>房间介绍</h4>
+							<h4>介绍</h4>
 							<div>{room.about}</div>
 						</div>
 					)}
-					{room.addr && (
+					{/* {(room.type === "page" || room.type === "site") && (
 						<div className="sp-room-info-row">
 							<h4>房间地址</h4>
-							<div>{room.addr}</div>
+							<div>{room.id}</div>
 						</div>
-					)}
+					)} */}
+
 					{room.owner && (
 						<div className="sp-room-info-row">
 							<h4>房主</h4>
