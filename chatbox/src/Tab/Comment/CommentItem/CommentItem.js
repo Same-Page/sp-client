@@ -33,9 +33,10 @@ function CommentItem({ c }) {
 	}
 
 	let content = ""
-	if (c.content.type === "text") {
+	const contentType = c.content.type
+	if (contentType === "text") {
 		content = c.content.value
-	} else if (c.content.type === "image") {
+	} else if (contentType === "image") {
 		content = <img alt={c.content.url} src={c.content.url} />
 	}
 
@@ -133,7 +134,9 @@ function CommentItem({ c }) {
 				content={
 					<span
 						onClick={() => {
-							setShowMediaModal(true)
+							if (contentType === "image") {
+								setShowMediaModal(true)
+							}
 						}}
 					>
 						{content}
