@@ -65,8 +65,12 @@ const UserInfoForm = ({ submit, submitBtn, fields, user, validateEmail }) => {
 	const originalAvatarUrl = user && user.avatarSrc
 
 	const avatarImgHandleChange = info => {
-		setAvatarFile(info.file.originFileObj)
-		getBase64(info.file.originFileObj, imageUrl => setAvatarUrl(imageUrl))
+		if (info.file.status === "uploading") {
+			// if beforeUpload return true, then status become uploading
+			// and file.originaFileObj is set
+			setAvatarFile(info.file.originFileObj)
+			getBase64(info.file.originFileObj, imageUrl => setAvatarUrl(imageUrl))
+		}
 	}
 	return (
 		<Form
