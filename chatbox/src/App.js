@@ -45,7 +45,7 @@ function App({ account, setAccount, activeTab, setActiveTab }) {
 		})
 
 		setReady(true)
-	}, [setAccount])
+	}, [setAccount, setActiveTab])
 
 	useEffect(() => {
 		console.info("token changed", token)

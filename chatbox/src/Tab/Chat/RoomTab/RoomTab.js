@@ -47,6 +47,7 @@ function RoomTab({
 	const token = account && account.token
 	const userId = account && account.id
 	const isRoomOwner = account && room.owner && account.id === room.owner.id
+	const isMod = account && account.isMod
 	useEffect(() => {
 		if (socket && connected && token && room && !forbiddenToJoin) {
 			let lastGoodHeartbeat = 0
@@ -222,7 +223,7 @@ function RoomTab({
 	}
 	const messageActions = msg => {
 		return (
-			<>
+			(msg.user.id === userId || isRoomOwner || isMod) && (
 				<Button
 					onClick={() => {
 						const payload = {
@@ -238,7 +239,7 @@ function RoomTab({
 				>
 					<DeleteOutlined />
 				</Button>
-			</>
+			)
 		)
 	}
 
@@ -280,18 +281,7 @@ function RoomTab({
 								<span>{users.length}</span>
 							</Button>
 						</Popover>
-						{/* <Popconfirm
-							onConfirm={exit}
-							title="确认离开？"
-							okText="是的"
-							cancelText="取消"
-							placement="bottomRight"
-							okButtonProps={{ danger: true }}
-						>
-							<Button danger title="离开房间" icon={<LogoutOutlined />}>
-								<span>离开</span>
-							</Button>
-						</Popconfirm> */}
+
 						<Button
 							danger
 							onClick={exit}
