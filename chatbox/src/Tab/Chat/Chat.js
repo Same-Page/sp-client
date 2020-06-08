@@ -346,6 +346,7 @@ function Chat({ account, storageData, url, domain }) {
 					>
 						{!pane.room && (
 							<NewTab
+								account={account}
 								paneIndex={paneIndex}
 								pane={pane}
 								setCloseSideBar={setCloseSideBar}

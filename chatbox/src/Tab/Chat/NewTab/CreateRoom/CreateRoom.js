@@ -4,8 +4,10 @@ import { SaveOutlined } from "@ant-design/icons"
 
 import RoomInfoForm from "components/RoomInfoForm"
 import { createRoom } from "Tab/Chat/service"
+import storageManager from "storage"
 
 const CreateRoom = ({
+	account,
 	joinRoom,
 	showCreateRoomModal,
 	setShowCreateRoomModal
@@ -22,6 +24,10 @@ const CreateRoom = ({
 
 			joinRoom(room)
 			message.success("成功！")
+			storageManager.set("account", {
+				...account,
+				roomCount: account.roomCount + 1
+			})
 		} catch (error) {
 			message.error("失败！")
 			console.error(error)

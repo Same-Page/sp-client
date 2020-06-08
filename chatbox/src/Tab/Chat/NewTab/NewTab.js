@@ -7,11 +7,12 @@ import Header from "components/Header"
 import CreateRoom from "./CreateRoom"
 import { getRooms } from "Tab/Chat/service"
 
-function NewTab({ close, joinRoom }) {
+function NewTab({ account, close, joinRoom }) {
 	const [showCreateRoomModal, setShowCreateRoomModal] = useState(false)
 	return (
 		<>
 			<CreateRoom
+				account={account}
 				joinRoom={joinRoom}
 				showCreateRoomModal={showCreateRoomModal}
 				setShowCreateRoomModal={setShowCreateRoomModal}
