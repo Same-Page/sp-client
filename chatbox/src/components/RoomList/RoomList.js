@@ -22,7 +22,7 @@ function getRandomRolor(roomId) {
 	return color
 }
 
-function RoomList({ joinRoom, getRooms }) {
+function RoomList({ joinRoom, getRooms, listStyle }) {
 	const [loadingRooms, setLoadingRooms] = useState(false)
 	// rooms here mean room list returned from backend
 	// do not confuse with state.rooms
@@ -55,7 +55,7 @@ function RoomList({ joinRoom, getRooms }) {
 					overflow: "auto"
 					// background: "#e6d8d8"
 				}}
-				className="sp-tab-body discovery"
+				className={listStyle ? "sp-rooms-list-view" : ""}
 			>
 				{loadingRooms && (
 					<FloatingAlert

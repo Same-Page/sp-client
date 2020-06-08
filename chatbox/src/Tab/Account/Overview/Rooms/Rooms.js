@@ -17,7 +17,9 @@ function Rooms({ back, account, url, domain }) {
 				}
 				centerItems={<>房间 {account.roomCount}</>}
 			/>
+
 			<RoomList
+				listStyle={true}
 				joinRoom={room => {
 					var event = new CustomEvent("join_room", { detail: room })
 					window.dispatchEvent(event)

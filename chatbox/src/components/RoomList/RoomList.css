@@ -1,16 +1,6 @@
-.sp-hot-chatrooms-wrapper {
-	display: -webkit-flex; /* Safari */
-	-webkit-flex-wrap: wrap; /* Safari 6.1+ */
-	display: flex;
-	flex-wrap: wrap;
-	padding: 10px;
-	padding-left: 20px;
-	padding-right: 20px;
-}
-
 .sp-discover-entry {
 	width: 50%;
-	height: 100px;
+	height: 120px;
 	font-size: 13px;
 	max-height: 120px;
 	position: relative;
@@ -31,10 +21,15 @@
 	overflow: hidden;
 	text-overflow: ellipsis;
 }
+.sp-rooms-list-view .sp-discover-entry {
+	width: 72%;
+	border-radius: 5px;
+	display: block;
+	margin: 30px auto;
+}
 
-.sp-discover-entry:nth-child(odd) {
-	/* border-right: 1px solid white; */
-	border: none;
+.sp-rooms-list-view .sp-room-wrapper {
+	border-radius: 5px;
 }
 .sp-discover-entry div {
 	top: 50%;
