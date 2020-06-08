@@ -35,7 +35,9 @@ function AccountButtons({ gutter, updateInfo, width }) {
 								icon: <ExclamationCircleOutlined />,
 								cancelText: "取消",
 								okText: "确定",
+								centered: true,
 								okButtonProps: { danger: true },
+
 								// content: 'When clicked the OK button, this dialog will be closed after 1 second',
 								onOk() {
 									setLoggingOut(true)

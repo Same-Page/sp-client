@@ -1,12 +1,12 @@
 import "./RoomList.css"
 import React, { useState, useEffect } from "react"
 
-import { Alert } from "antd"
 import {
 	LoadingOutlined,
 	TeamOutlined,
 	PlayCircleFilled
 } from "@ant-design/icons"
+import FloatingAlert from "components/Alert/FloatingAlert"
 
 const roomColorCache = {}
 function getRandomRolor(roomId) {
@@ -22,7 +22,7 @@ function getRandomRolor(roomId) {
 	return color
 }
 
-function RoomList({ user, joinRoom, getRooms }) {
+function RoomList({ userId, joinRoom, getRooms }) {
 	const [loadingRooms, setLoadingRooms] = useState(false)
 	// rooms here mean room list returned from backend
 	// do not confuse with state.rooms
@@ -30,7 +30,7 @@ function RoomList({ user, joinRoom, getRooms }) {
 
 	useEffect(() => {
 		setLoadingRooms(true)
-		getRooms(user && user.id)
+		getRooms(userId)
 			.then(resp => {
 				// resp.data.sort((a, b) => {
 				// 	return b.userCount - a.userCount
@@ -45,7 +45,7 @@ function RoomList({ user, joinRoom, getRooms }) {
 			.then(() => {
 				setLoadingRooms(false)
 			})
-	}, [user, getRooms])
+	}, [userId, getRooms])
 
 	return (
 		<>
@@ -58,14 +58,10 @@ function RoomList({ user, joinRoom, getRooms }) {
 				className="sp-tab-body discovery"
 			>
 				{loadingRooms && (
-					<Alert
-						className="sp-room-alert sp-alert-float"
-						message={
-							<span style={{ marginLeft: 10 }}>载入房间列表中。。。</span>
-						}
-						icon={<LoadingOutlined />}
-						banner
+					<FloatingAlert
+						text="载入房间列表中。。。"
 						type="warning"
+						icon={<LoadingOutlined />}
 					/>
 				)}
 				{!loadingRooms && rooms.length === 0 && (

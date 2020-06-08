@@ -12,7 +12,7 @@ function Profile({
 	self,
 	partial,
 	gutter,
-	setFollowView
+	setView
 }) {
 	aboutWidth = aboutWidth || 200
 	rowWidth = rowWidth || 200
@@ -93,8 +93,9 @@ function Profile({
 							</Col>
 							<Col span={12}>
 								<span
+									className="sp-clickable-field"
 									onClick={() => {
-										// props.showRooms()
+										setView && setView("rooms")
 									}}
 								>
 									<span className="sp-field-label">房间</span>
@@ -108,9 +109,9 @@ function Profile({
 					<Row gutter={gutter} style={{ textAlign: "center", marginTop: 10 }}>
 						<Col span={12}>
 							<span
-								className="sp-follow-stats"
+								className="sp-clickable-field"
 								onClick={() => {
-									setFollowView && setFollowView("followings")
+									setView && setView("followings")
 								}}
 							>
 								<span className="sp-field-label">关注了</span>
@@ -123,9 +124,9 @@ function Profile({
 						</Col>
 						<Col span={12}>
 							<span
-								className="sp-follow-stats"
+								className="sp-clickable-field"
 								onClick={() => {
-									setFollowView && setFollowView("followers")
+									setView && setView("followers")
 								}}
 							>
 								<span className="sp-field-label">关注者</span>

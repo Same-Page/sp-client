@@ -11,6 +11,7 @@ import UpdateInfo from "./UpdateInfo"
 import Header from "components/Header"
 import ChangePassword from "./ChangePassword"
 import Settings from "./Settings"
+import Rooms from "./Rooms"
 
 function Overview({ account }) {
 	// view: profile, followers/followings, edit-profile, change-password, settings
@@ -78,7 +79,7 @@ function Overview({ account }) {
 							rowWidth={250}
 							self={true}
 							user={account}
-							setFollowView={setView}
+							setView={setView}
 						/>
 						<br />
 						<br />
@@ -103,6 +104,7 @@ function Overview({ account }) {
 			{view === "edit-profile" && <UpdateInfo account={account} back={back} />}
 			{view === "change-password" && <ChangePassword back={back} />}
 			{view === "settings" && <Settings back={back} />}
+			{view === "rooms" && <Rooms account={account} back={back} />}
 		</div>
 	)
 }

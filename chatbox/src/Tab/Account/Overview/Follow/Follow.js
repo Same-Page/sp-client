@@ -112,16 +112,26 @@ function Follow({
 				rightItems={loading && <LoadingOutlined style={{ marginRight: 10 }} />}
 			/>
 			{/* {loading && <LoadingAlert text="载入中。。。" />} */}
-			{view === "followings" &&
-				followings &&
-				followings.map(u => (
-					<FollowRow setShowUserModal={setShowUserModal} key={u.id} user={u} />
-				))}
-			{view === "followers" &&
-				followers &&
-				followers.map(u => (
-					<FollowRow setShowUserModal={setShowUserModal} key={u.id} user={u} />
-				))}
+			<div style={{ overflow: "auto" }}>
+				{view === "followings" &&
+					followings &&
+					followings.map(u => (
+						<FollowRow
+							setShowUserModal={setShowUserModal}
+							key={u.id}
+							user={u}
+						/>
+					))}
+				{view === "followers" &&
+					followers &&
+					followers.map(u => (
+						<FollowRow
+							setShowUserModal={setShowUserModal}
+							key={u.id}
+							user={u}
+						/>
+					))}
+			</div>
 		</>
 	)
 }

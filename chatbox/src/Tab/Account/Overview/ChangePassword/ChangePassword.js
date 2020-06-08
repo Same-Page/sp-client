@@ -34,26 +34,27 @@ function ChangePassword({ back }) {
 				}
 				centerItems="更改密码"
 			/>
-
-			<UserInfoForm
-				// user={account}
-				fields={["password"]}
-				submit={onFinish}
-				submitBtn={
-					<>
-						<br />
-						<Button
-							type="primary"
-							className="login-form-button"
-							htmlType="submit"
-							loading={loading}
-							icon={<SaveOutlined />}
-						>
-							保存
-						</Button>
-					</>
-				}
-			/>
+			<div style={{ flexGrow: 1, overflowY: "auto", paddingBottom: 30 }}>
+				<UserInfoForm
+					// user={account}
+					fields={["password"]}
+					submit={onFinish}
+					submitBtn={
+						<>
+							<br />
+							<Button
+								type="primary"
+								className="login-form-button"
+								htmlType="submit"
+								loading={loading}
+								icon={<SaveOutlined />}
+							>
+								保存
+							</Button>
+						</>
+					}
+				/>
+			</div>
 		</>
 	)
 }

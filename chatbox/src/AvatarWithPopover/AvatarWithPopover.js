@@ -23,6 +23,8 @@ function AvatarWithPopover({ activeTab, user, size, popoverPlacement }) {
 					aboutWidth={200}
 					rowWidth={200}
 					user={user}
+					// visible is toggled so it forces useEffect in
+					// UserInfo to trigger
 					visible={popoverVisible}
 					// partial means show important fields only
 					// because space is limited, font and buttons are smaller too

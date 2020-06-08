@@ -42,7 +42,7 @@ function OverviewTab({ conversations, setInboxUser, loading, fetchData }) {
 					</Radio.Group>
 				}
 			/>
-			{loading && <LoadingAlert text="载入中。。。" />}
+			{/* {loading && <LoadingAlert text="载入中。。。" />} */}
 			{view === "mail" &&
 				conversations.map(c => (
 					<div

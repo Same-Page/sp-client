@@ -283,11 +283,26 @@ function Chat({ account, storageData, url, domain }) {
 			room: room,
 			key: room.id
 		}
-		panes[paneIndex] = pane
+		if (paneIndex === -1) {
+			// user jump here from account/rooms tab
+			// without creating a new tab first
+			setPanes([...panes, pane])
+		} else {
+			panes[paneIndex] = pane
+			setPanes([...panes])
+		}
 		setActiveKey(room.id)
-		setPanes([...panes])
 	}
-
+	useEffect(() => {
+		const joinRoomEventHandler = e => {
+			const room = e.detail
+			setRoom(room, -1)
+		}
+		window.addEventListener("join_room", joinRoomEventHandler)
+		return () => {
+			window.removeEventListener("join_room", joinRoomEventHandler)
+		}
+	}, [setRoom])
 	const wrapperClassName =
 		"sp-chat-tab" +
 		(minSideBar ? " sp-minimized" : "") +
@@ -327,7 +342,6 @@ function Chat({ account, storageData, url, domain }) {
 				hideAdd
 				onChange={onChange}
 				activeKey={activeKey}
-				// type="editable-card" commented out otherwise style is a mess
 				onEdit={onEdit}
 				tabPosition="left"
 			>
@@ -337,7 +351,6 @@ function Chat({ account, storageData, url, domain }) {
 						tab={
 							<TabName
 								minimized={minSideBar}
-								// iconUrl={minSideBar && pane.room && pane.room.cover}
 								title={pane.title}
 								unread={pane.unread}
 							/>

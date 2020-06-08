@@ -11,6 +11,7 @@ function LoadingAlert({ text }) {
 			className="sp-loading-alert"
 			message={<span style={{ marginLeft: 10 }}>{text}</span>}
 			icon={<LoadingOutlined />}
+			showIcon={true}
 			type="warning"
 			// banner
 		/>
