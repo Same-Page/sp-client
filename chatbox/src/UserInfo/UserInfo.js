@@ -1,6 +1,6 @@
 import "./UserInfo.css"
 
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useContext } from "react"
 import { Avatar, Button, Row, Col, message, Skeleton } from "antd"
 import { connect } from "react-redux"
 
@@ -15,6 +15,7 @@ import Profile from "components/Profile"
 import { messageUser } from "redux/actions"
 import { follow, getUser } from "./service"
 import storageManager from "storage"
+import RoomContext from "context/Room"
 
 // This is only for other users, not for displaying info of logged in user
 // Profile componnent is shared
@@ -35,6 +36,7 @@ function UserInfo({
 	const mutualFollow = isFollowing && completeUserData.isFollower
 	const [togglingFollow, setTogglingFollow] = useState(false)
 	const [followBtnOnHover, setFollowBtnOnHover] = useState(false)
+	const roomContext = useContext(RoomContext)
 
 	useEffect(() => {
 		async function fetchData() {
@@ -90,6 +92,7 @@ function UserInfo({
 		}
 		setTogglingFollow(false)
 	}
+
 	let followIcon = <PlusOutlined />
 	let followBtnText = "关注"
 	if (isFollowing) {
@@ -148,95 +151,97 @@ function UserInfo({
 						self={false}
 						partial={partial}
 					/>
-
-					<div style={{ margin: "auto", width: rowWidth, marginTop: 20 }}>
-						<Row gutter={gutter} style={{ textAlign: "center" }}>
-							<Col style={{ marginBottom: 10 }} span={12}>
-								<Button
-									onMouseEnter={() => {
-										setFollowBtnOnHover(true)
-									}}
-									onMouseLeave={() => {
-										setFollowBtnOnHover(false)
-									}}
-									// style={{ width: 80 }}
-									// not using loading attribute because of
-									// delayed animation which shift space
-									// loading={togglingFollow}
-									// disabled={togglingFollow}
-									type={isFollowing ? "default" : "primary"}
-									icon={followIcon}
-									onClick={toggleFollow}
-									// size={partial ? "small" : "middle"}
-								>
-									{followBtnText}
-								</Button>
-							</Col>
-							<Col span={12}>
-								<Button
-									icon={<MailOutlined />}
-									onClick={() => {
-										close && close()
-										messageUser(user)
-									}}
-									// size={partial ? "small" : "middle"}
-								>
-									私信
-								</Button>
-							</Col>
-						</Row>
-
-						{!partial && (
+					{account && (
+						<div style={{ margin: "auto", width: rowWidth, marginTop: 20 }}>
 							<Row gutter={gutter} style={{ textAlign: "center" }}>
-								<Col span={12}>
+								<Col style={{ marginBottom: 10 }} span={12}>
 									<Button
-										onClick={() => {
-											close && close()
-											messageUser(user)
+										onMouseEnter={() => {
+											setFollowBtnOnHover(true)
 										}}
-										className="sp-danger-btn"
+										onMouseLeave={() => {
+											setFollowBtnOnHover(false)
+										}}
+										// style={{ width: 80 }}
+										// not using loading attribute because of
+										// delayed animation which shift space
+										// loading={togglingFollow}
+										// disabled={togglingFollow}
+										type={isFollowing ? "default" : "primary"}
+										icon={followIcon}
+										onClick={toggleFollow}
+										// size={partial ? "small" : "middle"}
 									>
-										拉黑
+										{followBtnText}
 									</Button>
 								</Col>
 								<Col span={12}>
 									<Button
+										icon={<MailOutlined />}
 										onClick={() => {
 											close && close()
 											messageUser(user)
 										}}
-										className="sp-danger-btn"
+										// size={partial ? "small" : "middle"}
 									>
-										举报
+										私信
 									</Button>
 								</Col>
 							</Row>
-						)}
-						<Row gutter={gutter} style={{ textAlign: "center" }}>
-							<Col span={12}>
-								<Button
-									onClick={() => {
-										close && close()
-										messageUser(user)
-									}}
-									className="sp-danger-btn"
-								>
-									踢出房间
-								</Button>
-							</Col>
-							<Col span={12}>
-								<Button
-									onClick={() => {
-										close && close()
-										messageUser(user)
-									}}
-									className="sp-danger-btn"
-								>
-									禁入房间
-								</Button>
-							</Col>
-						</Row>
-					</div>
+
+							{!partial && (
+								<Row gutter={gutter} style={{ textAlign: "center" }}>
+									<Col span={12}>
+										<Button
+											onClick={() => {
+												close && close()
+												messageUser(user)
+											}}
+											className="sp-danger-btn"
+										>
+											拉黑
+										</Button>
+									</Col>
+									<Col span={12}>
+										<Button
+											onClick={() => {
+												close && close()
+												messageUser(user)
+											}}
+											className="sp-danger-btn"
+										>
+											举报
+										</Button>
+									</Col>
+								</Row>
+							)}
+							{roomContext && (roomContext.isRoomOwner || account.isMod) && (
+								<Row gutter={gutter} style={{ textAlign: "center" }}>
+									<Col span={12}>
+										<Button
+											onClick={() => {
+												roomContext.kickUser(user)
+											}}
+											className="sp-danger-btn"
+										>
+											踢出房间
+										</Button>
+									</Col>
+									<Col span={12}>
+										<Button
+											onClick={() => {
+												close && close()
+												messageUser(user)
+											}}
+											className="sp-danger-btn"
+										>
+											禁入房间
+										</Button>
+									</Col>
+								</Row>
+							)}
+						</div>
+					)}
 				</Skeleton>
 			</div>
 		</>

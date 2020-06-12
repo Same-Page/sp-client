@@ -20,6 +20,7 @@ import LoadingAlert from "components/Alert/LoadingAlert"
 import Users from "./Users"
 import storageManager from "storage"
 import config from "config"
+import RoomContext from "context/Room"
 
 import FloatingAlert from "components/Alert/FloatingAlert"
 
@@ -47,7 +48,7 @@ function RoomTab({
 	const token = account && account.token
 	const userId = account && account.id
 	const isRoomOwner = account && room.owner && account.id === room.owner.id
-	const isMod = account && account.isMod
+	const isMod = (account && account.isMod) || isRoomOwner
 	useEffect(() => {
 		if (socket && connected && token && room && !forbiddenToJoin) {
 			let lastGoodHeartbeat = 0
@@ -244,72 +245,76 @@ function RoomTab({
 	}
 
 	return (
-		<div className="sp-flex-body  sp-room-tab">
-			<RoomInfoModal
-				isOwner={isRoomOwner}
-				room={room}
-				updateRoom={updateRoom}
-				showModal={showModal}
-				setShowModal={setShowModal}
-			/>
-			<Header
-				leftItems={
-					<>
-						{extraButton}
-						<Button
-							className="sp-room-name"
-							onClick={() => {
-								setShowModal(true)
-							}}
-							icon={<HomeOutlined />}
-						>
-							<span>{room.name}</span>
-						</Button>
-					</>
-				}
-				rightItems={
-					<>
-						<Popover
-							onVisibleChange={setShowUsers}
-							visible={showUsers}
-							overlayClassName="sp-room-users-popover"
-							content={<Users users={users} />}
-							trigger="click"
-							title="在线用户"
-						>
-							<Button icon={<TeamOutlined />}>
-								<span>{users.length}</span>
+		<RoomContext.Provider value={{ isRoomOwner, kickUser: () => {} }}>
+			<div className="sp-flex-body  sp-room-tab">
+				<RoomInfoModal
+					isOwner={isRoomOwner}
+					room={room}
+					updateRoom={updateRoom}
+					showModal={showModal}
+					setShowModal={setShowModal}
+				/>
+				<Header
+					leftItems={
+						<>
+							{extraButton}
+							<Button
+								className="sp-room-name"
+								onClick={() => {
+									setShowModal(true)
+								}}
+								icon={<HomeOutlined />}
+							>
+								<span>{room.name}</span>
 							</Button>
-						</Popover>
+						</>
+					}
+					rightItems={
+						<>
+							<Popover
+								onVisibleChange={setShowUsers}
+								visible={showUsers}
+								overlayClassName="sp-room-users-popover"
+								content={<Users users={users} />}
+								trigger="click"
+								title="在线用户"
+							>
+								<Button icon={<TeamOutlined />}>
+									<span>{users.length}</span>
+								</Button>
+							</Popover>
 
-						<Button
-							danger
-							onClick={exit}
-							title="离开房间"
-							icon={<LogoutOutlined />}
-						>
-							<span>离开</span>
-						</Button>
-					</>
-				}
-			/>
+							<Button
+								danger
+								onClick={exit}
+								title="离开房间"
+								icon={<LogoutOutlined />}
+							>
+								<span>离开</span>
+							</Button>
+						</>
+					}
+				/>
 
-			{joining && <LoadingAlert text="连接中。。。" />}
-			{forbiddenToJoin && (
-				<FloatingAlert showIcon={true} text="禁止入内" type="error" />
-			)}
-			{!joining && !joined && !forbiddenToJoin && (
-				<FloatingAlert text="未连接" type="info" />
-			)}
-			<Conversation
-				backgroundColor="rgb(246, 249, 252)"
-				messages={messages}
-				background={room.background}
-				messageActions={messageActions}
-			/>
-			{!account && <FloatingAlert text={"请先登录"} />}
-			{active && connected && <InputWithPicker autoFocus={true} send={send} />}
-		</div>
+				{joining && <LoadingAlert text="连接中。。。" />}
+				{forbiddenToJoin && (
+					<FloatingAlert showIcon={true} text="禁止入内" type="error" />
+				)}
+				{!joining && !joined && !forbiddenToJoin && (
+					<FloatingAlert text="未连接" type="info" />
+				)}
+				<Conversation
+					backgroundColor="rgb(246, 249, 252)"
+					messages={messages}
+					background={room.background}
+					messageActions={messageActions}
+				/>
+				{!account && <FloatingAlert text={"请先登录"} />}
+				{active && connected && (
+					<InputWithPicker autoFocus={true} send={send} />
+				)}
+			</div>
+		</RoomContext.Provider>
 	)
 }
 
