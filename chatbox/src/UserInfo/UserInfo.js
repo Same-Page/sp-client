@@ -151,7 +151,7 @@ function UserInfo({
 
 					<div style={{ margin: "auto", width: rowWidth, marginTop: 20 }}>
 						<Row gutter={gutter} style={{ textAlign: "center" }}>
-							<Col style={{ textAlign: "center", marginBottom: 10 }} span={12}>
+							<Col style={{ marginBottom: 10 }} span={12}>
 								<Button
 									onMouseEnter={() => {
 										setFollowBtnOnHover(true)
@@ -172,7 +172,7 @@ function UserInfo({
 									{followBtnText}
 								</Button>
 							</Col>
-							<Col style={{ textAlign: "center" }} span={12}>
+							<Col span={12}>
 								<Button
 									icon={<MailOutlined />}
 									onClick={() => {
@@ -182,6 +182,57 @@ function UserInfo({
 									// size={partial ? "small" : "middle"}
 								>
 									私信
+								</Button>
+							</Col>
+						</Row>
+
+						{!partial && (
+							<Row gutter={gutter} style={{ textAlign: "center" }}>
+								<Col span={12}>
+									<Button
+										onClick={() => {
+											close && close()
+											messageUser(user)
+										}}
+										className="sp-danger-btn"
+									>
+										拉黑
+									</Button>
+								</Col>
+								<Col span={12}>
+									<Button
+										onClick={() => {
+											close && close()
+											messageUser(user)
+										}}
+										className="sp-danger-btn"
+									>
+										举报
+									</Button>
+								</Col>
+							</Row>
+						)}
+						<Row gutter={gutter} style={{ textAlign: "center" }}>
+							<Col span={12}>
+								<Button
+									onClick={() => {
+										close && close()
+										messageUser(user)
+									}}
+									className="sp-danger-btn"
+								>
+									踢出房间
+								</Button>
+							</Col>
+							<Col span={12}>
+								<Button
+									onClick={() => {
+										close && close()
+										messageUser(user)
+									}}
+									className="sp-danger-btn"
+								>
+									禁入房间
 								</Button>
 							</Col>
 						</Row>

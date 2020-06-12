@@ -212,3 +212,14 @@ header-body-footer with sticky header and footer*/
 	margin: auto;
 	margin-top: 20px;
 }
+
+.sp-danger-btn {
+	color: gray;
+	background: none;
+	border: none;
+	box-shadow: none;
+}
+
+.sp-danger-btn:hover {
+	color: red;
+}
