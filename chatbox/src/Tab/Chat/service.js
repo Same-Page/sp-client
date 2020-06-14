@@ -18,3 +18,11 @@ export const getRooms = (url, domain, userId) => {
 	}
 	return axios.post(config.apiUrl + "/api/v1/get_rooms", payload)
 }
+
+export const blacklistUserFromRoom = (userId, roomId) => {
+	const payload = {
+		userId,
+		roomId
+	}
+	return axios.post(config.apiUrl + "/api/v1/room/blacklist", payload)
+}

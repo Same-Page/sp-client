@@ -90,17 +90,20 @@ function App({ account, setAccount, activeTab, setActiveTab }) {
 				const msg = JSON.parse(e.data)
 				if (msg.name === "login") {
 					if (msg.success) {
-						message.success("登录成功!")
+						message.success("聊天服务器登录成功!")
 						setSocketIsLoggedIn(true)
 					} else {
 						// delete account data to force user re-login
 						storageManager.set("account", null)
 					}
 				}
+				if (msg.error) {
+					message.error(msg.error)
+				}
 			}
 
 			s.addEventListener("open", socketOpenHandler)
-			// s.addEventListener("close", socketCloseHandler)
+			s.addEventListener("close", socketCloseHandler)
 			s.addEventListener("message", socketMessageHandler)
 
 			setSocket(s)

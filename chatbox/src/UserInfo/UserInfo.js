@@ -230,8 +230,7 @@ function UserInfo({
 									<Col span={12}>
 										<Button
 											onClick={() => {
-												close && close()
-												messageUser(user)
+												roomContext.blacklistUser(user.id)
 											}}
 											className="sp-danger-btn"
 										>

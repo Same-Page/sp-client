@@ -18,9 +18,9 @@ import Header from "components/Header"
 import LoadingAlert from "components/Alert/LoadingAlert"
 
 import Users from "./Users"
-import storageManager from "storage"
 import config from "config"
 import RoomContext from "context/Room"
+import { blacklistUserFromRoom } from "../service"
 
 import FloatingAlert from "components/Alert/FloatingAlert"
 
@@ -58,7 +58,7 @@ function RoomTab({
 				// TODO: set timeout for join
 				// no need, now we have heartbeat
 				const socketPayload = {
-					action: "join_single",
+					action: "join_room",
 					data: {
 						roomId: room.id
 					}
@@ -166,7 +166,7 @@ function RoomTab({
 				socket.removeEventListener("message", socketMessageHandler)
 				if (!socket.closed) {
 					const socketPayload = {
-						action: "leave_single",
+						action: "leave_room",
 						data: {
 							roomId: room.id,
 							token: token
@@ -239,16 +239,22 @@ function RoomTab({
 		<RoomContext.Provider
 			value={{
 				isRoomOwner,
+				blacklistUser: userId => {
+					blacklistUserFromRoom(userId, room.id)
+				},
 				kickUser: userId => {
 					const payload = {
 						action: "kick_user",
 						data: {
 							userId: userId,
-							roomId: room.id,
-							token: account.token
+							roomId: room.id
 						}
 					}
-					socket.send(JSON.stringify(payload))
+					if (socket) {
+						socket.send(JSON.stringify(payload))
+					} else {
+						message.error("socket not ready")
+					}
 				}
 			}}
 		>
@@ -316,7 +322,7 @@ function RoomTab({
 					messageActions={messageActions}
 				/>
 				{!account && <FloatingAlert text={"请先登录"} />}
-				{active && <InputWithPicker autoFocus={true} send={send} />}
+				{active && socket && <InputWithPicker autoFocus={true} send={send} />}
 			</div>
 		</RoomContext.Provider>
 	)
