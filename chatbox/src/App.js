@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react"
 import { connect } from "react-redux"
 import moment from "moment"
 import axios from "axios"
+import { message } from "antd"
 import { Rnd } from "react-rnd"
 
 import storageManager from "storage"
@@ -20,7 +21,12 @@ function App({ account, setAccount, activeTab, setActiveTab }) {
 	// ready can only change from false to true for one time!
 	const [ready, setReady] = useState(false)
 	const [storageData, setStorageData] = useState()
-
+	const [socket, setSocket] = useState(null)
+	const [connected, setConnected] = useState(false)
+	// can't use 'connected' to trigger reconnection with useEffect
+	// since connected is also set in useEffect, it causes infinite loop
+	const [disconnectedCounter, setDisconnectedCounter] = useState(0)
+	const [socketIsLoggedIn, setSocketIsLoggedIn] = useState(false)
 	const position = config.position
 	const size = config.size
 
@@ -46,6 +52,74 @@ function App({ account, setAccount, activeTab, setActiveTab }) {
 
 		setReady(true)
 	}, [setAccount, setActiveTab])
+
+	useEffect(() => {
+		if (token) {
+			console.debug("creating socket")
+			const s = new WebSocket(config.socketUrl)
+			window.spSocket = s
+			const socketOpenHandler = () => {
+				console.debug("socket connected")
+				message.success("聊天服务器连接成功！")
+				setConnected(true)
+				s.wasConnected = true
+
+				const socketPayload = {
+					action: "login",
+					data: {
+						token: token
+					}
+				}
+				s.send(JSON.stringify(socketPayload))
+			}
+			const socketCloseHandler = () => {
+				if (s.wasConnected) {
+					// Show error to user only if it was connected before
+					// Otherwise when there is no Internet, this will be shown
+					// all the time
+					message.error("聊天服务器连接断开！")
+				}
+				s.closed = true
+				setConnected(false)
+				setDisconnectedCounter(counter => {
+					return counter + 1
+				})
+				console.debug("socket disconnected")
+			}
+			const socketMessageHandler = e => {
+				const msg = JSON.parse(e.data)
+				if (msg.name === "login") {
+					if (msg.success) {
+						message.success("登录成功!")
+						setSocketIsLoggedIn(true)
+					} else {
+						// delete account data to force user re-login
+						storageManager.set("account", null)
+					}
+				}
+			}
+
+			s.addEventListener("open", socketOpenHandler)
+			// s.addEventListener("close", socketCloseHandler)
+			s.addEventListener("message", socketMessageHandler)
+
+			setSocket(s)
+
+			return () => {
+				window.spSocket = null
+				// unregister callbacks
+				s.removeEventListener("open", socketOpenHandler)
+				s.removeEventListener("close", socketCloseHandler)
+				s.removeEventListener("message", socketMessageHandler)
+				if (!s.closed) {
+					s.close()
+				}
+				setSocket(null)
+				setConnected(false)
+				setSocketIsLoggedIn(false)
+			}
+		}
+	}, [disconnectedCounter, token])
 
 	useEffect(() => {
 		console.info("token changed", token)
@@ -85,6 +159,9 @@ function App({ account, setAccount, activeTab, setActiveTab }) {
 					}}
 				>
 					<Tab
+						// socket is only useful to child component
+						// if it's connected and logged in
+						socket={socketIsLoggedIn ? socket : null}
 						storageData={storageData}
 						account={account}
 						activeTab={activeTab}

@@ -220,7 +220,7 @@ function UserInfo({
 									<Col span={12}>
 										<Button
 											onClick={() => {
-												roomContext.kickUser(user)
+												roomContext.kickUser(user.id)
 											}}
 											className="sp-danger-btn"
 										>

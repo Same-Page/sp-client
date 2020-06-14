@@ -23,7 +23,15 @@ message.config({
 	maxCount: 3
 })
 
-function Tab({ account, activeTab, setActiveTab, storageData, url, domain }) {
+function Tab({
+	account,
+	socket,
+	activeTab,
+	setActiveTab,
+	storageData,
+	url,
+	domain
+}) {
 	return (
 		<div className="sp-main-tabs">
 			<Tabs
@@ -46,6 +54,7 @@ function Tab({ account, activeTab, setActiveTab, storageData, url, domain }) {
 					<Chat
 						storageData={storageData}
 						account={account}
+						socket={socket}
 						url={url}
 						domain={domain}
 						setActiveTab={setActiveTab}

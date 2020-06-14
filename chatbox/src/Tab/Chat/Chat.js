@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react"
 import "./Chat.css"
 
-import { Tabs, Button, message } from "antd"
+import { Tabs, Button } from "antd"
 import {
 	PlusOutlined,
 	LeftOutlined,
@@ -72,7 +72,7 @@ const getInitialActiveKey = (initPanes, storageData) => {
 // user can open multiple empty tabs
 let newTabIndex = 0
 
-function Chat({ account, storageData, url, domain, setActiveTab }) {
+function Chat({ socket, account, storageData, url, domain, setActiveTab }) {
 	const initPanes = getInitialPanes(storageData, url, domain)
 	// TODO: url change won't trigger any update
 	// but maybe user does want to stay in pervious same page chat room
@@ -82,77 +82,9 @@ function Chat({ account, storageData, url, domain, setActiveTab }) {
 	const [activeKey, setActiveKey] = useState(
 		getInitialActiveKey(initPanes, storageData)
 	)
-	const [socket, setSocket] = useState(null)
-	const [connected, setConnected] = useState(false)
-	// disconnectCount is a counter that's not updated during connection
-	// we need it although we have connected state, because it's only updated
-	// during disconnection, so that we can use it to trigger useEffect to
-	// createSocket only on disconnection or account change, not when connection established
-	const [disconnectCount, setDisconnectCounter] = useState(0)
+
 	const [minSideBar, setMinSideBar] = useState(false)
 	const [closeSideBar, setCloseSideBar] = useState(false)
-
-	const token = account && account.token
-	useEffect(() => {
-		if (token) {
-			console.debug("creating socket")
-			const s = new WebSocket(config.socketUrl)
-			window.spSocket = s
-			const socketOpenHandler = () => {
-				console.debug("socket connected")
-				message.success("聊天服务器连接成功！")
-				setConnected(true)
-				s.wasWorking = true
-			}
-
-			const socketCloseHandler = () => {
-				s.disconnected = true
-
-				if (s.wasWorking) {
-					// Also get this callback if fail to open
-					// only show error message connection break
-					message.error("聊天服务器连接断开！")
-				}
-				setConnected(false)
-				setSocket(null)
-
-				console.debug(
-					`socket closed unexpectedly, retry in ${
-						config.socketReconnectWaitTime / 1000
-					} sec...`
-				)
-
-				setTimeout(() => {
-					setDisconnectCounter(disconnectCount => {
-						return disconnectCount + 1
-					})
-				}, config.socketReconnectWaitTime)
-				// }, disconnectCount * 10 * 1000)
-			}
-
-			s.addEventListener("open", socketOpenHandler)
-			s.addEventListener("close", socketCloseHandler)
-			setSocket(s)
-
-			return () => {
-				// unregister callbacks
-				s.removeEventListener("open", socketOpenHandler)
-				s.removeEventListener("close", socketCloseHandler)
-				setConnected(false)
-				setSocket(socket => {
-					if (socket) {
-						// if it's network disconnection, socket is already
-						// disconnected and set to null
-						// if it's account change caused cleanup, then this
-						// code is executed
-						socket.disconnected = true
-						socket.close()
-						return null
-					}
-				})
-			}
-		}
-	}, [token, disconnectCount])
 
 	useEffect(() => {
 		// we have this separate useEffect which depends on
@@ -401,7 +333,6 @@ function Chat({ account, storageData, url, domain, setActiveTab }) {
 										</Button>
 									)
 								}
-								connected={connected}
 								socket={socket}
 								account={account}
 								room={pane.room}

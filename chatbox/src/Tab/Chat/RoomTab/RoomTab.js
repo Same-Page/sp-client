@@ -30,7 +30,6 @@ let lastMsgTime = 0
 function RoomTab({
 	activeTab,
 	socket,
-	connected,
 	account,
 	room,
 	updateRoom,
@@ -50,7 +49,7 @@ function RoomTab({
 	const isRoomOwner = account && room.owner && account.id === room.owner.id
 	const isMod = (account && account.isMod) || isRoomOwner
 	useEffect(() => {
-		if (socket && connected && token && room && !forbiddenToJoin) {
+		if (socket && room && !forbiddenToJoin) {
 			let lastGoodHeartbeat = 0
 			const joinRoom = () => {
 				console.debug("joining room " + room.name)
@@ -61,7 +60,6 @@ function RoomTab({
 				const socketPayload = {
 					action: "join_single",
 					data: {
-						token: token,
 						roomId: room.id
 					}
 				}
@@ -76,18 +74,11 @@ function RoomTab({
 				if (msg.roomId !== room.id) return
 				const data = msg.data
 				if (msg.error) {
-					if (msg.error === 401) {
-						// setJoining(false)
-						// setJoined(false)
-						// setUsers([])
-						storageManager.set("account", null)
+					if (msg.error === "forbidden" && msg.name === "join_room") {
+						setFobbidenToJoin(true)
 					}
-
-					message.error(msg.error)
 				}
-				if (msg.name === "forbidden_to_join") {
-					setFobbidenToJoin(true)
-				} else if (msg.name === "chat_message") {
+				if (msg.name === "chat_message") {
 					data.self = data.user.id.toString() === userId.toString()
 					setMessages(prevMessages => {
 						return [...prevMessages, data]
@@ -173,7 +164,7 @@ function RoomTab({
 			return () => {
 				console.debug("leave room " + room.name)
 				socket.removeEventListener("message", socketMessageHandler)
-				if (!socket.disconnected) {
+				if (!socket.closed) {
 					const socketPayload = {
 						action: "leave_single",
 						data: {
@@ -190,7 +181,7 @@ function RoomTab({
 			setJoined(false)
 			setJoining(false)
 		}
-	}, [room, socket, token, userId, connected, forbiddenToJoin])
+	}, [room, socket, userId, forbiddenToJoin])
 
 	useEffect(() => {
 		// close room info modal and online users when tab switched
@@ -245,7 +236,22 @@ function RoomTab({
 	}
 
 	return (
-		<RoomContext.Provider value={{ isRoomOwner, kickUser: () => {} }}>
+		<RoomContext.Provider
+			value={{
+				isRoomOwner,
+				kickUser: userId => {
+					const payload = {
+						action: "kick_user",
+						data: {
+							userId: userId,
+							roomId: room.id,
+							token: account.token
+						}
+					}
+					socket.send(JSON.stringify(payload))
+				}
+			}}
+		>
 			<div className="sp-flex-body  sp-room-tab">
 				<RoomInfoModal
 					isOwner={isRoomOwner}
@@ -310,9 +316,7 @@ function RoomTab({
 					messageActions={messageActions}
 				/>
 				{!account && <FloatingAlert text={"请先登录"} />}
-				{active && connected && (
-					<InputWithPicker autoFocus={true} send={send} />
-				)}
+				{active && <InputWithPicker autoFocus={true} send={send} />}
 			</div>
 		</RoomContext.Provider>
 	)
