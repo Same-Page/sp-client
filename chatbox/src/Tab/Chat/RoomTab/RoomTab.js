@@ -110,6 +110,18 @@ function RoomTab({
 						})
 						return [...existingUsersWithoutNewUser, user]
 					})
+				} else if (msg.name === "user_kicked") {
+					const user = msg.user
+
+					if (user.id === account.id) {
+						setFobbidenToJoin(true)
+					} else {
+						setUsers(users => {
+							return users.filter(u => {
+								return u.id.toString() !== user.id.toString()
+							})
+						})
+					}
 				} else if (msg.name === "other_left") {
 					const user = msg.user
 
