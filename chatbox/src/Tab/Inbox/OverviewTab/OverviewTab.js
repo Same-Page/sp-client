@@ -2,7 +2,7 @@ import React, { useState } from "react"
 import moment from "moment"
 import { Avatar, Button, Radio } from "antd"
 import { ReloadOutlined, LoadingOutlined } from "@ant-design/icons"
-import LoadingAlert from "components/Alert/LoadingAlert"
+// import LoadingAlert from "components/Alert/LoadingAlert"
 import Header from "components/Header"
 
 function lastMsg(conversation) {

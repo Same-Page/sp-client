@@ -37,6 +37,12 @@ function UserInfo({
 	const [togglingFollow, setTogglingFollow] = useState(false)
 	const [followBtnOnHover, setFollowBtnOnHover] = useState(false)
 	const roomContext = useContext(RoomContext)
+	console.log(roomContext)
+	let blacklisted = false
+	if (roomContext && roomContext.room.blacklist) {
+		blacklisted = roomContext.room.blacklist.includes(user.id)
+		console.log(roomContext, blacklisted)
+	}
 
 	useEffect(() => {
 		async function fetchData() {
@@ -230,11 +236,15 @@ function UserInfo({
 									<Col span={12}>
 										<Button
 											onClick={() => {
-												roomContext.blacklistUser(user.id)
+												roomContext.blacklistUser(user.id, blacklisted)
 											}}
-											className="sp-danger-btn"
+											style={{ border: "none" }}
+											className={!blacklisted ? "sp-danger-btn" : ""}
+											// loading={roomContext.blacklistingUser}
+											// type="link"
 										>
-											禁入房间
+											{!blacklisted && "禁入房间"}
+											{blacklisted && "准入房间"}
 										</Button>
 									</Col>
 								</Row>

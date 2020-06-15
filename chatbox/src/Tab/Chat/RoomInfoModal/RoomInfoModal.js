@@ -6,14 +6,15 @@ import { SaveOutlined } from "@ant-design/icons"
 
 import AvatarWithPopover from "AvatarWithPopover"
 import RoomInfoForm from "components/RoomInfoForm"
+import Blacklist from "./Blacklist"
 import { updateRoomInfo } from "Tab/Chat/service"
 
 function RoomInfoModal({ room, updateRoom, isOwner, showModal, setShowModal }) {
-	const [editRoom, setEditRoom] = useState(false)
+	const [view, setView] = useState("info") // info | edit | blacklist
 	const [saving, setSaving] = useState(false)
 
 	const [form] = Form.useForm()
-	const submit = async values => {
+	const submitRoomInfo = async values => {
 		values.id = room.id
 		setSaving(true)
 		try {
@@ -24,7 +25,7 @@ function RoomInfoModal({ room, updateRoom, isOwner, showModal, setShowModal }) {
 			updateRoom(room)
 			message.success("成功！")
 			setTimeout(() => {
-				setEditRoom(false)
+				setView("info")
 				setShowModal(false)
 			}, 2000)
 		} catch (error) {
@@ -33,23 +34,32 @@ function RoomInfoModal({ room, updateRoom, isOwner, showModal, setShowModal }) {
 			setSaving(false)
 		}
 	}
+	let title = "房间信息"
+	if (view === "edit") {
+		title = "更新房间信息"
+	} else if (view === "blacklist") {
+		title = "房间黑名单"
+	}
 	return (
 		<Modal
 			centered
-			title="房间信息"
+			title={title}
 			visible={showModal}
 			onCancel={() => {
-				setEditRoom(false)
-				setShowModal(false)
+				if (view === "info") {
+					setShowModal(false)
+				} else {
+					setView("info")
+				}
 			}}
-			footer={editRoom ? Modal.footer : null}
+			footer={view === "edit" ? Modal.footer : null}
 			onOk={form.submit}
 			confirmLoading={saving}
 			cancelText="取消"
 			okText="保存"
 			okButtonProps={{ icon: <SaveOutlined /> }}
 		>
-			{!editRoom && (
+			{view === "info" && (
 				<div>
 					<div className="sp-room-info-row">
 						<h4>ID</h4>
@@ -85,19 +95,47 @@ function RoomInfoModal({ room, updateRoom, isOwner, showModal, setShowModal }) {
 					)}
 
 					{isOwner && (
-						<Button
-							style={{ padding: 0 }}
-							type="link"
-							onClick={() => {
-								setEditRoom(true)
-							}}
-						>
-							修改房间
-						</Button>
+						<>
+							<Button
+								style={{ padding: 0 }}
+								type="link"
+								onClick={() => {
+									setView("edit")
+								}}
+							>
+								修改房间
+							</Button>
+							<Button
+								style={{ padding: 0, marginLeft: 20 }}
+								type="link"
+								onClick={() => {
+									setView("blacklist")
+								}}
+							>
+								黑名单
+							</Button>
+						</>
 					)}
 				</div>
 			)}
-			{editRoom && <RoomInfoForm room={room} form={form} submit={submit} />}
+			{view === "edit" && (
+				<RoomInfoForm
+					room={room}
+					back={() => {
+						setView("info")
+					}}
+					form={form}
+					submit={submitRoomInfo}
+				/>
+			)}
+			{view === "blacklist" && (
+				<Blacklist
+					room={room}
+					back={() => {
+						setView("info")
+					}}
+				/>
+			)}
 		</Modal>
 	)
 }

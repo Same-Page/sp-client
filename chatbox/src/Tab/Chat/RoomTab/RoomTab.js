@@ -20,7 +20,7 @@ import LoadingAlert from "components/Alert/LoadingAlert"
 import Users from "./Users"
 import config from "config"
 import RoomContext from "context/Room"
-import { blacklistUserFromRoom } from "../service"
+import { blacklistUserFromRoom, getRoomInfo } from "../service"
 
 import FloatingAlert from "components/Alert/FloatingAlert"
 
@@ -40,11 +40,12 @@ function RoomTab({
 	const [messages, setMessages] = useState([])
 	const [joining, setJoining] = useState(false)
 	const [joined, setJoined] = useState(false)
+	const [blacklistingUser, setBlacklistingUser] = useState(false)
 	const [forbiddenToJoin, setFobbidenToJoin] = useState(false)
 	const [showModal, setShowModal] = useState(false)
 	const [users, setUsers] = useState([])
 	const [showUsers, setShowUsers] = useState(false)
-	const token = account && account.token
+
 	const userId = account && account.id
 	const isRoomOwner = account && room.owner && account.id === room.owner.id
 	const isMod = (account && account.isMod) || isRoomOwner
@@ -153,7 +154,6 @@ function RoomTab({
 					const socketPayload = {
 						action: "heartbeat",
 						data: {
-							token: token,
 							roomId: room.id
 						}
 					}
@@ -168,8 +168,7 @@ function RoomTab({
 					const socketPayload = {
 						action: "leave_room",
 						data: {
-							roomId: room.id,
-							token: token
+							roomId: room.id
 						}
 					}
 					socket.send(JSON.stringify(socketPayload))
@@ -181,13 +180,27 @@ function RoomTab({
 			setJoined(false)
 			setJoining(false)
 		}
-	}, [room, socket, userId, forbiddenToJoin])
+	}, [room.id, room.name, socket, userId, forbiddenToJoin])
 
 	useEffect(() => {
 		// close room info modal and online users when tab switched
 		setShowModal(false)
 		setShowUsers(false)
 	}, [activeTab])
+
+	useEffect(() => {
+		async function fetchData() {
+			try {
+				const resp = await getRoomInfo(room.id, room.type)
+				updateRoom(resp.data)
+			} catch (error) {
+				message.error("载入房间信息失败！")
+				console.error(error)
+			}
+		}
+
+		fetchData()
+	}, [room.id, room.type])
 
 	const send = payload => {
 		const now = new Date()
@@ -239,8 +252,33 @@ function RoomTab({
 		<RoomContext.Provider
 			value={{
 				isRoomOwner,
-				blacklistUser: userId => {
-					blacklistUserFromRoom(userId, room.id)
+				room,
+				blacklistingUser,
+				blacklistUser: async (userId, blacklisted) => {
+					const add = !blacklisted
+					// frontend update directly for better user experience
+					let blacklist = room.blacklist || []
+					if (add) {
+						blacklist.push(userId)
+					} else {
+						blacklist = blacklist.filter(userId => {
+							return userId !== userId
+						})
+					}
+					updateRoom({ ...room, blacklist: blacklist })
+					try {
+						const resp = await blacklistUserFromRoom(
+							userId,
+							room.id,
+							room.type,
+							add
+						)
+						updateRoom(resp.data)
+					} catch (error) {
+						message.error("失败！")
+						console.error(error)
+					}
+					setBlacklistingUser(false)
 				},
 				kickUser: userId => {
 					const payload = {

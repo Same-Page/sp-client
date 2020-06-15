@@ -1,6 +1,6 @@
-import React, { useState } from "react"
+import React from "react"
 import { Button } from "antd"
-import { LeftOutlined, SaveOutlined } from "@ant-design/icons"
+import { LeftOutlined } from "@ant-design/icons"
 
 import Header from "components/Header"
 

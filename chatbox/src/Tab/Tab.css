@@ -220,6 +220,8 @@ header-body-footer with sticky header and footer*/
 	box-shadow: none;
 }
 
-.sp-danger-btn:hover {
+.sp-danger-btn:hover,
+.sp-danger-btn:active,
+.sp-danger-btn:focus {
 	color: red;
 }
