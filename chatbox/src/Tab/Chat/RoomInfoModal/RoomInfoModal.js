@@ -9,7 +9,14 @@ import RoomInfoForm from "components/RoomInfoForm"
 import Blacklist from "./Blacklist"
 import { updateRoomInfo } from "Tab/Chat/service"
 
-function RoomInfoModal({ room, updateRoom, isOwner, showModal, setShowModal }) {
+function RoomInfoModal({
+	room,
+	updateRoom,
+	isOwner,
+	isMod,
+	showModal,
+	setShowModal
+}) {
 	const [view, setView] = useState("info") // info | edit | blacklist
 	const [saving, setSaving] = useState(false)
 
@@ -94,7 +101,7 @@ function RoomInfoModal({ room, updateRoom, isOwner, showModal, setShowModal }) {
 						</div>
 					)}
 
-					{isOwner && (
+					{isMod && (
 						<>
 							<Button
 								style={{ padding: 0 }}

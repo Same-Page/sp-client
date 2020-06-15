@@ -50,6 +50,7 @@ function AccountButtons({ gutter, updateInfo, width }) {
 										})
 										.then(() => {
 											setLoggingOut(false)
+											console.log("logout, set account null")
 											storageManager.set("account", null)
 										})
 								},

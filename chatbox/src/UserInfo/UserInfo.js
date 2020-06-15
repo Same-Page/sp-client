@@ -37,11 +37,10 @@ function UserInfo({
 	const [togglingFollow, setTogglingFollow] = useState(false)
 	const [followBtnOnHover, setFollowBtnOnHover] = useState(false)
 	const roomContext = useContext(RoomContext)
-	console.log(roomContext)
+
 	let blacklisted = false
 	if (roomContext && roomContext.room.blacklist) {
 		blacklisted = roomContext.room.blacklist.includes(user.id)
-		console.log(roomContext, blacklisted)
 	}
 
 	useEffect(() => {

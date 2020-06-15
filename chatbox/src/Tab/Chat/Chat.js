@@ -188,16 +188,21 @@ function Chat({ socket, account, storageData, url, domain, setActiveTab }) {
 			console.error(action)
 		}
 	}
-	const updateRoom = (room, paneIndex) => {
-		const newPanes = [...panes]
-		newPanes[paneIndex] = {
-			...newPanes[paneIndex],
-			room: room,
-			title: room.name
-		}
+	const updateRoom = useCallback(room => {
+		setPanes(panes => {
+			const newPanes = [...panes]
+			const paneIndex = newPanes.findIndex(p => {
+				return p.room && p.room.id === room.id
+			})
 
-		setPanes(newPanes)
-	}
+			newPanes[paneIndex] = {
+				...newPanes[paneIndex],
+				room: room,
+				title: room.name
+			}
+			return [...newPanes]
+		})
+	}, [])
 	const getAllRooms = useCallback(() => {
 		return getRooms(url, domain)
 	}, [url, domain])
@@ -336,9 +341,7 @@ function Chat({ socket, account, storageData, url, domain, setActiveTab }) {
 								socket={socket}
 								account={account}
 								room={pane.room}
-								updateRoom={room => {
-									updateRoom(room, paneIndex)
-								}}
+								updateRoom={updateRoom}
 								exit={() => {
 									// setMinSideBar(false)
 									setCloseSideBar(false)

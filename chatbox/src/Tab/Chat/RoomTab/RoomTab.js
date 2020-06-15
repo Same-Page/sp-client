@@ -48,9 +48,9 @@ function RoomTab({
 
 	const userId = account && account.id
 	const isRoomOwner = account && room.owner && account.id === room.owner.id
-	const isMod = (account && account.isMod) || isRoomOwner
+	const isRoomMod = (account && account.isMod) || isRoomOwner
 	useEffect(() => {
-		if (socket && room && !forbiddenToJoin) {
+		if (socket && userId && !forbiddenToJoin) {
 			let lastGoodHeartbeat = 0
 			const joinRoom = () => {
 				console.debug("joining room " + room.name)
@@ -202,7 +202,7 @@ function RoomTab({
 		}
 
 		fetchData()
-	}, [room.id, room.type])
+	}, [room.id, room.type, updateRoom])
 
 	useEffect(() => {
 		if (forbiddenToJoin) {
@@ -237,7 +237,7 @@ function RoomTab({
 	}
 	const messageActions = msg => {
 		return (
-			(msg.user.id === userId || isRoomOwner || isMod) && (
+			(msg.user.id === userId || isRoomMod) && (
 				<Button
 					onClick={() => {
 						const payload = {
@@ -270,8 +270,8 @@ function RoomTab({
 					if (add) {
 						blacklist.push(userId)
 					} else {
-						blacklist = blacklist.filter(userId => {
-							return userId !== userId
+						blacklist = blacklist.filter(uid => {
+							return uid !== userId
 						})
 					}
 					updateRoom({ ...room, blacklist: blacklist })
@@ -309,6 +309,7 @@ function RoomTab({
 				<RoomInfoModal
 					isOwner={isRoomOwner}
 					room={room}
+					isMod={isRoomMod}
 					updateRoom={updateRoom}
 					showModal={showModal}
 					setShowModal={setShowModal}
