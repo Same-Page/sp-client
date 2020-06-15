@@ -78,8 +78,7 @@ function RoomTab({
 					if (msg.error === "forbidden" && msg.name === "join_room") {
 						setFobbidenToJoin(true)
 					}
-				}
-				if (msg.name === "chat_message") {
+				} else if (msg.name === "chat_message") {
 					data.self = data.user.id.toString() === userId.toString()
 					setMessages(prevMessages => {
 						return [...prevMessages, data]
