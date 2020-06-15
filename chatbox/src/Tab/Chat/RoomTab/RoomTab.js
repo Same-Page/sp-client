@@ -110,19 +110,10 @@ function RoomTab({
 						})
 						return [...existingUsersWithoutNewUser, user]
 					})
-				} else if (msg.name === "user_kicked") {
-					const user = msg.user
-
-					if (user.id === account.id) {
-						setFobbidenToJoin(true)
-					} else {
-						setUsers(users => {
-							return users.filter(u => {
-								return u.id.toString() !== user.id.toString()
-							})
-						})
-					}
-				} else if (msg.name === "other_left") {
+				} else if (msg.name === "self_kicked") {
+					setFobbidenToJoin(true)
+				} else if (msg.name === "other_left" || msg.name === "user_kicked") {
+					// TODO: shwo user kicked message
 					const user = msg.user
 
 					setUsers(users => {
@@ -213,6 +204,13 @@ function RoomTab({
 
 		fetchData()
 	}, [room.id, room.type])
+
+	useEffect(() => {
+		if (forbiddenToJoin) {
+			setJoined(false)
+			setJoining(false)
+		}
+	}, [forbiddenToJoin])
 
 	const send = payload => {
 		const now = new Date()
@@ -372,7 +370,9 @@ function RoomTab({
 					messageActions={messageActions}
 				/>
 				{!account && <FloatingAlert text={"请先登录"} />}
-				{active && socket && <InputWithPicker autoFocus={true} send={send} />}
+				{active && socket && joined && (
+					<InputWithPicker autoFocus={true} send={send} />
+				)}
 			</div>
 		</RoomContext.Provider>
 	)
