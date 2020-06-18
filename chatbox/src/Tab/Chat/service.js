@@ -14,7 +14,7 @@ export const getRoomInfo = (roomId, roomType) => {
 		roomId,
 		roomType
 	}
-	return axios.post(config.apiUrl + `/api/v1/room`, payload)
+	return axios.post(config.apiUrl + `/api/v1/get_room`, payload)
 }
 export const getRooms = (url, domain, userId) => {
 	const payload = {
