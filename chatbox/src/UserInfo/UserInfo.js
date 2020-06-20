@@ -200,7 +200,7 @@ function UserInfo({
 										<Button
 											onClick={() => {
 												close && close()
-												messageUser(user)
+												// TODO
 											}}
 											className="sp-danger-btn"
 										>
@@ -211,7 +211,7 @@ function UserInfo({
 										<Button
 											onClick={() => {
 												close && close()
-												messageUser(user)
+												// TODO
 											}}
 											className="sp-danger-btn"
 										>
