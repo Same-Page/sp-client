@@ -43,7 +43,7 @@ function RoomInfoModal({
 	}
 	let title = "房间信息"
 	if (view === "edit") {
-		title = "更新房间信息"
+		title = "修改房间信息"
 	} else if (view === "blacklist") {
 		title = "房间黑名单"
 	}
