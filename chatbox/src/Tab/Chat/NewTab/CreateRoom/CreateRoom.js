@@ -38,6 +38,7 @@ const CreateRoom = ({
 		<Modal
 			title="创建新房间"
 			centered
+			transitionName="none"
 			visible={showCreateRoomModal}
 			onCancel={() => {
 				setShowCreateRoomModal(false)
@@ -46,6 +47,7 @@ const CreateRoom = ({
 			confirmLoading={saving}
 			cancelText="取消"
 			okText="保存"
+			className="sp-modal"
 			okButtonProps={{ icon: <SaveOutlined /> }}
 		>
 			<RoomInfoForm form={form} submit={submit} />

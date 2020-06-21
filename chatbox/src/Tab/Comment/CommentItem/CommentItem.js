@@ -52,6 +52,7 @@ function CommentItem({ c }) {
 						setShowMediaModal(false)
 					}}
 					footer={null}
+					className="sp-modal"
 				>
 					<img alt={c.content.url} src={c.content.url} />
 				</Modal>

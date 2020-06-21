@@ -6,9 +6,11 @@
 	z-index: 100;
 	/* overflow: hidden; */
 	/* right resize needs overflow */
+	height: 100%;
+	width: 100%;
 }
 .ant-tabs-top-bar {
-	cursor: move;
+	/* cursor: move; */
 }
 
 .sp-icon-transition-duration-1 svg {
@@ -47,4 +49,19 @@
 	color: red;
 	background: none;
 	border: 1px solid red;
+}
+
+.sp-modal .ant-modal-content {
+	position: fixed;
+	height: 75%;
+	top: 10% !important;
+	left: 10%;
+	right: 10%;
+}
+.sp-modal .ant-modal-body {
+	max-height: calc(100% - 55px);
+	overflow-y: auto;
+}
+.sp-modal .ant-modal-footer {
+	background: white;
 }

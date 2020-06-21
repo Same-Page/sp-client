@@ -126,11 +126,14 @@ function UserInfo({
 	return (
 		<>
 			{/* loading icon is outside width restriction for profile modal's sake */}
-			{loading && <LoadingOutlined style={{ position: "absolute" }} />}
+			{/* {!loading && <LoadingOutlined style={{ position: "absolute" }} />} */}
 
 			<div
 				className="sp-user-info"
-				style={{ width: Math.max(aboutWidth, rowWidth), margin: "auto" }}
+				style={{
+					width: Math.max(aboutWidth || 0, rowWidth || 0),
+					margin: "auto"
+				}}
 			>
 				<Avatar
 					style={{ display: "block", margin: "auto" }}
@@ -144,6 +147,7 @@ function UserInfo({
 				</center>
 
 				<Skeleton
+					style={{ width: rowWidth }}
 					active
 					paragraph={{ rows: partial ? 3 : 5, width: "100%" }}
 					loading={loading && !completeUserData}

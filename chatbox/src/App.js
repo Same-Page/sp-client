@@ -136,31 +136,31 @@ function App({ account, setAccount, activeTab, setActiveTab }) {
 	return (
 		<div className="sp-all">
 			{ready && (
-				<Rnd
-					// style={{ display: display }}
-					className="sp-chatbox-wrapper"
-					default={{
-						x: position.x,
-						y: 0, // y value is overridden in css
-						width: size.width,
-						height: size.height
-					}}
-					resizeHandleStyles={{ right: { right: -10 } }}
-					dragHandleClassName="ant-tabs-top-bar"
-					minWidth={size.minWidth}
-					minHeight={size.minHeight}
-					maxHeight={window.innerHeight}
-					dragAxis="x"
-					onDragStop={(e, d) => {
-						storageManager.set("iframeX", d.x)
-					}}
-					onResizeStop={(e, direction, ref, delta, position) => {
-						storageManager.set("iframeSize", {
-							width: ref.style.width,
-							height: ref.style.height
-						})
-					}}
-				>
+				// <Rnd
+				// 	className="sp-chatbox-wrapper"
+				// 	default={{
+				// 		x: position.x,
+				// 		y: 0, // y value is overridden in css
+				// 		width: size.width,
+				// 		height: size.height
+				// 	}}
+				// 	resizeHandleStyles={{ right: { right: -10 } }}
+				// 	dragHandleClassName="ant-tabs-top-bar"
+				// 	minWidth={size.minWidth}
+				// 	minHeight={size.minHeight}
+				// 	maxHeight={window.innerHeight}
+				// 	dragAxis="x"
+				// 	onDragStop={(e, d) => {
+				// 		storageManager.set("iframeX", d.x)
+				// 	}}
+				// 	onResizeStop={(e, direction, ref, delta, position) => {
+				// 		storageManager.set("iframeSize", {
+				// 			width: ref.style.width,
+				// 			height: ref.style.height
+				// 		})
+				// 	}}
+				// >
+				<div className="sp-chatbox-wrapper">
 					<Tab
 						// socket is only useful to child component
 						// if it's connected and logged in
@@ -172,7 +172,8 @@ function App({ account, setAccount, activeTab, setActiveTab }) {
 						url={url}
 						domain={domain}
 					/>
-				</Rnd>
+				</div>
+				// </Rnd>
 			)}
 		</div>
 	)

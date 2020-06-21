@@ -68,6 +68,11 @@ img.sp-message-image {
 
 .sp-media-modal .ant-modal-body {
 	padding: 0;
+	max-height: 100%;
+}
+.sp-media-modal .ant-modal-content {
+	height: auto;
+	max-height: 75%;
 }
 .sp-media-modal img {
 	width: 100%;

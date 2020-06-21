@@ -13,13 +13,13 @@ const defaultConfig = {
 
 	autoConnect: false,
 	showDanmu: true,
-	showAvatars: true
+	showAvatars: true,
 }
 
 if (process.env.REACT_APP_LOCAL_CHATBOX) {
 	// defaultConfig.socketUrl = "http://localhost:8081"
 	// defaultConfig.apiUrl = 'localhost:3000'
-	defaultConfig.chatboxSrc = "https://localhost:3000"
+	defaultConfig.chatboxSrc = "http://localhost:3000"
 }
 if (process.env.REACT_APP_LOCAL_SOCKET) {
 	defaultConfig.socketUrl = "localhost:8765"

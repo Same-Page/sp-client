@@ -1,3 +1,4 @@
+// TODO: config should be overwriten by injection script
 const config = {
 	apiUrl: "http://167.172.6.226",
 	// apiUrl: "http://localhost:8080",

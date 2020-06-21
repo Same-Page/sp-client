@@ -51,6 +51,7 @@ function RoomInfoModal({
 		<Modal
 			centered
 			title={title}
+			transitionName="none"
 			visible={showModal}
 			onCancel={() => {
 				if (view === "info") {
@@ -63,6 +64,7 @@ function RoomInfoModal({
 			onOk={form.submit}
 			confirmLoading={saving}
 			cancelText="取消"
+			className="sp-modal"
 			okText="保存"
 			okButtonProps={{ icon: <SaveOutlined /> }}
 		>

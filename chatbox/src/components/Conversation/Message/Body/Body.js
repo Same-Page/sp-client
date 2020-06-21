@@ -28,7 +28,7 @@ function MessageBody({ content, self, imageLoadedCb, messageActions }) {
 					<Modal
 						closable={false}
 						centered
-						wrapClassName="sp-media-modal"
+						className="sp-modal sp-media-modal"
 						visible={true}
 						onCancel={() => {
 							setShowMediaModal(false)
@@ -40,11 +40,11 @@ function MessageBody({ content, self, imageLoadedCb, messageActions }) {
 				)}
 				<img
 					onClick={() => {
-						setShowMediaModal(true)
+						// setShowMediaModal(true)
 						// close popover menu
 						setMenuVisible(false)
 						// window.spDebug("click on image")
-						// window.parent.postMessage({ imgSrc: imgSrc }, "*")
+						window.parent.postMessage({ imgSrc: value }, "*")
 					}}
 					onLoad={() => {
 						imageLoadedCb()

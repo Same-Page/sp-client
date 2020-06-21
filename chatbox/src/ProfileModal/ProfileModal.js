@@ -8,6 +8,7 @@ import UserInfo from "UserInfo"
 function ProfileModal({ user, closeModal }) {
 	return (
 		<Modal
+			transitionName="none"
 			title="用户信息"
 			centered
 			visible={true}
@@ -16,7 +17,7 @@ function ProfileModal({ user, closeModal }) {
 			className="sp-modal sp-profile-modal"
 		>
 			<UserInfo
-				aboutWidth={300}
+				// aboutWidth={300}
 				rowWidth={250}
 				user={user}
 				visible={true}
