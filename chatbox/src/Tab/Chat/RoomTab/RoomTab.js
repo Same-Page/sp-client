@@ -83,6 +83,16 @@ function RoomTab({
 					setMessages(prevMessages => {
 						return [...prevMessages, data]
 					})
+
+					if (window.parent) {
+						window.parent.postMessage(
+							{
+								action: "chatMessage",
+								data: data
+							},
+							"*"
+						)
+					}
 				} else if (msg.name === "delete_message") {
 					setMessages(prevMessages => {
 						const res = prevMessages.filter(m => {

@@ -1,152 +1,172 @@
-import spDebug from "config/logger"
-import spConfig from "config"
-import React, { useEffect, useState } from "react"
-// AnimationDanmu is a confusing name, it means realtime chat danmu
-// powered by css + js, different from video danmu that's powered by canvas
-import AnimationDanmu from "../ChatDanmu/AnimationDanmu"
-import ChatboxIframe from "../ChatboxIframe"
-import Room from "../Room"
+import React, { useState, useEffect } from "react"
 
 import axios from "axios"
+import ChatboxIframe from "../ChatboxIframe"
+import Rooms from "../Rooms"
+import Danmus from "../Danmus"
 
-import storage from "storage.js"
-import socketManager from "services/socket"
-import accountManager from "services/account"
-import { apiUrl } from "../../config/urls"
+import storageManager from "storage"
+import config from "config"
+// import AccountContext from "context/account"
 
-const unreadKey = "unread"
-const inboxOffsetKey = "inbox-offset"
-function getMessageOffset(conversations) {
-	let offset = 0
-	Object.values(conversations).forEach(c => {
-		if (c.messages.length) {
-			c.lastMsg = c.messages[c.messages.length - 1]
-			offset = Math.max(offset, c.lastMsg.id)
-		}
-	})
-	return offset
-}
+// import { getUrl, getDomain } from "utils"
 
-function App(props) {
-	const [blacklist, setBlacklist] = useState([])
-	const isBlacklisted = u => {
-		const res = blacklist.find(b => {
-			return b.id.toString() === u.id.toString()
-		})
-		return !!res
-	}
+function App() {
+	// wait for localStorage finish loading before rendering anything
+	// ready can only change from false to true for one time!
+	const [account, setAccount] = useState(null)
+	const [ready, setReady] = useState(false)
+	const [storageData, setStorageData] = useState()
+	const [socket, setSocket] = useState(null)
+
+	// can't use 'connected' to trigger reconnection with useEffect
+	// since connected is also set in useEffect, it causes infinite loop
+	const [disconnectedCounter, setDisconnectedCounter] = useState(0)
+	const [socketIsLoggedIn, setSocketIsLoggedIn] = useState(false)
+
+	const token = account && account.token
 	useEffect(() => {
-		// Get account from storage
-		// get config from storage
-		storage.get("realtimeDanmuEnabled", autoConnect => {
-			// storage.get("autoConnect", autoConnect => {
-
-			if (autoConnect == null) {
-				autoConnect = spConfig.showDanmu
+		// Load everything from localStorage
+		// register all localstorage listeners
+		storageManager.addEventListener("account", (account) => {
+			setAccount(account)
+		})
+		// pass null as storage key to get all stored data
+		storageManager.get(null, (data) => {
+			setStorageData(data)
+			if (data.account) {
+				setAccount(data.account)
+			} else {
 			}
-			window.autoConnect = autoConnect
+			// TODO: load all configs, enable danmu or not etc.
+		})
 
-			accountManager.init(account => {
-				if (account) {
-					window.spDebug("has account")
-					if (autoConnect) {
-						window.spDebug("auto connect")
-						socketManager.connect()
-					}
+		window.addEventListener(
+			"message",
+			(e) => {
+				if (!e || !e.data) return
+				const data = e.data
 
-					// get local messages then check if any new from server
-					// if there's still unread, no need to check with server
-
-					storage.get(unreadKey, unread => {
-						if (!unread) {
-							storage.get(inboxOffsetKey, offset => {
-								offset = offset || 0
-								// console.log("offset " + offset)
-								const url = `${apiUrl}/api/v1/messages?offset=${offset}`
-								const headers = {
-									token: account.token
-								}
-								// can't make ajax call in content script since chrome 73
-								// proxy through background script
-								if (window.chrome && window.chrome.extension) {
-									window.chrome.runtime.sendMessage(
-										{
-											makeRequest: true,
-											url: url,
-											options: {
-												method: "GET",
-												headers: headers
-											}
-										},
-										response => {
-											if (response && response.ok) {
-												if (getMessageOffset(response.data)) {
-													storage.set(unreadKey, true)
-												}
-												// console.log(response.data)
-											} else {
-												console.error(response)
-											}
-										}
-									)
-								} else {
-									axios
-										.get(url, { headers: headers })
-										.then(response => {
-											if (getMessageOffset(response.data)) {
-												storage.set(unreadKey, true)
-											}
-										})
-										.catch(err => {
-											console.error(err)
-										})
-										.then(res => {})
-								}
-							})
-						}
-					})
-				} else {
-					window.spDebug("no account found")
+				if (data.action === "update_storage") {
+					storageManager.set(data.key, data.value)
 				}
-			})
-		})
+				if (data.action === "chat_message") {
+					window.queueDanmu(data.data)
+				}
+				console.log("hh", data)
+				// data should go in one direction - iframe to parent frame
+				// if (data.action === "sp-parent-data") {
+				// 	spDebug("post config & account to chatbox")
+				// 	postMsgToIframe("sp-parent-data", {
+				// 		spConfig: spConfig,
+				// 		// pass account to chatbox to get the latest token
+				// 		account: accountManager.getAccount(),
+				// 		blacklist: blacklistRef.current
+				// 	})
+				// }
+			},
+			false
+		)
 
-		storage.get("blacklist", blacklist => {
-			if (blacklist !== null) {
-				setBlacklist(blacklist)
-			}
-		})
-		storage.addEventListener("blacklist", blacklist => {
-			setBlacklist(blacklist)
-		})
+		setReady(true)
 	}, [])
 
-	return (
-		<span>
-			<Room blacklist={blacklist} isBlacklisted={isBlacklisted} />
-			<ChatboxIframe blacklist={blacklist} />
-			<AnimationDanmu blacklist={blacklist} isBlacklisted={isBlacklisted} />
-		</span>
-	)
-}
+	useEffect(() => {
+		if (token) {
+			console.debug("creating socket")
+			const s = new WebSocket(config.socketUrl)
+			window.spSocket = s
+			const socketOpenHandler = () => {
+				console.debug("socket connected")
+				// setConnected(true)
+				s.wasConnected = true
 
-window.addEventListener(
-	"message",
-	e => {
-		if (!e || !e.data) return
-		if (e.data.type === "sp-change-bg") {
-			const imgUrl = `url("${e.data.data}")`
-			// console.log(imgUrl)
-			if (document.body.style.backgroundImage !== imgUrl) {
-				document.body.style.backgroundImage = imgUrl
-				document.body.style.backgroundSize = `cover`
-				document.body.style.backgroundRepeat = `no-repeat`
-			} else {
-				document.body.style.backgroundImage = ""
+				const socketPayload = {
+					action: "login",
+					data: {
+						token: token,
+					},
+				}
+				s.send(JSON.stringify(socketPayload))
+			}
+			const socketCloseHandler = () => {
+				if (s.wasConnected) {
+					// Show error to user only if it was connected before
+					// Otherwise when there is no Internet, this will show
+					// repeatedly
+					console.error("聊天服务器连接断开！")
+				}
+				s.closed = true
+				// setConnected(false)
+				setDisconnectedCounter((counter) => {
+					return counter + 1
+				})
+				console.debug("socket disconnected")
+			}
+			const socketMessageHandler = (e) => {
+				const msg = JSON.parse(e.data)
+				if (msg.name === "login") {
+					if (msg.success) {
+						console.debug("聊天服务器登录成功!")
+						setSocketIsLoggedIn(true)
+					} else {
+						// delete account data to force user re-login
+						storageManager.set("account", null)
+					}
+				} else if (msg.name === "chat_message") {
+					console.log(msg)
+					window.queueDanmu(msg.data)
+				}
+
+				if (msg.error) {
+					console.error(msg.error)
+				}
+			}
+
+			s.addEventListener("open", socketOpenHandler)
+			s.addEventListener("close", socketCloseHandler)
+			s.addEventListener("message", socketMessageHandler)
+
+			setSocket(s)
+
+			return () => {
+				window.spSocket = null
+				// unregister callbacks
+				s.removeEventListener("open", socketOpenHandler)
+				s.removeEventListener("close", socketCloseHandler)
+				s.removeEventListener("message", socketMessageHandler)
+				if (!s.closed) {
+					s.close()
+				}
+				setSocket(null)
+				// setConnected(false)
+				setSocketIsLoggedIn(false)
 			}
 		}
-	},
-	false
-)
+	}, [disconnectedCounter, token])
+
+	useEffect(() => {
+		console.info("token changed", token)
+		if (token) {
+			axios.defaults.headers.common["token"] = token
+		} else {
+			delete axios.defaults.headers.common["token"]
+		}
+	}, [token])
+
+	return (
+		<>
+			{/* <ChatboxIframe blacklist={blacklist} /> */}
+			<ChatboxIframe />
+			<Danmus />
+			{ready && (
+				<Rooms
+					storageData={storageData}
+					socket={socketIsLoggedIn ? socket : null}
+				/>
+			)}
+		</>
+	)
+}
 
 export default App

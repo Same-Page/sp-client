@@ -16,7 +16,7 @@ import {
 	createIframeByDefault,
 	showIframeControl,
 	defaultIframeSize,
-	iframeSrc
+	iframeSrc,
 } from "config/iframe"
 import ImageModal from "../ImageModal"
 import socketManager from "services/socket"
@@ -40,7 +40,7 @@ function keepCheckingLocation() {
 
 		postMsgToIframe("sp-url-changed", {
 			title: document.title,
-			url: window.location.href
+			url: window.location.href,
 		})
 	}
 	setTimeout(() => {
@@ -84,31 +84,31 @@ function ChatboxIframe({ blacklist }) {
 		keepCheckingLocation()
 		window.addEventListener(
 			"message",
-			e => {
+			(e) => {
 				if (!e || !e.data) return
 				const data = e.data
 
 				if (data === "minimize") {
 					setDisplay("none")
 				}
-				if (data.action === "updateStorage") {
-					window.spDebug("updateStorage")
-					window.spDebug(data)
-					storage.set(data.key, data.value)
-				}
-				if (data.action === "sp-parent-data") {
-					spDebug("post config & account to chatbox")
-					postMsgToIframe("sp-parent-data", {
-						spConfig: spConfig,
-						// pass account to chatbox to get the latest token
-						account: accountManager.getAccount(),
-						blacklist: blacklistRef.current
-					})
-				}
+				// if (data.action === "updateStorage") {
+				// 	window.spDebug("updateStorage")
+				// 	window.spDebug(data)
+				// 	storage.set(data.key, data.value)
+				// }
+				// if (data.action === "sp-parent-data") {
+				// 	spDebug("post config & account to chatbox")
+				// 	postMsgToIframe("sp-parent-data", {
+				// 		spConfig: spConfig,
+				// 		// pass account to chatbox to get the latest token
+				// 		account: accountManager.getAccount(),
+				// 		blacklist: blacklistRef.current
+				// 	})
+				// }
 			},
 			false
 		)
-		storage.get("autoOpenChatbox", autoOpenChatbox => {
+		storage.get("autoOpenChatbox", (autoOpenChatbox) => {
 			// const autoOpen = autoOpenChatbox == null ? createIframeByDefault : autoOpenChatbox
 			// setCreateChatboxIframe(autoOpen)
 
@@ -118,14 +118,14 @@ function ChatboxIframe({ blacklist }) {
 				setCreateChatboxIframe(autoOpenChatbox)
 			}
 		})
-		storage.get("iframeSize", iframeSize => {
+		storage.get("iframeSize", (iframeSize) => {
 			if (iframeSize) {
 				setSize(iframeSize)
 			} else {
 				iframeSize = defaultIframeSize
 			}
 
-			storage.get("iframeX", posX => {
+			storage.get("iframeX", (posX) => {
 				if (posX) {
 					posX = Math.max(posX, 0)
 					const iframeWidth = parseInt(iframeSize.width, 10)
@@ -174,7 +174,7 @@ function ChatboxIframe({ blacklist }) {
 						color="primary"
 						variant="contained"
 						defaultValue={urlInput}
-						onChange={e => (urlInput = e.target.value)}
+						onChange={(e) => (urlInput = e.target.value)}
 					/>
 					<Button
 						color="primary"
@@ -202,14 +202,14 @@ function ChatboxIframe({ blacklist }) {
 					style={{ display: display }}
 					className="sp-chatbox-iframe-wrapper"
 					resizeHandleStyles={{
-						right: { right: -10 }
+						right: { right: -10 },
 					}}
 					// position={{ x: x, y: 0 }}
 					default={{
 						x: x,
 						y: 0, // y value is overridden in css
 						width: size.width,
-						height: size.height
+						height: size.height,
 					}}
 					minWidth={defaultIframeSize.minWidth}
 					minHeight={defaultIframeSize.minHeight}
@@ -221,7 +221,7 @@ function ChatboxIframe({ blacklist }) {
 					onResizeStop={(e, direction, ref, delta, position) => {
 						storage.set("iframeSize", {
 							width: ref.style.width,
-							height: ref.style.height
+							height: ref.style.height,
 						})
 						// console.log(ref.style.height)
 					}}

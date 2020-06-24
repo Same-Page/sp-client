@@ -3,7 +3,7 @@ import axios from "axios"
 
 import Danmu from "./Danmu"
 import storage from "storage.js"
-import "./AnimationDanmu.css"
+import "./Danmus.css"
 import spConfig from "config"
 import { getDomain, getUrl } from "utils/url"
 
@@ -31,7 +31,7 @@ function getHistoryMessage(roomId) {
 	console.debug("getHistoryMessage " + roomId)
 	let url = `${spConfig.chatApi}/api/room_messages?roomId=${roomId}`
 
-	storage.get(roomId + "-msg-last-timestamp", timestamp => {
+	storage.get(roomId + "-msg-last-timestamp", (timestamp) => {
 		if (timestamp) {
 			url += "&timestamp=" + timestamp
 		}
@@ -43,11 +43,11 @@ function getHistoryMessage(roomId) {
 					makeRequest: true,
 					url: url,
 					options: {
-						method: "GET"
+						method: "GET",
 						// headers: headers,
-					}
+					},
 				},
-				response => {
+				(response) => {
 					if (response && response.ok) {
 						queueHistoryMessages(roomId, response.data)
 					} else {
@@ -58,48 +58,50 @@ function getHistoryMessage(roomId) {
 		} else {
 			axios
 				.get(url)
-				.then(response => {
+				.then((response) => {
 					queueHistoryMessages(roomId, response.data)
 				})
-				.catch(err => {
+				.catch((err) => {
 					console.error(err)
 				})
-				.then(res => {})
+				.then((res) => {})
 		}
 	})
 }
 
 class AnimationDanmu extends Component {
+	// TODO: use functional component for consistency
 	ROW_NUM = 10
 	danmuId = 0 // unique identifier of a danmu, increment locally
 	state = {
-		danmuList: []
+		danmuList: [],
 	}
 	danmuWaitList = []
 
 	constructor(props) {
 		super(props)
 		this.realtimeDanmuWrapperRef = React.createRef()
-		window.queueAnimationDanmu = this.queueDanmu
+		// this.props.setQueueDanmu(this.queueDanmu)
+		window.queueDanmu = this.queueDanmu
 	}
 
-	addDanmu = danmu => {
+	addDanmu = (danmu) => {
 		this.setState((state, props) => {
 			state.danmuList.push(danmu)
 			return { danmuList: state.danmuList }
 		})
 	}
 
-	removeDanmu = id => {
+	removeDanmu = (id) => {
 		this.setState((state, props) => {
-			let newList = state.danmuList.filter(danmu => {
+			let newList = state.danmuList.filter((danmu) => {
 				return danmu.id !== id
 			})
 			return { danmuList: newList }
 		})
 	}
 
-	createDanmuObj = data => {
+	createDanmuObj = (data) => {
 		const content = data.content
 		const contentType = content.type
 		const danmu = { ...data, id: this.danmuId++, row: 1 }
@@ -129,7 +131,7 @@ class AnimationDanmu extends Component {
 	findSpot = () => {
 		let occupiedRows = {}
 		const spacing = 50 // and avatar space
-		this.state.danmuList.forEach(danmu => {
+		this.state.danmuList.forEach((danmu) => {
 			let x =
 				danmu.ref.danmuRef.current.getBoundingClientRect().left +
 				danmu.ref.danmuRef.current.offsetWidth +
@@ -160,23 +162,24 @@ class AnimationDanmu extends Component {
 			}
 		}
 	}
-	queueDanmu = msg => {
+	queueDanmu = (msg) => {
 		// this function is called by other class
 		// bind this to current class
 		// console.log('realtime queue ' + msg.content);
-
-		if (this.props.isBlacklisted(msg.user)) {
-			return
-		}
+		console.log(msg)
+		// if (!msg) return
+		// if (this.props.isBlacklisted(msg.user)) {
+		// 	return
+		// }
 
 		this.danmuWaitList.push(this.createDanmuObj(msg))
 		this.checkDanmuWaitlist()
 	}
-	receiveMsgFromChatboxFrame = e => {
-		if (!e || !e.data || !e.data.danmu) return
-		this.queueDanmu(e.data)
-	}
-	toggleDanmuVisibility = visible => {
+	// receiveMsgFromChatboxFrame = (e) => {
+	// 	if (!e || !e.data || !e.data.danmu) return
+	// 	this.queueDanmu(e.data)
+	// }
+	toggleDanmuVisibility = (visible) => {
 		if (visible) {
 			this.realtimeDanmuWrapperRef.current.style.display = "block"
 		} else {
@@ -184,7 +187,11 @@ class AnimationDanmu extends Component {
 		}
 	}
 	componentDidMount() {
-		window.addEventListener("message", this.receiveMsgFromChatboxFrame, false)
+		// window.addEventListener(
+		// 	"message",
+		// 	this.receiveMsgFromChatboxFrame,
+		// 	false
+		// )
 		if (window.chrome && window.chrome.extension) {
 			window.chrome.storage.onChanged.addListener((changes, area) => {
 				if ("realtimeDanmuEnabled" in changes) {
@@ -194,14 +201,15 @@ class AnimationDanmu extends Component {
 			})
 		}
 
-		storage.get("realtimeDanmuEnabled", val => {
+		storage.get("realtimeDanmuEnabled", (val) => {
 			let showDanmu = spConfig.showDanmu
 			if (val != null) {
+				console.log(val)
 				this.toggleDanmuVisibility(val)
 				showDanmu = val
 			}
 			if (showDanmu) {
-				storage.get("noJoin", noJoin => {
+				storage.get("noJoin", (noJoin) => {
 					noJoin = noJoin || []
 					const siteRoomId = getDomain()
 					const pageRoomId = getUrl()
@@ -222,7 +230,7 @@ class AnimationDanmu extends Component {
 					<Danmu
 						danmu={danmu}
 						key={danmu.id}
-						ref={_ref => {
+						ref={(_ref) => {
 							danmu.ref = _ref
 						}}
 						deleteSelf={this.removeDanmu}

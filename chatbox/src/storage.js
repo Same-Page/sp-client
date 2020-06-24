@@ -1,3 +1,19 @@
+function updateParentStorage(key, value) {
+	// TODO: important! only push to trusted origin
+	if (window.parent) {
+		window.parent.postMessage(
+			{
+				action: "update_storage",
+				key: key,
+				value: value
+			},
+			"*"
+		)
+	} else {
+		console.error("no parent means no socket")
+	}
+}
+
 const storage = {
 	get: (key, callback) => {
 		if (window.chrome && window.chrome.storage) {
@@ -46,6 +62,7 @@ const storage = {
 			storageEvent.key = key
 			storageEvent.newValue = stringValue
 			window.dispatchEvent(storageEvent)
+			updateParentStorage(key, value)
 		}
 	},
 	addEventListener: (key, callback) => {

@@ -1,18 +1,32 @@
 const storage = {
 	get: (key, callback) => {
 		if (window.chrome && window.chrome.storage) {
-			window.chrome.storage.local.get(key, item => {
-				if (key in item) {
-					callback(item[key])
+			if (key) {
+				window.chrome.storage.local.get(key, (item) => {
+					if (key in item) {
+						callback(item[key])
+					} else {
+						callback(null)
+					}
+				})
+			} else {
+				console.error(
+					"get all keys hasnt been implementd for chrome extension yet"
+				)
+			}
+		} else {
+			if (key) {
+				if (localStorage.hasOwnProperty(key)) {
+					callback(JSON.parse(localStorage.getItem(key)))
 				} else {
 					callback(null)
 				}
-			})
-		} else {
-			if (localStorage.hasOwnProperty(key)) {
-				callback(JSON.parse(localStorage.getItem(key)))
 			} else {
-				callback(null)
+				const res = {}
+				Object.keys(localStorage).forEach((key) => {
+					res[key] = JSON.parse(localStorage[key])
+				})
+				callback(res)
 			}
 		}
 	},
@@ -43,7 +57,7 @@ const storage = {
 				}
 			})
 		} else {
-			window.addEventListener("storage", storageEvent => {
+			window.addEventListener("storage", (storageEvent) => {
 				// key;          // name of the property set, changed etc.
 				// oldValue;     // old value of property before change
 				// newValue;     // new value of property after change
@@ -55,7 +69,7 @@ const storage = {
 				}
 			})
 		}
-	}
+	},
 }
 
 export default storage
