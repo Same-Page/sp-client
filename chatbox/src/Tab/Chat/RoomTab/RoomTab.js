@@ -79,20 +79,21 @@ function RoomTab({
 						setFobbidenToJoin(true)
 					}
 				} else if (msg.name === "chat_message") {
-					data.self = data.user.id.toString() === userId.toString()
-					setMessages(prevMessages => {
-						return [...prevMessages, data]
-					})
-
 					if (window.parent) {
+						console.log(data)
 						window.parent.postMessage(
 							{
-								action: "chatMessage",
+								action: "chat_message",
 								data: data
 							},
 							"*"
 						)
 					}
+					data.self = data.user.id.toString() === userId.toString()
+
+					setMessages(prevMessages => {
+						return [...prevMessages, data]
+					})
 				} else if (msg.name === "delete_message") {
 					setMessages(prevMessages => {
 						const res = prevMessages.filter(m => {

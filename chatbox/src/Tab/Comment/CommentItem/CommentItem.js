@@ -136,7 +136,11 @@ function CommentItem({ c }) {
 					<span
 						onClick={() => {
 							if (contentType === "image") {
-								setShowMediaModal(true)
+								if (window.parent) {
+									window.parent.postMessage({ imgSrc: c.content.url }, "*")
+								} else {
+									setShowMediaModal(true)
+								}
 							}
 						}}
 					>

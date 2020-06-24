@@ -40,11 +40,14 @@ function MessageBody({ content, self, imageLoadedCb, messageActions }) {
 				)}
 				<img
 					onClick={() => {
-						// setShowMediaModal(true)
 						// close popover menu
 						setMenuVisible(false)
 						// window.spDebug("click on image")
-						window.parent.postMessage({ imgSrc: value }, "*")
+						if (window.parent) {
+							window.parent.postMessage({ imgSrc: value }, "*")
+						} else {
+							setShowMediaModal(true)
+						}
 					}}
 					onLoad={() => {
 						imageLoadedCb()

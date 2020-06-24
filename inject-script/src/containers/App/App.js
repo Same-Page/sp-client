@@ -16,6 +16,7 @@ function App() {
 	// ready can only change from false to true for one time!
 	const [account, setAccount] = useState(null)
 	const [ready, setReady] = useState(false)
+	const [chatboxCreated, setChatboxCreated] = useState(false)
 	const [storageData, setStorageData] = useState()
 	const [socket, setSocket] = useState(null)
 
@@ -72,7 +73,7 @@ function App() {
 	}, [])
 
 	useEffect(() => {
-		if (token) {
+		if (!chatboxCreated && token) {
 			console.debug("creating socket")
 			const s = new WebSocket(config.socketUrl)
 			window.spSocket = s
@@ -137,13 +138,14 @@ function App() {
 				s.removeEventListener("message", socketMessageHandler)
 				if (!s.closed) {
 					s.close()
+					s.closed = true
 				}
 				setSocket(null)
 				// setConnected(false)
 				setSocketIsLoggedIn(false)
 			}
 		}
-	}, [disconnectedCounter, token])
+	}, [disconnectedCounter, token, chatboxCreated])
 
 	useEffect(() => {
 		console.info("token changed", token)
@@ -157,7 +159,10 @@ function App() {
 	return (
 		<>
 			{/* <ChatboxIframe blacklist={blacklist} /> */}
-			<ChatboxIframe />
+			<ChatboxIframe
+				chatboxCreated={chatboxCreated}
+				setChatboxCreated={setChatboxCreated}
+			/>
 			<Danmus />
 			{ready && (
 				<Rooms

@@ -27,15 +27,17 @@ function Rooms({ storageData, socket }) {
 			})
 
 			return () => {
-				rooms.forEach((room) => {
-					const socketPayload = {
-						action: "leave_room",
-						data: {
-							roomId: room.id,
-						},
-					}
-					socket.send(JSON.stringify(socketPayload))
-				})
+				if (!socket.closed) {
+					rooms.forEach((room) => {
+						const socketPayload = {
+							action: "leave_room",
+							data: {
+								roomId: room.id,
+							},
+						}
+						socket.send(JSON.stringify(socketPayload))
+					})
+				}
 			}
 		}
 	}, [rooms, socket])

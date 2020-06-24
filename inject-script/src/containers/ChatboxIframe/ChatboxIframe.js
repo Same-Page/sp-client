@@ -48,15 +48,15 @@ function keepCheckingLocation() {
 	}, 10 * 1000)
 }
 
-function ChatboxIframe({ blacklist }) {
-	const [createChatboxIframe, setCreateChatboxIframe] = useState(false)
+function ChatboxIframe({ blacklist, chatboxCreated, setChatboxCreated }) {
+	// const [createChatboxIframe, setCreateChatboxIframe] = useState(false)
 	// Need to get stored size and position before rendering chatbox iframe
 	const [loadingStorage, setLoadingStorage] = useState(true)
 	const [x, setX] = useState(5)
 	const [size, setSize] = useState(defaultIframeSize)
 	const blacklistRef = useRef()
 	blacklistRef.current = blacklist
-	window.createChatboxIframe = createChatboxIframe
+	// window.createChatboxIframe = createChatboxIframe
 	const [url, setUrl] = useState(defaultUrl)
 	const [display, setDisplay] = useState("block")
 
@@ -64,7 +64,7 @@ function ChatboxIframe({ blacklist }) {
 	window.chatboxIframeRef = iframeRef
 
 	const isChatboxOpen = () => {
-		return createChatboxIframe && display === "block"
+		return chatboxCreated && display === "block"
 	}
 	window.isChatboxOpen = isChatboxOpen
 
@@ -75,7 +75,7 @@ function ChatboxIframe({ blacklist }) {
 			setDisplay("none")
 		} else {
 			setDisplay("block")
-			setCreateChatboxIframe(true)
+			setChatboxCreated(true)
 		}
 	}
 	window.toggleChatbox = toggleChatbox
@@ -113,9 +113,9 @@ function ChatboxIframe({ blacklist }) {
 			// setCreateChatboxIframe(autoOpen)
 
 			if (autoOpenChatbox == null) {
-				setCreateChatboxIframe(createIframeByDefault)
+				setChatboxCreated(createIframeByDefault)
 			} else {
-				setCreateChatboxIframe(autoOpenChatbox)
+				setChatboxCreated(autoOpenChatbox)
 			}
 		})
 		storage.get("iframeSize", (iframeSize) => {
@@ -194,7 +194,7 @@ function ChatboxIframe({ blacklist }) {
 		)
 	}
 	let chatboxIframe = ""
-	if (createChatboxIframe && !loadingStorage) {
+	if (chatboxCreated && !loadingStorage) {
 		chatboxIframe = (
 			<div>
 				<ImageModal />
