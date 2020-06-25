@@ -17,7 +17,7 @@
 	/* left: 0; */
 	bottom: 0;
 	top: unset !important;
-	z-index: 2147483646;
+	z-index: 2147483647;
 	/* one less than image modal */
 	display: none;
 	/* border: 1px solid lightgray; */

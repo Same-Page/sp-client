@@ -130,7 +130,9 @@ function Chat({ socket, account, storageData, url, domain, setActiveTab }) {
 		// record which rooms is open in localStorage
 		// Note this includes non room id like pane index
 		// and dynamic room id like url
-		storageManager.set("activeRoomId", activeKey)
+		if (!activeKey.startsWith("newTab")) {
+			storageManager.set("activeRoomId", activeKey)
+		}
 	}, [activeKey])
 
 	const onChange = activeKey => {

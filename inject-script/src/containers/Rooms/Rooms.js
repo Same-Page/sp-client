@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react"
 
 import Room from "./Room"
 import storageManager from "storage"
+import ChatIcon from "containers/ChatIcon"
 
 function Rooms({ storageData, socket }) {
 	const [rooms, setRooms] = useState([])
@@ -9,6 +10,9 @@ function Rooms({ storageData, socket }) {
 	useEffect(() => {
 		storageManager.addEventListener("activeRoomId", (activeRoomId) => {
 			setActiveRoomId(activeRoomId)
+		})
+		storageManager.addEventListener("rooms", (rooms) => {
+			setRooms(rooms)
 		})
 		if (storageData) {
 			if (storageData.rooms) {
@@ -27,7 +31,8 @@ function Rooms({ storageData, socket }) {
 
 	return (
 		<>
-			{/* {selectedRoom && selectedRoom.name} */}
+			{!activeRoomId && <ChatIcon />}
+
 			{rooms.map((r) => (
 				<Room
 					activeRoomId={activeRoomId}

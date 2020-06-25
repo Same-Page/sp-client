@@ -10,6 +10,7 @@ function User({ user }) {
 			setMessage(user.message)
 			const timeout = setTimeout(() => {
 				setMessage(null)
+				user.message = null
 			}, 3000)
 			return () => {
 				clearTimeout(timeout)
@@ -17,7 +18,7 @@ function User({ user }) {
 		}
 	}, [user.message])
 	return (
-		<>
+		<span>
 			{message && <div className="sp-chat-bubble">{message}</div>}
 
 			<span
@@ -25,7 +26,7 @@ function User({ user }) {
 				style={{ backgroundImage: `url('${user.avatarSrc}')` }}
 				className="sp-avatar"
 			/>
-		</>
+		</span>
 	)
 }
 
