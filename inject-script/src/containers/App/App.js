@@ -37,9 +37,7 @@ function App() {
 			setStorageData(data)
 			if (data.account) {
 				setAccount(data.account)
-			} else {
 			}
-			// TODO: load all configs, enable danmu or not etc.
 		})
 
 		window.addEventListener(
@@ -51,10 +49,10 @@ function App() {
 				if (data.action === "update_storage") {
 					storageManager.set(data.key, data.value)
 				}
-				if (data.action === "chat_message") {
-					window.queueDanmu(data.data)
-				}
-				console.log("hh", data)
+				// if (data.action === "chat_message") {
+				// 	window.queueDanmu(data.data)
+				// }
+				// console.log("hh", data)
 				// data should go in one direction - iframe to parent frame
 				// if (data.action === "sp-parent-data") {
 				// 	spDebug("post config & account to chatbox")
@@ -73,7 +71,8 @@ function App() {
 	}, [])
 
 	useEffect(() => {
-		if (!chatboxCreated && token) {
+		// if (!chatboxCreated && token) {
+		if (token) {
 			console.debug("creating socket")
 			const s = new WebSocket(config.socketUrl)
 			window.spSocket = s
@@ -114,9 +113,6 @@ function App() {
 						// delete account data to force user re-login
 						storageManager.set("account", null)
 					}
-				} else if (msg.name === "chat_message") {
-					console.log(msg)
-					window.queueDanmu(msg.data)
 				}
 
 				if (msg.error) {
@@ -145,7 +141,7 @@ function App() {
 				setSocketIsLoggedIn(false)
 			}
 		}
-	}, [disconnectedCounter, token, chatboxCreated])
+	}, [disconnectedCounter, token])
 
 	useEffect(() => {
 		console.info("token changed", token)

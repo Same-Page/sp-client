@@ -1,51 +1,41 @@
 import React, { useState, useEffect } from "react"
-import ChatIcon from "../ChatIcon"
+
+import Room from "./Room"
+import storageManager from "storage"
 
 function Rooms({ storageData, socket }) {
 	const [rooms, setRooms] = useState([])
-	const [selectedRoom, setSelectedRoom] = useState()
+	const [activeRoomId, setActiveRoomId] = useState()
 	useEffect(() => {
-		if (storageData && storageData.rooms) {
-			setRooms(storageData.rooms)
+		storageManager.addEventListener("activeRoomId", (activeRoomId) => {
+			setActiveRoomId(activeRoomId)
+		})
+		if (storageData) {
+			if (storageData.rooms) {
+				setRooms(storageData.rooms)
 
-			if (storageData.rooms.length > 0) {
-				setSelectedRoom(storageData.rooms[0])
+				if (storageData.activeRoomId) {
+					setActiveRoomId(storageData.activeRoomId)
+				} else {
+					if (storageData.rooms.length > 0) {
+						setActiveRoomId(storageData.rooms[0].id)
+					}
+				}
 			}
 		}
 	}, [storageData])
 
-	useEffect(() => {
-		if (socket && rooms) {
-			rooms.forEach((room) => {
-				const socketPayload = {
-					action: "join_room",
-					data: {
-						roomId: room.id,
-					},
-				}
-				socket.send(JSON.stringify(socketPayload))
-			})
-
-			return () => {
-				if (!socket.closed) {
-					rooms.forEach((room) => {
-						const socketPayload = {
-							action: "leave_room",
-							data: {
-								roomId: room.id,
-							},
-						}
-						socket.send(JSON.stringify(socketPayload))
-					})
-				}
-			}
-		}
-	}, [rooms, socket])
-
 	return (
 		<>
-			{selectedRoom && selectedRoom.name}
-			<ChatIcon userCount={7} />
+			{/* {selectedRoom && selectedRoom.name} */}
+			{rooms.map((r) => (
+				<Room
+					activeRoomId={activeRoomId}
+					key={r.id}
+					socket={socket}
+					room={r}
+				/>
+			))}
 		</>
 	)
 }

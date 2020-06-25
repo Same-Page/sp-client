@@ -80,7 +80,7 @@ function RoomTab({
 					}
 				} else if (msg.name === "chat_message") {
 					if (window.parent) {
-						console.log(data)
+						// console.log(data)
 						window.parent.postMessage(
 							{
 								action: "chat_message",
