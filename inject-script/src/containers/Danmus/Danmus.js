@@ -2,7 +2,7 @@ import React, { Component } from "react"
 import axios from "axios"
 
 import Danmu from "./Danmu"
-import storage from "storage.js"
+import storageManager from "storage.js"
 import "./Danmus.css"
 import spConfig from "config"
 import { getDomain, getUrl } from "utils/url"
@@ -24,14 +24,14 @@ function queueHistoryMessages(roomId, msgs) {
 	})
 	if (lastM) {
 		console.log(lastM)
-		storage.set(roomId + "-msg-last-timestamp", lastM.timestamp)
+		storageManager.set(roomId + "-msg-last-timestamp", lastM.timestamp)
 	}
 }
 function getHistoryMessage(roomId) {
 	console.debug("getHistoryMessage " + roomId)
 	let url = `${spConfig.chatApi}/api/room_messages?roomId=${roomId}`
 
-	storage.get(roomId + "-msg-last-timestamp", (timestamp) => {
+	storageManager.get(roomId + "-msg-last-timestamp", (timestamp) => {
 		if (timestamp) {
 			url += "&timestamp=" + timestamp
 		}
@@ -187,41 +187,51 @@ class AnimationDanmu extends Component {
 		}
 	}
 	componentDidMount() {
+		storageManager.get("showDanmu", (showDanmu) => {
+			if (showDanmu != null) {
+				this.toggleDanmuVisibility(showDanmu)
+			}
+		})
+
+		storageManager.addEventListener("showDanmu", (showDanmu) => {
+			this.toggleDanmuVisibility(showDanmu)
+		})
+
 		// window.addEventListener(
 		// 	"message",
 		// 	this.receiveMsgFromChatboxFrame,
 		// 	false
 		// )
-		if (window.chrome && window.chrome.extension) {
-			window.chrome.storage.onChanged.addListener((changes, area) => {
-				if ("realtimeDanmuEnabled" in changes) {
-					const newVal = changes["realtimeDanmuEnabled"]["newValue"]
-					this.toggleDanmuVisibility(newVal)
-				}
-			})
-		}
+		// if (window.chrome && window.chrome.extension) {
+		// 	window.chrome.storage.onChanged.addListener((changes, area) => {
+		// 		if ("realtimeDanmuEnabled" in changes) {
+		// 			const newVal = changes["realtimeDanmuEnabled"]["newValue"]
+		// 			this.toggleDanmuVisibility(newVal)
+		// 		}
+		// 	})
+		// }
 
-		storage.get("realtimeDanmuEnabled", (val) => {
-			let showDanmu = spConfig.showDanmu
-			if (val != null) {
-				console.log(val)
-				this.toggleDanmuVisibility(val)
-				showDanmu = val
-			}
-			if (showDanmu) {
-				storage.get("noJoin", (noJoin) => {
-					noJoin = noJoin || []
-					const siteRoomId = getDomain()
-					const pageRoomId = getUrl()
-					if (!noJoin.includes(siteRoomId)) {
-						getHistoryMessage(siteRoomId)
-					}
-					if (!noJoin.includes(pageRoomId)) {
-						getHistoryMessage(pageRoomId)
-					}
-				})
-			}
-		})
+		// storage.get("realtimeDanmuEnabled", (val) => {
+		// 	let showDanmu = spConfig.showDanmu
+		// 	if (val != null) {
+		// 		console.log(val)
+		// 		this.toggleDanmuVisibility(val)
+		// 		showDanmu = val
+		// 	}
+		// 	if (showDanmu) {
+		// 		storage.get("noJoin", (noJoin) => {
+		// 			noJoin = noJoin || []
+		// 			const siteRoomId = getDomain()
+		// 			const pageRoomId = getUrl()
+		// 			if (!noJoin.includes(siteRoomId)) {
+		// 				getHistoryMessage(siteRoomId)
+		// 			}
+		// 			if (!noJoin.includes(pageRoomId)) {
+		// 				getHistoryMessage(pageRoomId)
+		// 			}
+		// 		})
+		// 	}
+		// })
 	}
 	render() {
 		return (

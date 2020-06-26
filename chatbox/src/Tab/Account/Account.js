@@ -4,7 +4,7 @@ import Login from "./Login"
 import Signup from "./Signup"
 import Overview from "./Overview"
 
-function Account({ account }) {
+function Account({ account, storageData }) {
 	const [view, setView] = useState("overview")
 	const token = account && account.token
 	useEffect(() => {
@@ -16,7 +16,9 @@ function Account({ account }) {
 	}, [token])
 	return (
 		<>
-			{view === "overview" && account && <Overview account={account} />}
+			{view === "overview" && account && (
+				<Overview storageData={storageData} account={account} />
+			)}
 			{view === "login" && (
 				<Login
 					signup={() => {

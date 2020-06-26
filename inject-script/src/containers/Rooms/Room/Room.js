@@ -6,7 +6,7 @@ import config from "config"
 import User from "./User"
 import ChatIcon from "containers/ChatIcon"
 
-function Room({ socket, room, activeRoomId }) {
+function Room({ socket, room, activeRoomId, showAvatar }) {
 	const [users, setUsers] = useState([])
 	const [forbiddenToJoin, setFobbidenToJoin] = useState(false)
 
@@ -144,15 +144,20 @@ function Room({ socket, room, activeRoomId }) {
 		<>
 			{activeRoomId === room.id.toString() && (
 				<>
-					<Draggable>
-						<span title={room.name} className="sp-users-wrapper">
-							{/* {room.name} */}
+					{showAvatar && (
+						<Draggable>
+							<span
+								title={room.name}
+								className="sp-users-wrapper"
+							>
+								{/* {room.name} */}
 
-							{users.map((user) => (
-								<User key={user.id} user={user} />
-							))}
-						</span>
-					</Draggable>
+								{users.map((user) => (
+									<User key={user.id} user={user} />
+								))}
+							</span>
+						</Draggable>
+					)}
 					<ChatIcon userCount={users.length} />
 				</>
 			)}

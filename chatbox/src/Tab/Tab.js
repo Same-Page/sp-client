@@ -91,7 +91,7 @@ function Tab({
 					}
 					key="account"
 				>
-					<Account account={account} />
+					<Account account={account} storageData={storageData} />
 				</TabPane>
 				{/* <TabPane
 					tab={

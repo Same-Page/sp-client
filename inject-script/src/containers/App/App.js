@@ -23,7 +23,7 @@ function App() {
 	// can't use 'connected' to trigger reconnection with useEffect
 	// since connected is also set in useEffect, it causes infinite loop
 	const [disconnectedCounter, setDisconnectedCounter] = useState(0)
-	const [socketIsLoggedIn, setSocketIsLoggedIn] = useState(false)
+	// const [socketIsLoggedIn, setSocketIsLoggedIn] = useState(false)
 
 	const token = account && account.token
 	useEffect(() => {
@@ -101,6 +101,7 @@ function App() {
 				setDisconnectedCounter((counter) => {
 					return counter + 1
 				})
+				setSocket(null)
 				console.debug("socket disconnected")
 			}
 			const socketMessageHandler = (e) => {
@@ -108,7 +109,8 @@ function App() {
 				if (msg.name === "login") {
 					if (msg.success) {
 						console.debug("聊天服务器登录成功!")
-						setSocketIsLoggedIn(true)
+						setSocket(s)
+						// setSocketIsLoggedIn(true)
 					} else {
 						// delete account data to force user re-login
 						storageManager.set("account", null)
@@ -124,7 +126,7 @@ function App() {
 			s.addEventListener("close", socketCloseHandler)
 			s.addEventListener("message", socketMessageHandler)
 
-			setSocket(s)
+			// setSocket(s)
 
 			return () => {
 				window.spSocket = null
@@ -138,7 +140,7 @@ function App() {
 				}
 				setSocket(null)
 				// setConnected(false)
-				setSocketIsLoggedIn(false)
+				// setSocketIsLoggedIn(false)
 			}
 		}
 	}, [disconnectedCounter, token])
@@ -163,7 +165,8 @@ function App() {
 			{ready && (
 				<Rooms
 					storageData={storageData}
-					socket={socketIsLoggedIn ? socket : null}
+					socket={socket}
+					// socket={socketIsLoggedIn ? socket : null}
 				/>
 			)}
 		</>

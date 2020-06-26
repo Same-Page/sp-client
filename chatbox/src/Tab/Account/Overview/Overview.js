@@ -13,7 +13,7 @@ import ChangePassword from "./ChangePassword"
 import Settings from "./Settings"
 import Rooms from "./Rooms"
 
-function Overview({ account }) {
+function Overview({ account, storageData }) {
 	// view: profile, followers/followings, edit-profile, change-password, settings
 	const [view, setView] = useState("profile")
 	const back = () => {
@@ -103,7 +103,9 @@ function Overview({ account }) {
 			)}
 			{view === "edit-profile" && <UpdateInfo account={account} back={back} />}
 			{view === "change-password" && <ChangePassword back={back} />}
-			{view === "settings" && <Settings back={back} />}
+			{view === "settings" && (
+				<Settings back={back} storageData={storageData} />
+			)}
 			{view === "rooms" && <Rooms account={account} back={back} />}
 		</div>
 	)

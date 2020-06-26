@@ -7,9 +7,13 @@ import ChatIcon from "containers/ChatIcon"
 function Rooms({ storageData, socket }) {
 	const [rooms, setRooms] = useState([])
 	const [activeRoomId, setActiveRoomId] = useState()
+	const [showAvatar, setShowAvatar] = useState(false)
 	useEffect(() => {
 		storageManager.addEventListener("activeRoomId", (activeRoomId) => {
 			setActiveRoomId(activeRoomId)
+		})
+		storageManager.addEventListener("showAvatar", (showAvatar) => {
+			setShowAvatar(showAvatar)
 		})
 		storageManager.addEventListener("rooms", (rooms) => {
 			setRooms(rooms)
@@ -26,6 +30,9 @@ function Rooms({ storageData, socket }) {
 					}
 				}
 			}
+			if (storageData.showAvatar) {
+				setShowAvatar(storageData.showAvatar)
+			}
 		}
 	}, [storageData])
 
@@ -35,6 +42,7 @@ function Rooms({ storageData, socket }) {
 
 			{rooms.map((r) => (
 				<Room
+					showAvatar={showAvatar}
 					activeRoomId={activeRoomId}
 					key={r.id}
 					socket={socket}
