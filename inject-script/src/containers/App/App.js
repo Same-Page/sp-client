@@ -40,33 +40,6 @@ function App() {
 			}
 		})
 
-		window.addEventListener(
-			"message",
-			(e) => {
-				if (!e || !e.data) return
-				const data = e.data
-
-				if (data.action === "update_storage") {
-					storageManager.set(data.key, data.value)
-				}
-				// if (data.action === "chat_message") {
-				// 	window.queueDanmu(data.data)
-				// }
-				// console.log("hh", data)
-				// data should go in one direction - iframe to parent frame
-				// if (data.action === "sp-parent-data") {
-				// 	spDebug("post config & account to chatbox")
-				// 	postMsgToIframe("sp-parent-data", {
-				// 		spConfig: spConfig,
-				// 		// pass account to chatbox to get the latest token
-				// 		account: accountManager.getAccount(),
-				// 		blacklist: blacklistRef.current
-				// 	})
-				// }
-			},
-			false
-		)
-
 		setReady(true)
 	}, [])
 
@@ -153,22 +126,25 @@ function App() {
 			delete axios.defaults.headers.common["token"]
 		}
 	}, [token])
-
+	if (!ready) {
+		return ""
+	}
 	return (
 		<>
 			{/* <ChatboxIframe blacklist={blacklist} /> */}
+
+			<Danmus />
+
 			<ChatboxIframe
+				storageData={storageData}
 				chatboxCreated={chatboxCreated}
 				setChatboxCreated={setChatboxCreated}
 			/>
-			<Danmus />
-			{ready && (
-				<Rooms
-					storageData={storageData}
-					socket={socket}
-					// socket={socketIsLoggedIn ? socket : null}
-				/>
-			)}
+			<Rooms
+				storageData={storageData}
+				socket={socket}
+				// socket={socketIsLoggedIn ? socket : null}
+			/>
 		</>
 	)
 }

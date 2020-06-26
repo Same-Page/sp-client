@@ -1,11 +1,11 @@
-export const postMsgToIframe = (type, data) => {
+export const postMsgToIframe = (name, data) => {
 	// Iframe isn't mounted until user click
 	if (window.chatboxIframeRef && window.chatboxIframeRef.current) {
 		window.chatboxIframeRef.current.contentWindow.postMessage(
 			{
 				data: data,
-				type: type
-				// name: name
+				// type: type
+				name: name,
 			},
 			"*"
 		)

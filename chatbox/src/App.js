@@ -9,7 +9,7 @@ import storageManager from "storage"
 import config from "config"
 import Tab from "Tab"
 import { setAccount, setActiveTab } from "redux/actions"
-import { getUrl, getDomain } from "utils"
+import { getDomain } from "utils"
 
 require("moment/locale/zh-cn") //moment.js bug, has to manually include
 
@@ -22,24 +22,34 @@ function App({ account, setAccount, activeTab, setActiveTab }) {
 	const [ready, setReady] = useState(false)
 	const [storageData, setStorageData] = useState()
 	const [socket, setSocket] = useState(null)
-	const [connected, setConnected] = useState(false)
+	// const [connected, setConnected] = useState(false)
 	// can't use 'connected' to trigger reconnection with useEffect
 	// since connected is also set in useEffect, it causes infinite loop
 	const [disconnectedCounter, setDisconnectedCounter] = useState(0)
 	const [socketIsLoggedIn, setSocketIsLoggedIn] = useState(false)
-	const position = config.position
-	const size = config.size
+	// const position = config.position
+	// const size = config.size
 
 	// TODO: check url change
-	const [url, setUrl] = useState(getUrl())
-	const [domain, setDomain] = useState(getDomain())
+	const [url, setUrl] = useState()
+	const [domain, setDomain] = useState()
 	const token = account && account.token
 	useEffect(() => {
 		// Load everything from localStorage
 		// register all localstorage listeners
+		// ask parent frame what's url
 		storageManager.addEventListener("account", account => {
 			setAccount(account)
 		})
+		window.addEventListener("message", e => {
+			if (!e || !e.data) return
+			const data = e.data
+
+			if (data.name === "url") {
+				setUrl(data.data)
+			}
+		})
+
 		// pass null as storage key to get all stored data
 		storageManager.get(null, data => {
 			setStorageData(data)
@@ -48,10 +58,27 @@ function App({ account, setAccount, activeTab, setActiveTab }) {
 			} else {
 				setActiveTab("account")
 			}
+			if (window.parent) {
+				window.parent.postMessage(
+					{
+						action: "get_url",
+						data: null
+					},
+					"*"
+				)
+			} else {
+				setUrl(window.location.href)
+			}
 		})
-
-		setReady(true)
+		console.debug("init should only be called once")
 	}, [setAccount, setActiveTab])
+
+	useEffect(() => {
+		if (url) {
+			setDomain(getDomain(url))
+			setReady(true)
+		}
+	}, [url])
 
 	useEffect(() => {
 		if (token) {
@@ -61,7 +88,7 @@ function App({ account, setAccount, activeTab, setActiveTab }) {
 			const socketOpenHandler = () => {
 				console.debug("socket connected")
 				message.success("聊天服务器连接成功！")
-				setConnected(true)
+				// setConnected(true)
 				s.wasConnected = true
 
 				const socketPayload = {
@@ -80,7 +107,7 @@ function App({ account, setAccount, activeTab, setActiveTab }) {
 					message.error("聊天服务器连接断开！")
 				}
 				s.closed = true
-				setConnected(false)
+				// setConnected(false)
 				setDisconnectedCounter(counter => {
 					return counter + 1
 				})
@@ -118,7 +145,7 @@ function App({ account, setAccount, activeTab, setActiveTab }) {
 					s.close()
 				}
 				setSocket(null)
-				setConnected(false)
+				// setConnected(false)
 				setSocketIsLoggedIn(false)
 			}
 		}
