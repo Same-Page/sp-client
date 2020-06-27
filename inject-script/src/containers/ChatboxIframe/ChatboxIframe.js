@@ -1,14 +1,14 @@
 import "./ChatboxIframe.css"
 
 import React, { useState, useEffect, useRef } from "react"
-import Button from "@material-ui/core/Button"
-import Input from "@material-ui/core/Input"
+// import Button from "@material-ui/core/Button"
+// import Input from "@material-ui/core/Input"
 
 import { Rnd } from "react-rnd"
 // import { mockUrl, getDomain } from "utils/url"
 import { postMsgToIframe } from "utils/iframe"
 import storage from "storage.js"
-import spConfig from "config"
+// import spConfig from "config"
 import SwapHorizIcon from "@material-ui/icons/SwapHoriz"
 
 import {
@@ -19,10 +19,10 @@ import {
 } from "config/iframe"
 import ImageModal from "../ImageModal"
 
-const defaultUrl = window.location.href
-let urlInput = defaultUrl
-let fakeUrl = false
-let curUrl = window.location.href
+// const defaultUrl = window.location.href
+// let urlInput = defaultUrl
+// let fakeUrl = false
+// let curUrl = window.location.href
 
 // function keepCheckingLocation() {
 // 	// Stop this timer if url is ever manually set because
@@ -90,6 +90,12 @@ function ChatboxIframe({
 				}
 				if (data.action === "update_storage") {
 					storage.set(data.key, data.value)
+				}
+				if (data.action === "update_storage_all") {
+					for (const key in data.data) {
+						console.debug(key)
+						storage.set(key, data.data[key])
+					}
 				}
 				if (data.action === "get_url") {
 					postMsgToIframe("url", window.location.href)

@@ -6,7 +6,7 @@ import config from "config"
 import User from "./User"
 import ChatIcon from "containers/ChatIcon"
 
-function Room({ socket, room, activeRoomId, showAvatar }) {
+function Room({ socket, room, activeRoomId, showAvatar, storageData }) {
 	const [users, setUsers] = useState([])
 	const [forbiddenToJoin, setFobbidenToJoin] = useState(false)
 
@@ -158,7 +158,11 @@ function Room({ socket, room, activeRoomId, showAvatar }) {
 							</span>
 						</Draggable>
 					)}
-					<ChatIcon userCount={users.length} />
+					<ChatIcon
+						roomName={room.name}
+						userCount={users.length}
+						storageData={storageData}
+					/>
 				</>
 			)}
 		</>

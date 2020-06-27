@@ -3,7 +3,6 @@ import "./index.css"
 import React from "react"
 import ReactDOM from "react-dom"
 import App from "./containers/App"
-import spDebug from "config/logger"
 import * as serviceWorker from "./serviceWorker"
 
 const elmId = "sp_extension_root"
@@ -12,17 +11,17 @@ setTimeout(() => {
 
 	var element = document.getElementById("no_sp_extension")
 	if (element) {
-		spDebug("should not load sp")
+		console.log("should not load sp")
 		return
 	}
 
-	var element = document.getElementById(elmId)
+	element = document.getElementById(elmId)
 	if (element) {
-		spDebug("already contain injection script")
+		console.log("already contain injection script")
 		return
 	}
 
-	spDebug("starting injection script...")
+	console.debug("starting injection script...")
 
 	const appElement = document.createElement("span")
 	appElement.id = elmId

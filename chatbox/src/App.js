@@ -66,6 +66,13 @@ function App({ account, setAccount, activeTab, setActiveTab }) {
 					},
 					"*"
 				)
+				window.parent.postMessage(
+					{
+						action: "update_storage_all",
+						data: data
+					},
+					"*"
+				)
 			} else {
 				setUrl(window.location.href)
 			}

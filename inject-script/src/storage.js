@@ -10,9 +10,9 @@ const storage = {
 					}
 				})
 			} else {
-				console.error(
-					"get all keys hasnt been implementd for chrome extension yet"
-				)
+				window.chrome.storage.local.get(null, (items) => {
+					callback(items)
+				})
 			}
 		} else {
 			if (key) {

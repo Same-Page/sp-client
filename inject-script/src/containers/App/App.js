@@ -7,9 +7,6 @@ import Danmus from "../Danmus"
 
 import storageManager from "storage"
 import config from "config"
-// import AccountContext from "context/account"
-
-// import { getUrl, getDomain } from "utils"
 
 function App() {
 	// wait for localStorage finish loading before rendering anything
@@ -20,7 +17,6 @@ function App() {
 	const [storageData, setStorageData] = useState()
 	const [socket, setSocket] = useState(null)
 
-	// can't use 'connected' to trigger reconnection with useEffect
 	// since connected is also set in useEffect, it causes infinite loop
 	const [disconnectedCounter, setDisconnectedCounter] = useState(0)
 	// const [socketIsLoggedIn, setSocketIsLoggedIn] = useState(false)
@@ -34,13 +30,12 @@ function App() {
 		})
 		// pass null as storage key to get all stored data
 		storageManager.get(null, (data) => {
-			setStorageData(data)
+			setStorageData(data || {})
 			if (data.account) {
 				setAccount(data.account)
 			}
+			setReady(true)
 		})
-
-		setReady(true)
 	}, [])
 
 	useEffect(() => {
@@ -119,7 +114,7 @@ function App() {
 	}, [disconnectedCounter, token])
 
 	useEffect(() => {
-		console.info("token changed", token)
+		console.debug("token changed", token)
 		if (token) {
 			axios.defaults.headers.common["token"] = token
 		} else {

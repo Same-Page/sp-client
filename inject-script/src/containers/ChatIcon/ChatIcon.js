@@ -9,40 +9,32 @@ import spConfig from "config"
 const SHOW_CHAT_ICON_BY_DEFAULT = true
 let dragging = false
 
-function ChatIcon({ userCount }) {
+function ChatIcon({ userCount, storageData, roomName }) {
 	const [showIcon, setShowIcon] = useState(false)
-	// const [userCount, setUserCount] = useState()
+
 	const [unreadMail, setUnreadMail] = useState(false)
-	// const userCountStr = () => {
-	// 	return userCount.join(" | ")
-	// }
+
 	let className = "sp-chat-icon-wrapper"
 	if (spConfig.icon && spConfig.icon.verticalCenter) {
-		className += " " + "vertical-center"
+		className += " vertical-center"
 	}
 	useEffect(() => {
-		storage.get("showChatIcon", showChatIcon => {
-			if (showChatIcon == null) {
-				setShowIcon(SHOW_CHAT_ICON_BY_DEFAULT)
-			} else {
-				setShowIcon(showChatIcon)
-			}
-		})
-		storage.addEventListener("showChatIcon", showChatIcon => {
+		if (storageData.showChatIcon == null) {
+			setShowIcon(SHOW_CHAT_ICON_BY_DEFAULT)
+		} else {
+			setShowIcon(storageData.showChatIcon)
+		}
+
+		storage.addEventListener("showChatIcon", (showChatIcon) => {
 			setShowIcon(showChatIcon)
 		})
-		// window.setUserCount = setUserCount
 
-		storage.get("unread", unread => {
-			// console.log("get unread")
-			// console.log(unread)
+		setUnreadMail(!!storageData.unread)
+
+		storage.addEventListener("unread", (unread) => {
 			setUnreadMail(!!unread)
 		})
-		storage.addEventListener("unread", unread => {
-			// console.log(unread)
-			setUnreadMail(!!unread)
-		})
-	}, [])
+	}, [storageData])
 
 	if (showIcon) {
 		let iconContent = (
@@ -67,14 +59,14 @@ function ChatIcon({ userCount }) {
 				onDrag={() => {
 					dragging = true
 				}}
-				onStop={e => {
+				onStop={(e) => {
 					if (!dragging) {
 						window.toggleChatbox()
 					}
 					dragging = false
 				}}
 			>
-				<span title="点击打开聊天盒" className={className}>
+				<span title={roomName} className={className}>
 					{iconContent}
 				</span>
 			</Draggable>

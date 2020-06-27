@@ -59,9 +59,10 @@ if (process.env.REACT_APP_LOCAL_SOCKET) {
 
 let spConfig = { ...defaultConfig }
 if (window.spConfig) {
-	console.log(window.spConfig)
 	spConfig = { ...defaultConfig, ...window.spConfig }
-	console.log(spConfig)
+}
+if (!spConfig.debug) {
+	console.debug = () => {}
 }
 window.spConfig = spConfig
 

@@ -38,10 +38,11 @@ function Rooms({ storageData, socket }) {
 
 	return (
 		<>
-			{!activeRoomId && <ChatIcon />}
+			{!activeRoomId && <ChatIcon storageData={storageData} />}
 
 			{rooms.map((r) => (
 				<Room
+					storageData={storageData}
 					showAvatar={showAvatar}
 					activeRoomId={activeRoomId}
 					key={r.id}

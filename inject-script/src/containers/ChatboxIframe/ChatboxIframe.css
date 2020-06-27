@@ -45,7 +45,7 @@
 	display: inline-block;
 }
 .sp-chatbox-drag-handle:hover {
-	background-color: rgba(255, 255, 255, 0.8);
+	background-color: rgba(255, 255, 255, 0.95);
 	box-shadow: rgba(0, 0, 0, 0.5) 0px 2px 6px;
 }
 
