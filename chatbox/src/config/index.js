@@ -6,16 +6,16 @@ const config = {
 	// socketUrl: "ws://0.0.0.0:8765",
 	heartbeatInterval: 10 * 1000,
 	socketReconnectWaitTime: 3 * 1000,
-	size: {
-		width: 400,
-		height: 600,
-		minWidth: 350,
-		minHeight: 350
-	},
-	position: {
-		x: 0,
-		y: 0
-	},
+	// size: {
+	// 	width: 400,
+	// 	height: 600,
+	// 	minWidth: 350,
+	// 	minHeight: 350
+	// },
+	// position: {
+	// 	x: 0,
+	// 	y: 0
+	// },
 	activeTab: "chat",
 	defaultRooms: [
 		{
