@@ -28,8 +28,8 @@ function queueHistoryMessages(roomId, msgs) {
 	}
 }
 function getHistoryMessage(roomId) {
-	console.debug("getHistoryMessage " + roomId)
-	let url = `${spConfig.chatApi}/api/room_messages?roomId=${roomId}`
+	// console.debug("getHistoryMessage " + roomId)
+	let url = `${spConfig.webApi}/api/v1/get_comments`
 
 	storageManager.get(roomId + "-msg-last-timestamp", (timestamp) => {
 		if (timestamp) {
@@ -43,7 +43,7 @@ function getHistoryMessage(roomId) {
 					makeRequest: true,
 					url: url,
 					options: {
-						method: "GET",
+						method: "POST",
 						// headers: headers,
 					},
 				},
