@@ -1,6 +1,5 @@
 const defaultConfig = {
-	chatboxSrc:
-		"https://chatanywhere-site.s3-us-west-1.amazonaws.com/index.html",
+	chatboxSrc: "https://urlchatbox.com",
 	// apiUrl: "http://167.172.6.226",
 	apiUrl: "https://web.chat-anywhere.com",
 	// apiUrl: "http://localhost:8080",
@@ -17,6 +16,9 @@ const defaultConfig = {
 	position: {
 		x: 0,
 		y: 0,
+	},
+	icon: {
+		verticalCenter: true,
 	},
 	activeTab: "chat",
 	defaultRooms: [

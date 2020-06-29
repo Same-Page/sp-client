@@ -146,7 +146,7 @@ function App({ account, setAccount, activeTab, setActiveTab }) {
 					}
 				}
 				if (msg.error) {
-					message.error(msg.error)
+					console.error(msg.error)
 				}
 			}
 

@@ -349,6 +349,7 @@ function RoomTab({
 								content={<Users users={users} />}
 								trigger="click"
 								title="在线用户"
+								placement="bottom"
 							>
 								<Button icon={<TeamOutlined />}>
 									<span>{users.length}</span>
