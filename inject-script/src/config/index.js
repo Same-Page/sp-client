@@ -1,7 +1,9 @@
 const defaultConfig = {
-	apiUrl: "http://167.172.6.226",
+	chatboxSrc: "https://localhost:3000",
+	// apiUrl: "http://167.172.6.226",
+	apiUrl: "https://web.chat-anywhere.com",
 	// apiUrl: "http://localhost:8080",
-	socketUrl: "ws://167.172.6.238:8765",
+	socketUrl: "wss://chat.chat-anywhere.com",
 	// socketUrl: "ws://0.0.0.0:8765",
 	heartbeatInterval: 10 * 1000,
 	socketReconnectWaitTime: 3 * 1000,
@@ -51,7 +53,7 @@ const defaultConfig = {
 if (process.env.REACT_APP_LOCAL_CHATBOX) {
 	// defaultConfig.socketUrl = "http://localhost:8081"
 	// defaultConfig.apiUrl = 'localhost:3000'
-	defaultConfig.chatboxSrc = "http://localhost:3000"
+	defaultConfig.chatboxSrc = "https://localhost:3000"
 }
 if (process.env.REACT_APP_LOCAL_SOCKET) {
 	defaultConfig.socketUrl = "localhost:8765"

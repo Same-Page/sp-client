@@ -117,7 +117,7 @@ function ChatboxIframe({
 				(request, sender, sendResponse) => {
 					if (!request.chatboxMsg) return
 					var msg = request.chatboxMsg
-					window.spDebug(msg)
+					console.debug(msg)
 					if (msg === "open_chatbox") {
 						toggleChatbox()
 					}

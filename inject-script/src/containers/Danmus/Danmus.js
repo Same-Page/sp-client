@@ -156,7 +156,7 @@ class AnimationDanmu extends Component {
 				danmu.top = 50 * availableRow
 				this.addDanmu(danmu)
 			} else {
-				window.spDebug("no spot")
+				console.debug("no spot")
 				setTimeout(this.checkDanmuWaitlist, 1000)
 				return
 			}
@@ -166,7 +166,7 @@ class AnimationDanmu extends Component {
 		// this function is called by other class
 		// bind this to current class
 		// console.log('realtime queue ' + msg.content);
-		console.log(msg)
+		console.debug(msg)
 		// if (!msg) return
 		// if (this.props.isBlacklisted(msg.user)) {
 		// 	return
