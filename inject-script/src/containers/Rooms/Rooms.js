@@ -19,15 +19,28 @@ function Rooms({ storageData, socket, setUserCount, setRoomName }) {
 		})
 		if (storageData) {
 			if (storageData.rooms) {
+				let activeRoomId = storageData.activeRoomId
+				if (!activeRoomId && storageData.rooms.length > 0) {
+					activeRoomId = storageData.rooms[0].id
+				}
+				storageData.rooms.forEach((r) => {
+					const isActive = r.id.toString() === activeRoomId.toString()
+					let roomIdUpdated = false
+					if (r.type === "page") {
+						r.id = window.location.href
+						roomIdUpdated = true
+					} else if (r.type === "site") {
+						r.id = window.location.hostname
+						roomIdUpdated = true
+					}
+					if (roomIdUpdated && isActive) {
+						activeRoomId = r.id
+					}
+				})
+
 				setRooms(storageData.rooms)
 
-				if (storageData.activeRoomId) {
-					setActiveRoomId(storageData.activeRoomId)
-				} else {
-					if (storageData.rooms.length > 0) {
-						setActiveRoomId(storageData.rooms[0].id)
-					}
-				}
+				setActiveRoomId(activeRoomId)
 			}
 			if (storageData.showAvatar) {
 				setShowAvatar(storageData.showAvatar)

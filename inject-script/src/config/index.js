@@ -1,5 +1,6 @@
 const defaultConfig = {
-	chatboxSrc: "https://localhost:3000",
+	chatboxSrc:
+		"https://chatanywhere-site.s3-us-west-1.amazonaws.com/index.html",
 	// apiUrl: "http://167.172.6.226",
 	apiUrl: "https://web.chat-anywhere.com",
 	// apiUrl: "http://localhost:8080",
