@@ -4,9 +4,15 @@ import Draggable from "react-draggable"
 import config from "config"
 
 import User from "./User"
-import ChatIcon from "containers/ChatIcon"
 
-function Room({ socket, room, activeRoomId, showAvatar, storageData }) {
+function Room({
+	socket,
+	room,
+	activeRoomId,
+	showAvatar,
+	storageData,
+	setUserCount,
+}) {
 	const [users, setUsers] = useState([])
 	const [forbiddenToJoin, setFobbidenToJoin] = useState(false)
 
@@ -140,9 +146,15 @@ function Room({ socket, room, activeRoomId, showAvatar, storageData }) {
 		}
 	}, [socket, forbiddenToJoin])
 
+	useEffect(() => {
+		if (activeRoomId.toString() === room.id.toString()) {
+			setUserCount(users.length)
+		}
+	}, [users.length, activeRoomId, room.id])
+
 	return (
 		<>
-			{activeRoomId === room.id.toString() && (
+			{activeRoomId.toString() === room.id.toString() && (
 				<>
 					{showAvatar && (
 						<Draggable>
@@ -158,11 +170,11 @@ function Room({ socket, room, activeRoomId, showAvatar, storageData }) {
 							</span>
 						</Draggable>
 					)}
-					<ChatIcon
+					{/* <ChatIcon
 						roomName={room.name}
 						userCount={users.length}
 						storageData={storageData}
-					/>
+					/> */}
 				</>
 			)}
 		</>

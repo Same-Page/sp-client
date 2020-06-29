@@ -225,3 +225,8 @@ header-body-footer with sticky header and footer*/
 .sp-danger-btn:focus {
 	color: red;
 }
+
+.sp-new-message-dot .ant-badge-dot {
+	/* margin-left: -5px; */
+	right: 5px;
+}

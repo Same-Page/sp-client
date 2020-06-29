@@ -36,6 +36,7 @@ const storage = {
 			item[key] = value
 			window.chrome.storage.local.set(item)
 		} else {
+			// console.log(value)
 			const stringValue = JSON.stringify(value)
 			localStorage.setItem(key, stringValue)
 			// localstorage event isn't triggered on same tab

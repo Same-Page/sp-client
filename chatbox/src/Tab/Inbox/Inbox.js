@@ -111,12 +111,20 @@ function Inbox({ account, user, setInboxUser, messageUser, storageData }) {
 		)
 		setConversations(cons)
 		if (accountId) {
+			// TBD: maybe no need to append accountId, just remember to
+			// clear storage when logout
+			// TODO: use camel case
 			storageManager.set("inbox-" + accountId, consDict)
+			storageManager.set("lastMsgId", lastMsgId)
+			storageManager.set("unread", false)
 		}
 	}, [consDict, accountId])
 
 	useEffect(() => {
+		// console.log(accountId, storageData, fetchData, mergeNewConversations)
 		if (accountId) {
+			// if (loading) return
+
 			const conversationsInStorage = storageData[getStorageKey(accountId)] || []
 			mergeNewConversations(conversationsInStorage)
 			fetchData(getLastMsgId(conversationsInStorage))

@@ -4,6 +4,7 @@ import axios from "axios"
 import ChatboxIframe from "../ChatboxIframe"
 import Rooms from "../Rooms"
 import Danmus from "../Danmus"
+import ChatIcon from "../ChatIcon"
 
 import storageManager from "storage"
 import config from "config"
@@ -16,6 +17,9 @@ function App() {
 	const [chatboxCreated, setChatboxCreated] = useState(false)
 	const [storageData, setStorageData] = useState()
 	const [socket, setSocket] = useState(null)
+	const [userCount, setUserCount] = useState()
+	const [roomName, setRoomName] = useState()
+	const [unread, setUnread] = useState(false)
 
 	// since connected is also set in useEffect, it causes infinite loop
 	const [disconnectedCounter, setDisconnectedCounter] = useState(0)
@@ -28,11 +32,17 @@ function App() {
 		storageManager.addEventListener("account", (account) => {
 			setAccount(account)
 		})
+		storageManager.addEventListener("unread", (unread) => {
+			setUnread(!!unread)
+		})
 		// pass null as storage key to get all stored data
 		storageManager.get(null, (data) => {
 			setStorageData(data || {})
 			if (data.account) {
 				setAccount(data.account)
+			}
+			if (data.unread) {
+				setUnread(!!data.unread)
 			}
 			setReady(true)
 		})
@@ -121,6 +131,60 @@ function App() {
 			delete axios.defaults.headers.common["token"]
 		}
 	}, [token])
+
+	useEffect(() => {
+		if (storageData && !storageData.unread && token) {
+			// can't make ajax call in content script since chrome 73
+			// proxy through background script
+			const offset = (storageData && storageData.lastMsgId) || -1
+			const url = `${config.apiUrl}/api/v1/messages?offset=${offset}`
+
+			if (window.chrome && window.chrome.extension) {
+				const headers = {
+					token: token,
+				}
+				window.chrome.runtime.sendMessage(
+					{
+						makeRequest: true,
+						url: url,
+						options: {
+							method: "GET",
+							headers: headers,
+						},
+					},
+					(response) => {
+						if (response && response.ok) {
+							if (Object.keys(response.data).length !== 0) {
+								storageManager.set(
+									"unread",
+									Object.keys(response.data).length
+								)
+							}
+							// console.log(response.data)
+						} else {
+							console.error(response)
+						}
+					}
+				)
+			} else {
+				axios
+					.get(url)
+					.then((response) => {
+						if (Object.keys(response.data).length !== 0) {
+							storageManager.set(
+								"unread",
+								Object.keys(response.data).length
+							)
+						}
+					})
+					.catch((err) => {
+						console.error(err)
+					})
+					.then((res) => {})
+			}
+		}
+	}, [token, storageData])
+
 	if (!ready) {
 		return ""
 	}
@@ -128,9 +192,17 @@ function App() {
 		<>
 			{/* <ChatboxIframe blacklist={blacklist} /> */}
 
+			<ChatIcon
+				storageData={storageData}
+				userCount={userCount}
+				roomName={roomName}
+				unread={unread}
+			/>
+
 			<Danmus />
 
 			<ChatboxIframe
+				unread={unread}
 				storageData={storageData}
 				chatboxCreated={chatboxCreated}
 				setChatboxCreated={setChatboxCreated}
@@ -138,6 +210,8 @@ function App() {
 			<Rooms
 				storageData={storageData}
 				socket={socket}
+				setUserCount={setUserCount}
+				setRoomName={setRoomName}
 				// socket={socketIsLoggedIn ? socket : null}
 			/>
 		</>

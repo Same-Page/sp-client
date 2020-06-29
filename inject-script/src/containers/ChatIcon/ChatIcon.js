@@ -9,10 +9,8 @@ import spConfig from "config"
 const SHOW_CHAT_ICON_BY_DEFAULT = true
 let dragging = false
 
-function ChatIcon({ userCount, storageData, roomName }) {
+function ChatIcon({ userCount, storageData, roomName, unread }) {
 	const [showIcon, setShowIcon] = useState(false)
-
-	const [unreadMail, setUnreadMail] = useState(false)
 
 	let className = "sp-chat-icon-wrapper"
 	if (spConfig.icon && spConfig.icon.verticalCenter) {
@@ -28,12 +26,6 @@ function ChatIcon({ userCount, storageData, roomName }) {
 		storage.addEventListener("showChatIcon", (showChatIcon) => {
 			setShowIcon(showChatIcon)
 		})
-
-		setUnreadMail(!!storageData.unread)
-
-		storage.addEventListener("unread", (unread) => {
-			setUnreadMail(!!unread)
-		})
 	}, [storageData])
 
 	if (showIcon) {
@@ -48,8 +40,8 @@ function ChatIcon({ userCount, storageData, roomName }) {
 		if (userCount > 0) {
 			iconContent = userCount
 		}
-		if (unreadMail) {
-			iconContent = <MailIcon style={{ marginBottom: -7 }} />
+		if (unread) {
+			iconContent = <MailIcon style={{ marginBottom: -9 }} />
 		}
 		return (
 			<Draggable

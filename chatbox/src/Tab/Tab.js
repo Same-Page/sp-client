@@ -1,7 +1,7 @@
 import "antd/dist/antd.css"
 import "./Tab.css"
 import React from "react"
-import { Tabs, message } from "antd"
+import { Tabs, message, Badge } from "antd"
 import {
 	MessageOutlined,
 	MailOutlined,
@@ -29,6 +29,7 @@ function Tab({
 	activeTab,
 	setActiveTab,
 	storageData,
+	unread,
 	url,
 	domain
 }) {
@@ -74,7 +75,9 @@ function Tab({
 				<TabPane
 					tab={
 						<span>
-							<MailOutlined title="收件箱" />
+							<Badge dot={unread} className="sp-new-message-dot">
+								<MailOutlined title="收件箱" />
+							</Badge>
 							私信
 						</span>
 					}

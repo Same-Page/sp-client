@@ -89,16 +89,28 @@ function ChatboxIframe({
 					setDisplay("none")
 				}
 				if (data.action === "update_storage") {
+					// console.log(data)
 					storage.set(data.key, data.value)
 				}
 				if (data.action === "update_storage_all") {
 					for (const key in data.data) {
 						console.debug(key)
-						storage.set(key, data.data[key])
+						if (key !== "unread") {
+							// unread flag should only be pushed
+							// when user open inbox
+							storage.set(key, data.data[key])
+						}
 					}
 				}
 				if (data.action === "get_url") {
 					postMsgToIframe("url", window.location.href)
+				}
+				if (data.action === "get_unread") {
+					if (storageData.unread) {
+						// TODO: use unread state variable instead
+						// also don't want to trigger useEffect multiple times
+						postMsgToIframe("unread", storageData.unread)
+					}
 				}
 				// if (data.action === "sp-parent-data") {
 				// 	spDebug("post config & account to chatbox")

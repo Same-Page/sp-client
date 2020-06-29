@@ -22,6 +22,7 @@ function App({ account, setAccount, activeTab, setActiveTab }) {
 	const [ready, setReady] = useState(false)
 	const [storageData, setStorageData] = useState()
 	const [socket, setSocket] = useState(null)
+	const [unread, setUnread] = useState(false)
 	// const [connected, setConnected] = useState(false)
 	// can't use 'connected' to trigger reconnection with useEffect
 	// since connected is also set in useEffect, it causes infinite loop
@@ -41,12 +42,18 @@ function App({ account, setAccount, activeTab, setActiveTab }) {
 		storageManager.addEventListener("account", account => {
 			setAccount(account)
 		})
+		storageManager.addEventListener("unread", unread => {
+			setUnread(!!unread)
+		})
 		window.addEventListener("message", e => {
 			if (!e || !e.data) return
 			const data = e.data
 
 			if (data.name === "url") {
 				setUrl(data.data)
+			}
+			if (data.name === "unread") {
+				setUnread(true)
 			}
 		})
 
@@ -62,6 +69,13 @@ function App({ account, setAccount, activeTab, setActiveTab }) {
 				window.parent.postMessage(
 					{
 						action: "get_url",
+						data: null
+					},
+					"*"
+				)
+				window.parent.postMessage(
+					{
+						action: "get_unread",
 						data: null
 					},
 					"*"
@@ -205,6 +219,7 @@ function App({ account, setAccount, activeTab, setActiveTab }) {
 						setActiveTab={setActiveTab}
 						url={url}
 						domain={domain}
+						unread={unread}
 					/>
 				</div>
 				// </Rnd>

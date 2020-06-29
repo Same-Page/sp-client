@@ -2,9 +2,8 @@ import React, { useState, useEffect } from "react"
 
 import Room from "./Room"
 import storageManager from "storage"
-import ChatIcon from "containers/ChatIcon"
 
-function Rooms({ storageData, socket }) {
+function Rooms({ storageData, socket, setUserCount, setRoomName }) {
 	const [rooms, setRooms] = useState([])
 	const [activeRoomId, setActiveRoomId] = useState()
 	const [showAvatar, setShowAvatar] = useState(false)
@@ -36,9 +35,19 @@ function Rooms({ storageData, socket }) {
 		}
 	}, [storageData])
 
+	useEffect(() => {
+		if (rooms && activeRoomId) {
+			rooms.forEach((r) => {
+				if (r.id.toString() === activeRoomId.toString()) {
+					setRoomName(r.name)
+				}
+			})
+		}
+	}, [activeRoomId, rooms])
+
 	return (
 		<>
-			{!activeRoomId && <ChatIcon storageData={storageData} />}
+			{/* {!activeRoomId && <ChatIcon storageData={storageData} />} */}
 
 			{rooms.map((r) => (
 				<Room
@@ -48,6 +57,8 @@ function Rooms({ storageData, socket }) {
 					key={r.id}
 					socket={socket}
 					room={r}
+					setUserCount={setUserCount}
+					setRoomName={setRoomName}
 				/>
 			))}
 		</>
