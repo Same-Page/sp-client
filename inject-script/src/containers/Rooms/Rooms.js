@@ -1,18 +1,35 @@
 import React, { useState, useEffect } from "react"
 
 import Room from "./Room"
+import { postMsgToIframe } from "utils/iframe"
+
 import storageManager from "storage"
 
 function Rooms({ storageData, socket, setUserCount, setRoomName, userId }) {
 	const [rooms, setRooms] = useState([])
 	const [activeRoomId, setActiveRoomId] = useState()
 	const [showAvatar, setShowAvatar] = useState(false)
+
+	useEffect(() => {
+		const handler = (e) => {
+			if (!e || !e.data) return
+			const data = e.data
+			if (data.name === "get_settings") {
+				postMsgToIframe("show_avatar", showAvatar)
+			}
+		}
+		window.addEventListener("message", handler)
+		return () => {
+			window.removeEventListener("message", handler)
+		}
+	}, [showAvatar])
 	useEffect(() => {
 		storageManager.addEventListener("activeRoomId", (activeRoomId) => {
 			setActiveRoomId(activeRoomId)
 		})
 		storageManager.addEventListener("showAvatar", (showAvatar) => {
 			setShowAvatar(showAvatar)
+			postMsgToIframe("show_avatar", showAvatar)
 		})
 		storageManager.addEventListener("rooms", (rooms) => {
 			setRooms(rooms)

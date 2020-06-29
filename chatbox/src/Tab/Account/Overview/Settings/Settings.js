@@ -10,7 +10,8 @@ import storageManager from "storage"
 function Settings({ back, storageData }) {
 	// const [loading, setLoading] = useState(false)
 	const [showAvatar, setShowAvatar] = useState(false)
-	const [showDanmu, setShowDanmu] = useState(false)
+	const [showDanmu, setShowDanmu] = useState(true)
+	const [showChatIcon, setShowChatIcon] = useState(true)
 
 	// const onFinish = async values => {
 	// 	console.debug("Received values of form: ", values)
@@ -27,6 +28,30 @@ function Settings({ back, storageData }) {
 	// setLoading(false)
 	// }
 	useEffect(() => {
+		if (window.parent) {
+			window.parent.postMessage(
+				{
+					action: "get_settings",
+					data: null
+				},
+				"*"
+			)
+			window.addEventListener("message", e => {
+				if (!e || !e.data) return
+				const data = e.data
+
+				if (data.name === "show_avatar") {
+					setShowAvatar(data.data)
+				}
+				if (data.name === "show_danmu") {
+					setShowDanmu(data.data)
+				}
+				if (data.name === "show_icon") {
+					setShowChatIcon(data.data)
+				}
+			})
+		}
+
 		if (storageData) {
 			if (storageData.showAvatar != null) {
 				setShowAvatar(storageData.showAvatar)
@@ -50,22 +75,36 @@ function Settings({ back, storageData }) {
 
 			<div style={{ padding: 30, overflow: "auto" }}>
 				<div>
-					网页底部显示用户{" "}
+					显示聊天图标
 					<Switch
-						checked={showAvatar}
+						style={{ marginLeft: 10 }}
+						checked={showChatIcon}
 						onChange={val => {
-							storageManager.set("showAvatar", val)
-							setShowAvatar(val)
+							storageManager.set("showChatIcon", val)
+							setShowChatIcon(val)
 						}}
 					/>
 				</div>
+
 				<div style={{ marginTop: 30 }}>
-					网页弹幕{" "}
+					显示弹幕
 					<Switch
+						style={{ marginLeft: 10 }}
 						checked={showDanmu}
 						onChange={val => {
 							storageManager.set("showDanmu", val)
 							setShowDanmu(val)
+						}}
+					/>
+				</div>
+				<div style={{ marginTop: 30 }}>
+					网页底部显示用户
+					<Switch
+						style={{ marginLeft: 10 }}
+						checked={showAvatar}
+						onChange={val => {
+							storageManager.set("showAvatar", val)
+							setShowAvatar(val)
 						}}
 					/>
 				</div>

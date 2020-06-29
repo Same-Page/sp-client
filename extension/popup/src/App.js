@@ -18,11 +18,11 @@ if (lng.indexOf("zh") > -1) {
 	AUTO_CONNECT = "自动连接"
 	AUTO_OPEN_CHATBOX = "自动打开聊天盒"
 	SHOW_CHAT_ICON = "显示聊天图标"
-	ENABLE_LIVE_CHAT_DANMU_STR = "显示聊天弹幕"
+	ENABLE_LIVE_CHAT_DANMU_STR = "显示弹幕"
 	ENABLE_VIDEO_DANMU_STR = "显示Youtube弹幕"
 	OPEN_STR = "打开聊天盒"
 	CLOSE_STR = "关闭聊天盒"
-	AVATAR_STR = "显示在线头像"
+	AVATAR_STR = "网页底部显示在线用户"
 }
 
 class App extends React.Component {

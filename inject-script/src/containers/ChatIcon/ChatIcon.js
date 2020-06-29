@@ -5,28 +5,59 @@ import storage from "storage.js"
 import samePageIcon from "icon.png"
 import MailIcon from "@material-ui/icons/Mail"
 import spConfig from "config"
+import { postMsgToIframe } from "utils/iframe"
 
 const SHOW_CHAT_ICON_BY_DEFAULT = true
 let dragging = false
 
 function ChatIcon({ userCount, storageData, roomName, unread }) {
-	const [showIcon, setShowIcon] = useState(false)
+	const [showIcon, setShowIcon] = useState(
+		storageData.showChatIcon == null ? true : storageData.showChatIcon
+	)
 
 	let className = "sp-chat-icon-wrapper"
 	if (spConfig.icon && spConfig.icon.verticalCenter) {
 		className += " vertical-center"
 	}
-	useEffect(() => {
-		if (storageData.showChatIcon == null) {
-			setShowIcon(SHOW_CHAT_ICON_BY_DEFAULT)
-		} else {
-			setShowIcon(storageData.showChatIcon)
-		}
 
-		storage.addEventListener("showChatIcon", (showChatIcon) => {
-			setShowIcon(showChatIcon)
+	useEffect(() => {
+		storage.addEventListener("showChatIcon", (showIcon) => {
+			setShowIcon(showIcon)
+			postMsgToIframe("show_icon", showIcon)
 		})
-	}, [storageData])
+	}, [])
+	useEffect(() => {
+		const handler = (e) => {
+			if (!e || !e.data) return
+			const data = e.data
+			if (data.name === "get_settings") {
+				postMsgToIframe("show_icon", showIcon)
+			}
+		}
+		window.addEventListener("message", handler)
+		return () => {
+			window.removeEventListener("message", handler)
+		}
+	}, [showIcon])
+
+	// useEffect(() => {
+	// 	window.addEventListener("message", e => {
+	// 		if (!e || !e.data) return
+	// 		const data = e.data
+	// 		if (data.name === "get_settings") {
+	// 			postMsgToIframe("show_avatar", showAvatar)
+	// 		}
+	// 	})
+	// 	if (storageData.showChatIcon == null) {
+	// 		setShowIcon(SHOW_CHAT_ICON_BY_DEFAULT)
+	// 	} else {
+	// 		setShowIcon(storageData.showChatIcon)
+	// 	}
+
+	// 	storage.addEventListener("showChatIcon", (showChatIcon) => {
+	// 		setShowIcon(showChatIcon)
+	// 	})
+	// }, [storageData])
 
 	if (showIcon) {
 		let iconContent = (

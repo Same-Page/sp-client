@@ -6,6 +6,7 @@ import storageManager from "storage.js"
 import "./Danmus.css"
 import spConfig from "config"
 import { getDomain, getUrl } from "utils/url"
+import { postMsgToIframe } from "utils/iframe"
 
 // import { stickersUrl } from "config/urls"
 // let invitationStr = " invites you to "
@@ -75,6 +76,7 @@ class AnimationDanmu extends Component {
 	danmuId = 0 // unique identifier of a danmu, increment locally
 	state = {
 		danmuList: [],
+		showDanmu: true,
 	}
 	danmuWaitList = []
 
@@ -196,9 +198,17 @@ class AnimationDanmu extends Component {
 				this.toggleDanmuVisibility(showDanmu)
 			}
 		})
-
+		window.addEventListener("message", (e) => {
+			if (!e || !e.data) return
+			const data = e.data
+			if (data.name === "get_settings") {
+				postMsgToIframe("show_danmu", this.state.showDanmu)
+			}
+		})
 		storageManager.addEventListener("showDanmu", (showDanmu) => {
 			this.toggleDanmuVisibility(showDanmu)
+			this.setState({ showDanmu: showDanmu })
+			postMsgToIframe("show_danmu", showDanmu)
 		})
 
 		// window.addEventListener(

@@ -85,7 +85,7 @@ function ChatboxIframe({
 				if (!e || !e.data) return
 				const data = e.data
 				// change to data.action for consistency
-				if (data === "minimize") {
+				if (data.action === "close_chatbox") {
 					setDisplay("none")
 				}
 				if (data.action === "update_storage") {
@@ -95,9 +95,16 @@ function ChatboxIframe({
 				if (data.action === "update_storage_all") {
 					for (const key in data.data) {
 						console.debug(key)
-						if (key !== "unread") {
-							// unread flag should only be pushed
-							// when user open inbox
+						if (
+							![
+								"unread",
+								"showDanmu",
+								"showChatIcon",
+								"showAvatar",
+							].includes(key)
+						) {
+							// unread flag and settigns flag should only be pushed
+							// when user make explicit action
 							storage.set(key, data.data[key])
 						}
 					}

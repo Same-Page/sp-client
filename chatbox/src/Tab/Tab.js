@@ -7,6 +7,7 @@ import {
 	MailOutlined,
 	UserOutlined,
 	// SettingOutlined,
+	CloseOutlined,
 	EditOutlined
 } from "@ant-design/icons"
 
@@ -37,6 +38,19 @@ function Tab({
 		<div className="sp-main-tabs">
 			<Tabs
 				onChange={key => {
+					if (key === "close") {
+						if (window.parent) {
+							window.parent.postMessage(
+								{
+									action: "close_chatbox",
+									data: null
+								},
+								"*"
+							)
+						}
+
+						return
+					}
 					setActiveTab(key)
 				}}
 				type="card"
@@ -95,6 +109,17 @@ function Tab({
 					key="account"
 				>
 					<Account account={account} storageData={storageData} />
+				</TabPane>
+				<TabPane
+					tab={
+						<span>
+							<CloseOutlined title="关闭聊天盒" />
+							关闭
+						</span>
+					}
+					key="close"
+				>
+					<>close</>
 				</TabPane>
 				{/* <TabPane
 					tab={

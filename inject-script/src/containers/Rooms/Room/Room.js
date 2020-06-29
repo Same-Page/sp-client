@@ -150,14 +150,14 @@ function Room({
 	}, [socket, forbiddenToJoin, room, userId])
 
 	useEffect(() => {
-		if (activeRoomId.toString() === room.id.toString()) {
+		if (activeRoomId && activeRoomId.toString() === room.id.toString()) {
 			setUserCount(users.length)
 		}
 	}, [users.length, activeRoomId, room.id])
 
 	return (
 		<>
-			{activeRoomId.toString() === room.id.toString() && (
+			{activeRoomId && activeRoomId.toString() === room.id.toString() && (
 				<>
 					{showAvatar && (
 						<Draggable>
