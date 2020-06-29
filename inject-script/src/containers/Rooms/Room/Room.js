@@ -6,9 +6,11 @@ import config from "config"
 import User from "./User"
 
 function Room({
+	userId,
 	socket,
 	room,
 	activeRoomId,
+	setActiveRoomId,
 	showAvatar,
 	storageData,
 	setUserCount,
@@ -16,7 +18,6 @@ function Room({
 	const [users, setUsers] = useState([])
 	const [forbiddenToJoin, setFobbidenToJoin] = useState(false)
 
-	const userId = 123
 	useEffect(() => {
 		if (socket && !forbiddenToJoin) {
 			let lastGoodHeartbeat = 0
@@ -44,6 +45,8 @@ function Room({
 					}
 				} else if (msg.name === "chat_message") {
 					data.self = data.user.id.toString() === userId.toString()
+					data.roomName = room.name
+					setActiveRoomId(room.id)
 					window.queueDanmu(data)
 					setUsers((users) => {
 						const newUsers = [...users]
@@ -144,7 +147,7 @@ function Room({
 		} else {
 			setUsers([])
 		}
-	}, [socket, forbiddenToJoin])
+	}, [socket, forbiddenToJoin, room, userId])
 
 	useEffect(() => {
 		if (activeRoomId.toString() === room.id.toString()) {

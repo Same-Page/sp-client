@@ -106,6 +106,7 @@ class AnimationDanmu extends Component {
 		const contentType = content.type
 		const danmu = { ...data, id: this.danmuId++, row: 1 }
 		danmu.content = content.value
+
 		// if image body
 		if (contentType === "sticker") {
 			danmu.img = true
@@ -119,6 +120,9 @@ class AnimationDanmu extends Component {
 		}
 		if (contentType === "url") {
 			danmu.content = content.title
+		}
+		if (data.roomName) {
+			danmu.content = `【${data.roomName}】 ${danmu.content}`
 		}
 		// if (contentType == "text") {
 		// 	danmu.content =

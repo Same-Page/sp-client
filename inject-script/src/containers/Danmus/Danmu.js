@@ -21,11 +21,11 @@ class Danmu extends Component {
 			[
 				// keyframes, at least two
 				{ transform: "translateX(" + startX + "px)" },
-				{ transform: "translateX(-1000px)" }
+				{ transform: "translateX(-1000px)" },
 			],
 			{
 				// timing options
-				duration: duration * 1000
+				duration: duration * 1000,
 				// easing: 'ease-in-out'
 			}
 		)
@@ -59,8 +59,10 @@ class Danmu extends Component {
 		let content = (
 			<span
 				className={textContentClass}
-				dangerouslySetInnerHTML={{ __html: this.props.danmu.content }}
-			/>
+				// dangerouslySetInnerHTML={{ __html: this.props.danmu.content }}
+			>
+				{this.props.danmu.content}
+			</span>
 		)
 		if (this.props.danmu.img) {
 			content = (

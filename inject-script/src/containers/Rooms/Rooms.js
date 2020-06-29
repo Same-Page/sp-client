@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react"
 import Room from "./Room"
 import storageManager from "storage"
 
-function Rooms({ storageData, socket, setUserCount, setRoomName }) {
+function Rooms({ storageData, socket, setUserCount, setRoomName, userId }) {
 	const [rooms, setRooms] = useState([])
 	const [activeRoomId, setActiveRoomId] = useState()
 	const [showAvatar, setShowAvatar] = useState(false)
@@ -64,9 +64,11 @@ function Rooms({ storageData, socket, setUserCount, setRoomName }) {
 
 			{rooms.map((r) => (
 				<Room
+					userId={userId}
 					storageData={storageData}
 					showAvatar={showAvatar}
 					activeRoomId={activeRoomId}
+					setActiveRoomId={setActiveRoomId}
 					key={r.id}
 					socket={socket}
 					room={r}

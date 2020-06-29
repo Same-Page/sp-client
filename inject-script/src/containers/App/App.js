@@ -207,13 +207,16 @@ function App() {
 				chatboxCreated={chatboxCreated}
 				setChatboxCreated={setChatboxCreated}
 			/>
-			<Rooms
-				storageData={storageData}
-				socket={socket}
-				setUserCount={setUserCount}
-				setRoomName={setRoomName}
-				// socket={socketIsLoggedIn ? socket : null}
-			/>
+			{account && (
+				<Rooms
+					userId={account.id}
+					storageData={storageData}
+					socket={socket}
+					setUserCount={setUserCount}
+					setRoomName={setRoomName}
+					// socket={socketIsLoggedIn ? socket : null}
+				/>
+			)}
 		</>
 	)
 }
