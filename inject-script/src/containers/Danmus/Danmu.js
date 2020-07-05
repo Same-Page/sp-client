@@ -79,7 +79,13 @@ class Danmu extends Component {
 				style={{ top: this.props.danmu.top }}
 				ref={this.danmuRef}
 			>
+				{this.props.danmu.roomName && (
+					<span className="sp-danmu-room-name">
+						[{this.props.danmu.roomName}]
+					</span>
+				)}
 				{avatar}
+
 				{content}
 			</div>
 		)

@@ -20,6 +20,7 @@ function App() {
 	const [userCount, setUserCount] = useState()
 	const [roomName, setRoomName] = useState()
 	const [unread, setUnread] = useState(false)
+	const [hidden, setHidden] = useState(false)
 
 	// since connected is also set in useEffect, it causes infinite loop
 	const [disconnectedCounter, setDisconnectedCounter] = useState(0)
@@ -46,11 +47,30 @@ function App() {
 			}
 			setReady(true)
 		})
+		const visibilityChangeHandler = () => {
+			setHidden(document.hidden)
+		}
+		document.addEventListener(
+			"visibilitychange",
+			visibilityChangeHandler,
+			false
+		)
+		setHidden(document.hidden)
+		// Not unregistering since this component is never unmounted
 	}, [])
 
 	useEffect(() => {
+		if (!hidden && token && !socket) {
+			setDisconnectedCounter((counter) => {
+				return counter + 1
+			})
+		}
+	}, [hidden, token])
+
+	useEffect(() => {
+		// console.log("hidden", document.hidden)
 		// if (!chatboxCreated && token) {
-		if (token) {
+		if (token && !document.hidden) {
 			console.debug("creating socket")
 			const s = new WebSocket(config.socketUrl)
 			window.spSocket = s

@@ -12,6 +12,11 @@
 	object-fit: cover;
 	border: 1px solid lightgray;
 }
+.sp-danmu-room-name {
+	font-size: 20px;
+	line-height: 25px;
+	padding: 5px;
+}
 .sp-danmu-content-text {
 	border: 1px solid lightgray;
 	background-color: white !important;

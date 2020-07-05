@@ -31,7 +31,7 @@ function Settings({ back, storageData }) {
 		if (window.parent) {
 			window.parent.postMessage(
 				{
-					action: "get_settings",
+					name: "get_settings",
 					data: null
 				},
 				"*"
@@ -39,7 +39,7 @@ function Settings({ back, storageData }) {
 			window.addEventListener("message", e => {
 				if (!e || !e.data) return
 				const data = e.data
-
+				// console.log(data)
 				if (data.name === "show_avatar") {
 					setShowAvatar(data.data)
 				}
@@ -53,12 +53,12 @@ function Settings({ back, storageData }) {
 		}
 
 		if (storageData) {
-			if (storageData.showAvatar != null) {
-				setShowAvatar(storageData.showAvatar)
-			}
-			if (storageData.showDanmu != null) {
-				setShowDanmu(storageData.showDanmu)
-			}
+			// if (storageData.showAvatar != null) {
+			// 	setShowAvatar(storageData.showAvatar)
+			// }
+			// if (storageData.showDanmu != null) {
+			// 	setShowDanmu(storageData.showDanmu)
+			// }
 		}
 	}, [storageData])
 

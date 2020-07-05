@@ -59,7 +59,7 @@ function Rooms({ storageData, socket, setUserCount, setRoomName, userId }) {
 
 				setActiveRoomId(activeRoomId)
 			}
-			if (storageData.showAvatar) {
+			if (storageData.showAvatar != null) {
 				setShowAvatar(storageData.showAvatar)
 			}
 		}
