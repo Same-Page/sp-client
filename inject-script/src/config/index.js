@@ -3,9 +3,9 @@ const defaultConfig = {
 	// apiUrl: "http://167.172.6.226",
 	apiUrl: "https://web.chat-anywhere.com",
 	// apiUrl: "http://localhost:8080",
-	// socketUrl: "wss://chat.chat-anywhere.com",
+	socketUrl: "wss://chat.chat-anywhere.com",
 	// socketUrl: "ws://0.0.0.0:8765",
-	socketUrl: "wss://localhost:8765",
+	// socketUrl: "wss://localhost:8765",
 	heartbeatInterval: 10 * 1000,
 	socketReconnectWaitTime: 3 * 1000,
 	size: {

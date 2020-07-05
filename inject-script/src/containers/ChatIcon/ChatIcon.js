@@ -12,7 +12,9 @@ let dragging = false
 
 function ChatIcon({ userCount, storageData, roomName, unread }) {
 	const [showIcon, setShowIcon] = useState(
-		storageData.showChatIcon == null ? true : storageData.showChatIcon
+		storageData.showChatIcon == null
+			? SHOW_CHAT_ICON_BY_DEFAULT
+			: storageData.showChatIcon
 	)
 
 	let className = "sp-chat-icon-wrapper"

@@ -7,7 +7,7 @@ import { LockOutlined, LoginOutlined, MailOutlined } from "@ant-design/icons"
 import Header from "components/Header"
 import { login } from "./service"
 import storageManager from "storage"
-import LoadingAlert from "components/Alert/LoadingAlert"
+// import LoadingAlert from "components/Alert/LoadingAlert"
 
 const NormalLoginForm = ({ signup }) => {
 	const [loading, setLoading] = useState(false)

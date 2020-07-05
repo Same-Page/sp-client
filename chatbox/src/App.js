@@ -3,7 +3,7 @@ import { connect } from "react-redux"
 import moment from "moment"
 import axios from "axios"
 import { message } from "antd"
-import { Rnd } from "react-rnd"
+// import { Rnd } from "react-rnd"
 
 import storageManager from "storage"
 import config from "config"
