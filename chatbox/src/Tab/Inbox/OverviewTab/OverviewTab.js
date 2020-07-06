@@ -43,32 +43,34 @@ function OverviewTab({ conversations, setInboxUser, loading, fetchData }) {
 				}
 			/>
 			{/* {loading && <LoadingAlert text="载入中。。。" />} */}
-			{view === "mail" &&
-				conversations.map(c => (
-					<div
-						className="sp-inbox-item"
-						onClick={() => {
-							setInboxUser(c.user)
-						}}
-						key={c.user.id.toString()}
-					>
-						<Avatar shape="square" size="large" src={c.user.avatarSrc} />
-						<span className="sp-inbox-item-right">
-							<div className="sp-username-msgtime-row">
-								<span className="sp-username">{c.user.name}</span>
-								{lastMsg(c) && (
-									<span className="sp-lastmsg-time">
-										{moment(lastMsg(c).created_at).fromNow()}
-									</span>
-								)}
-							</div>
-							<div className="sp-lastmsg-content">
-								{(lastMsg(c) && lastMsg(c).content.value) || "..."}
-							</div>
-						</span>
-						<div style={{ clear: "both" }}></div>
-					</div>
-				))}
+			<div style={{ overflow: "auto" }}>
+				{view === "mail" &&
+					conversations.map(c => (
+						<div
+							className="sp-inbox-item"
+							onClick={() => {
+								setInboxUser(c.user)
+							}}
+							key={c.user.id.toString()}
+						>
+							<Avatar shape="square" size="large" src={c.user.avatarSrc} />
+							<span className="sp-inbox-item-right">
+								<div className="sp-username-msgtime-row">
+									<span className="sp-username">{c.user.name}</span>
+									{lastMsg(c) && (
+										<span className="sp-lastmsg-time">
+											{moment(lastMsg(c).created_at).fromNow()}
+										</span>
+									)}
+								</div>
+								<div className="sp-lastmsg-content">
+									{(lastMsg(c) && lastMsg(c).content.value) || "..."}
+								</div>
+							</span>
+							<div style={{ clear: "both" }}></div>
+						</div>
+					))}
+			</div>
 		</div>
 	)
 }
