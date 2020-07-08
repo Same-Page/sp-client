@@ -284,7 +284,7 @@ function Chat({ socket, account, storageData, url, domain, setActiveTab }) {
 
 						<br />
 						<Button
-							danger
+							// danger
 							onClick={() => {
 								setCloseSideBar(true)
 							}}

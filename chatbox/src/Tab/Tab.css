@@ -38,7 +38,7 @@ header-body-footer with sticky header and footer*/
 	/* padding: 8px 12px; */
 	border: none;
 	background: #1890ff;
-	color: white;
+	color: lightcyan;
 }
 .ant-tabs.ant-tabs-card > .ant-tabs-bar .ant-tabs-nav-wrap {
 	background: #1890ff;
@@ -46,10 +46,12 @@ header-body-footer with sticky header and footer*/
 
 .ant-tabs.ant-tabs-card > .ant-tabs-bar .ant-tabs-tab:hover {
 	background: #40a9ff;
+	color: white;
 }
 .ant-tabs.ant-tabs-card > .ant-tabs-bar .ant-tabs-tab.ant-tabs-tab-active {
 	/* background: white;
 	color: #1890ff; */
+	color: white;
 	background: #096dd9;
 	font-weight: unset;
 }
@@ -80,122 +82,6 @@ header-body-footer with sticky header and footer*/
 }
 
 /* Only override tab style for card type (.ant-tabs-card) END*/
-
-/* Style for left tab bar, used in chat tab and inbox tab */
-.sp-main-tabs .ant-tabs-left-bar {
-	border: none;
-	background: #1890ff;
-	color: white;
-	overflow: hidden;
-	box-shadow: 0px 0 5px rgba(0, 0, 0, 0.5);
-	position: relative; /* for box shadow to show */
-	z-index: 2; /* room alert is 1 */
-}
-
-.sp-main-tabs .ant-tabs-left-bar .ant-tabs-nav-container {
-	/* width: 159px; */
-	width: 80px;
-
-	/* for sliding to work with height auto, I have to use flex display */
-	height: auto;
-	display: flex;
-	flex-direction: column;
-	max-height: calc(100% - 180px);
-}
-
-.sp-main-tabs .sp-minimized .ant-tabs-left-bar .ant-tabs-nav-container {
-	/* width: 79px; */
-	width: 40px;
-}
-
-/* if want to use scroll rather than click button to slide */
-.sp-main-tabs .ant-tabs-left-bar .ant-tabs-nav-wrap {
-	/* overflow: hidden auto; */
-}
-.sp-main-tabs
-	.ant-tabs-left-bar
-	.ant-tabs-nav-container
-	.ant-tabs-nav-animated {
-	/* transform: none !important; */
-}
-/* if want to use scroll rather than click button to slide */
-
-.sp-main-tabs
-	.ant-tabs-left-bar
-	.ant-tabs-nav-container.ant-tabs-nav-container-scrolling {
-	padding: 41px 0px;
-	/* padding needs to be same height as Header component */
-}
-
-.sp-main-tabs .ant-tabs-left-bar .ant-tabs-tab-prev,
-.sp-main-tabs .ant-tabs-left-bar .ant-tabs-tab-next {
-	height: 41px;
-	/* same height as Header component */
-}
-.sp-main-tabs .ant-tabs-left-bar .ant-tabs-tab-prev,
-.sp-main-tabs .ant-tabs-left-bar .ant-tabs-tab-next {
-	color: white;
-}
-.sp-main-tabs .ant-tabs-left-bar .ant-tabs-tab-btn-disabled {
-	color: lightgray;
-}
-
-.sp-main-tabs .ant-tabs-left-bar .ant-btn {
-	background: none;
-	border: none;
-	box-shadow: none;
-	font-size: 13px;
-	padding: 0px 10px;
-	color: white;
-}
-.sp-main-tabs .ant-tabs-left-bar .ant-tabs-tab-active,
-.sp-main-tabs .ant-tabs-left-bar .ant-tabs-tab.ant-tabs-tab-active:hover {
-	color: unset;
-	background: #096dd9;
-}
-.ant-tabs-left-bar .ant-btn-dangerous {
-	color: unset;
-}
-.ant-tabs-left-bar .ant-btn-dangerous:hover {
-	color: red;
-}
-.closed .ant-tabs-left-bar {
-	display: none;
-}
-.ant-tabs-left-bar .ant-tabs-extra-content {
-	margin-top: 20px;
-}
-
-.sp-main-tabs .ant-tabs-left-bar .ant-tabs-tab {
-	padding: 0px;
-	margin: 0px;
-	font-size: 13px;
-}
-.sp-main-tabs .ant-tabs-left-bar .ant-tabs-tab:hover {
-	color: unset;
-	background: #40a9ff;
-}
-.sp-main-tabs .ant-tabs-left-bar .ant-tabs-ink-bar {
-	width: 100%;
-	/* background: rgb(224, 224, 224); */
-	background: #096dd9;
-	z-index: -1;
-	/* width: 2px; */
-	display: none;
-}
-
-.sp-closed .ant-tabs-left-bar {
-	display: none;
-}
-.sp-main-tabs .ant-tabs-left-bar .ant-tabs-nav-container {
-	/* transition: 0.5s; */
-}
-.ant-tabs .ant-tabs-left-content {
-	/* left-content actually means the block on the right */
-	padding: 0;
-	/* border-left: 1px solid #e0e0e0; */
-	border: none;
-}
 
 .sp-flex-body {
 	/* used in many tab body (inbox, chat etc.) */
@@ -236,13 +122,14 @@ header-body-footer with sticky header and footer*/
 }
 
 .sp-close-btn {
-	color: white;
+	color: lightblue;
 	position: absolute;
 	z-index: 1;
 	padding: 12px;
 	right: 0px;
 }
 .sp-close-btn:hover {
-	background: #40a9ff;
+	/* background: #40a9ff; */
 	cursor: pointer;
+	color: white;
 }

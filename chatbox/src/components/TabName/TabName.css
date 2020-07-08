@@ -4,13 +4,17 @@
 	overflow: hidden;
 	text-overflow: ellipsis;
 	padding: 0px 10px;
-	color: #e4f2ff;
+	/* color: lightblue; */
 }
 
-.ant-tabs-tab-active .sp-vertical-tab-name {
+/* .ant-tabs-tab-active .sp-vertical-tab-name {
 	color: white;
 }
+.sp-vertical-tab-name:hover {
+	color: white;
+} */
+
 .sp-vertical-tab-name.unread {
 	color: white;
-	font-weight: bold;
+	/* font-weight: bold; */
 }
