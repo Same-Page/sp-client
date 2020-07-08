@@ -36,6 +36,22 @@ function Tab({
 }) {
 	return (
 		<div className="sp-main-tabs">
+			<CloseOutlined
+				onClick={() => {
+					if (window.parent) {
+						window.parent.postMessage(
+							{
+								action: "close_chatbox",
+								data: null
+							},
+							"*"
+						)
+					}
+				}}
+				className="sp-close-btn"
+				title="关闭聊天盒"
+			/>
+
 			<Tabs
 				onChange={key => {
 					if (key === "close") {
@@ -110,7 +126,7 @@ function Tab({
 				>
 					<Account account={account} storageData={storageData} />
 				</TabPane>
-				<TabPane
+				{/* <TabPane
 					tab={
 						<span>
 							<CloseOutlined title="关闭聊天盒" />
@@ -120,7 +136,7 @@ function Tab({
 					key="close"
 				>
 					<>close</>
-				</TabPane>
+				</TabPane> */}
 				{/* <TabPane
 					tab={
 						<span>

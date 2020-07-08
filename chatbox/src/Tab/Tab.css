@@ -68,6 +68,10 @@ header-body-footer with sticky header and footer*/
 .ant-tabs.ant-tabs-card > .ant-tabs-bar .ant-tabs-tab-next {
 	right: 0px;
 }
+.ant-tabs.ant-tabs-card > .ant-tabs-bar .ant-tabs-tab-prev,
+.ant-tabs.ant-tabs-card > .ant-tabs-bar .ant-tabs-tab-next {
+	width: 39px;
+}
 
 .ant-tabs.ant-tabs-card
 	> .ant-tabs-bar
@@ -229,4 +233,16 @@ header-body-footer with sticky header and footer*/
 .sp-new-message-dot .ant-badge-dot {
 	/* margin-left: -5px; */
 	right: 5px;
+}
+
+.sp-close-btn {
+	color: white;
+	position: absolute;
+	z-index: 1;
+	padding: 12px;
+	right: 0px;
+}
+.sp-close-btn:hover {
+	background: #40a9ff;
+	cursor: pointer;
 }
