@@ -89,7 +89,7 @@
 .sp-main-tabs .ant-tabs-left-bar .ant-tabs-tab-active,
 .sp-main-tabs .ant-tabs-left-bar .ant-tabs-tab.ant-tabs-tab-active:hover {
 	color: white;
-	background: #096dd9;
+	background: #40a9ff;
 }
 .ant-tabs-left-bar .ant-btn-dangerous {
 	color: unset;
@@ -116,7 +116,7 @@
 .sp-main-tabs .ant-tabs-left-bar .ant-tabs-ink-bar {
 	width: 100%;
 	/* background: rgb(224, 224, 224); */
-	background: #096dd9;
+	background: #40a9ff;
 	z-index: -1;
 	/* width: 2px; */
 	display: none;
