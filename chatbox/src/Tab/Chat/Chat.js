@@ -72,7 +72,15 @@ const getInitialActiveKey = (initPanes, storageData) => {
 // user can open multiple empty tabs
 let newTabIndex = 0
 
-function Chat({ socket, account, storageData, url, domain, setActiveTab }) {
+function Chat({
+	socket,
+	account,
+	storageData,
+	url,
+	domain,
+	setActiveTab,
+	windowSize
+}) {
 	const initPanes = getInitialPanes(storageData, url, domain)
 	// TODO: url change won't trigger any update
 	// but maybe user does want to stay in pervious same page chat room
@@ -85,6 +93,14 @@ function Chat({ socket, account, storageData, url, domain, setActiveTab }) {
 
 	const [minSideBar, setMinSideBar] = useState(false)
 	const [closeSideBar, setCloseSideBar] = useState(false)
+
+	useEffect(() => {
+		if (windowSize.height < 350) {
+			setCloseSideBar(true)
+		} else if (windowSize.height > 350) {
+			setCloseSideBar(false)
+		}
+	}, [windowSize])
 
 	useEffect(() => {
 		// we have this separate useEffect which depends on
@@ -266,9 +282,10 @@ function Chat({ socket, account, storageData, url, domain, setActiveTab }) {
 			<Tabs
 				tabBarExtraContent={
 					<span>
-						<Button icon={<PlusOutlined />} onClick={add} />
+						<Button icon={<PlusOutlined />} onClick={add} title="打开新房间" />
 						<br />
 						<Button
+							title="调整侧栏大小"
 							onClick={() => {
 								setMinSideBar(prev => {
 									return !prev
@@ -284,6 +301,7 @@ function Chat({ socket, account, storageData, url, domain, setActiveTab }) {
 
 						<br />
 						<Button
+							title="隐藏侧栏"
 							// danger
 							onClick={() => {
 								setCloseSideBar(true)
@@ -328,7 +346,8 @@ function Chat({ socket, account, storageData, url, domain, setActiveTab }) {
 						{pane.room && (
 							<RoomTab
 								extraButton={
-									closeSideBar && (
+									closeSideBar &&
+									window.height > 350 && (
 										<Button
 											onClick={() => {
 												setCloseSideBar(false)

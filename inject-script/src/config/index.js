@@ -12,7 +12,7 @@ const defaultConfig = {
 		width: 400,
 		height: 600,
 		minWidth: 350,
-		minHeight: 350,
+		minHeight: 40,
 	},
 	position: {
 		x: 0,

@@ -1,6 +1,6 @@
 import "antd/dist/antd.css"
 import "./Tab.css"
-import React from "react"
+import React, { useState, useEffect } from "react"
 import { Tabs, message, Badge } from "antd"
 import {
 	MessageOutlined,
@@ -34,23 +34,53 @@ function Tab({
 	url,
 	domain
 }) {
+	const [windowSize, setWindowSize] = useState({
+		height: window.innerHeight,
+		width: window.innerWidth
+	})
+	const [minChatMode, setMinChatMode] = useState(false)
+
+	useEffect(() => {
+		const resizeHandler = () => {
+			setWindowSize({
+				height: window.innerHeight,
+				width: window.innerWidth
+			})
+		}
+		window.addEventListener("resize", resizeHandler)
+
+		return () => {
+			window.removeEventListener("resize", resizeHandler)
+		}
+	}, [])
+
+	useEffect(() => {
+		setMinChatMode(activeTab === "chat" && windowSize.height < 150)
+	}, [windowSize, activeTab])
+
+	let className = "sp-main-tabs"
+	if (minChatMode) {
+		className += " min-chat-mode"
+	}
 	return (
-		<div className="sp-main-tabs">
-			<CloseOutlined
-				onClick={() => {
-					if (window.parent) {
-						window.parent.postMessage(
-							{
-								action: "close_chatbox",
-								data: null
-							},
-							"*"
-						)
-					}
-				}}
-				className="sp-close-btn"
-				title="关闭聊天盒"
-			/>
+		<div className={className}>
+			{!minChatMode && (
+				<CloseOutlined
+					onClick={() => {
+						if (window.parent) {
+							window.parent.postMessage(
+								{
+									action: "close_chatbox",
+									data: null
+								},
+								"*"
+							)
+						}
+					}}
+					className="sp-close-btn"
+					title="隐藏聊天盒"
+				/>
+			)}
 
 			<Tabs
 				onChange={key => {
@@ -89,6 +119,7 @@ function Tab({
 						url={url}
 						domain={domain}
 						setActiveTab={setActiveTab}
+						windowSize={windowSize}
 					/>
 				</TabPane>
 				<TabPane

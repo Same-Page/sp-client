@@ -8,16 +8,13 @@ import { Rnd } from "react-rnd"
 // import { mockUrl, getDomain } from "utils/url"
 import { postMsgToIframe } from "utils/iframe"
 import storage from "storage.js"
-// import spConfig from "config"
 import SwapHorizIcon from "@material-ui/icons/SwapHoriz"
 
-import {
-	createIframeByDefault,
-	showIframeControl,
-	defaultIframeSize,
-	iframeSrc,
-} from "config/iframe"
+import config from "config"
+
 import ImageModal from "../ImageModal"
+
+const createIframeByDefault = false
 
 // const defaultUrl = window.location.href
 // let urlInput = defaultUrl
@@ -51,7 +48,7 @@ function ChatboxIframe({
 	storageData,
 }) {
 	const [x, setX] = useState(5)
-	const [size, setSize] = useState(defaultIframeSize)
+	const [size, setSize] = useState(config.size)
 	const blacklistRef = useRef()
 	blacklistRef.current = blacklist
 	// window.createChatboxIframe = createChatboxIframe
@@ -154,7 +151,7 @@ function ChatboxIframe({
 			setChatboxCreated(storageData.autoOpenChatbox)
 		}
 
-		let iframeSize = defaultIframeSize
+		let iframeSize = config.size
 		if (storageData.iframeSize) {
 			setSize(storageData.iframeSize)
 			iframeSize = storageData.iframeSize
@@ -180,13 +177,13 @@ function ChatboxIframe({
 		<div className="sp-iframe-div">
 			<ImageModal />
 
-			{showIframeControl && (
+			{/* {showIframeControl && (
 				<div>
 					<h1>
 						<br />
 						<center>Same Page</center>
-					</h1>
-					{/* <div style={{ padding: 20, maxWidth: 500 }}>
+					</h1> */}
+			{/* <div style={{ padding: 20, maxWidth: 500 }}>
 						<span style={{ marginBottom: 5 }}>URL: </span>
 						<Input
 							style={{ width: 150, marginLeft: 5 }}
@@ -211,8 +208,8 @@ function ChatboxIframe({
 							update!
 						</Button>
 					</div> */}
-				</div>
-			)}
+			{/* </div>
+			)} */}
 
 			{chatboxCreated && (
 				<Rnd
@@ -228,8 +225,8 @@ function ChatboxIframe({
 						width: size.width,
 						height: size.height,
 					}}
-					minWidth={defaultIframeSize.minWidth}
-					minHeight={defaultIframeSize.minHeight}
+					minWidth={config.size.minWidth}
+					minHeight={config.size.minHeight}
 					maxHeight={window.innerHeight}
 					dragAxis="x"
 					onDragStop={(e, d) => {
@@ -255,7 +252,7 @@ function ChatboxIframe({
 						ref={iframeRef}
 						className="sp-chatbox-iframe"
 						// src={iframeSrc + "?" + url}
-						src={iframeSrc}
+						src={config.chatboxSrc}
 					/>
 				</Rnd>
 			)}

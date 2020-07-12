@@ -81,6 +81,10 @@ header-body-footer with sticky header and footer*/
 	color: lightgray;
 }
 
+.min-chat-mode .ant-tabs-top-bar {
+	display: none;
+}
+
 /* Only override tab style for card type (.ant-tabs-card) END*/
 
 .sp-flex-body {
@@ -91,6 +95,9 @@ header-body-footer with sticky header and footer*/
 	overflow-y: auto;
 	overflow-x: hidden;
 	flex: auto;
+}
+.min-chat-mode .sp-flex-body {
+	height: unset;
 }
 
 .sp-main-tabs .ant-alert-icon {

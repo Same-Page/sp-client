@@ -5,7 +5,9 @@
 	font-size: 13px;
 	white-space: nowrap;
 }
-
+.min-chat-mode .sp-tab-content-header {
+	display: none;
+}
 .sp-tab-content-header .ant-btn,
 .sp-tab-content-header .ant-btn-icon-only > * {
 	background: none;
