@@ -1,5 +1,5 @@
 const defaultConfig = {
-	debug: true,
+	// debug: true,
 	chatboxSrc: "https://urlchatbox.com",
 	// apiUrl: "http://167.172.6.226",
 	apiUrl: "https://web.chat-anywhere.com",
