@@ -6,6 +6,7 @@
 
 .sp-message-body.file,
 .sp-message-body.text,
+.sp-message-body.media, /* TODO: remove */
 .sp-message-body.url {
 	background: rgba(255, 255, 255);
 	border-radius: 5px;
@@ -20,10 +21,6 @@
 	border: 1px solid rgba(94, 94, 94, 0.09);
 }
 
-.sp-message-body.invite {
-	text-align: left;
-}
-
 .sp-message-body.emoji {
 	font-size: 25px;
 	color: black;
@@ -35,8 +32,8 @@
 	background: #bf0;
 	color: black;
 }
-
-img.sp-message-image {
+.sp-message-body.image img {
+	/* img.sp-message-image { */
 	max-width: 100%;
 	max-height: 350px;
 	cursor: pointer;
@@ -44,16 +41,16 @@ img.sp-message-image {
 .sp-chat-message-avatar {
 	cursor: pointer;
 }
-
+/* 
+.sp-message-body.invite {
+	text-align: left;
+}
 .sp-message-media {
 	cursor: pointer;
 	border-radius: 5px;
 	padding: 10px;
-	/* padding-top: 5px; */
-	/* padding-bottom: 5px; */
 	word-wrap: break-word;
 	white-space: pre-wrap;
-	/* border: 1px solid #e0e0e0; */
 	color: #ffffff;
 	background: #1890ff;
 	text-align: left;
@@ -64,7 +61,7 @@ img.sp-message-image {
 }
 .sp-message-body .sp-invitation-help a {
 	color: rgb(59, 160, 255);
-}
+} */
 
 .sp-media-modal .ant-modal-body {
 	padding: 0;
