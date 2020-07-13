@@ -154,15 +154,15 @@ class App extends React.Component {
 		return (
 			<div>
 				<div className="option-body">
-					{/* <div className="option-row">
+					<div className="option-row">
 						<span className="option-title">{AUTO_CONNECT}</span>{" "}
 						<Switch
 							checked={this.state.autoConnect}
-							onChange={e =>
+							onChange={(e) =>
 								this.onSwitchChange("autoConnect", e)
 							}
 						/>
-					</div> */}
+					</div>
 
 					{/* <div className="option-row">
 						<span className="option-title">{AUTO_OPEN_CHATBOX}</span>{" "}

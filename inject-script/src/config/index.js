@@ -1,4 +1,5 @@
 const defaultConfig = {
+	debug: true,
 	chatboxSrc: "https://urlchatbox.com",
 	// apiUrl: "http://167.172.6.226",
 	apiUrl: "https://web.chat-anywhere.com",
@@ -21,6 +22,7 @@ const defaultConfig = {
 	// icon: {
 	// 	verticalCenter: true,
 	// },
+	autoConnect: true,
 	activeTab: "chat",
 	defaultRooms: [
 		{

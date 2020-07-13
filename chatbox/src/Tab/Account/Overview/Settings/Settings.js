@@ -12,6 +12,7 @@ function Settings({ back, storageData }) {
 	const [showAvatar, setShowAvatar] = useState(false)
 	const [showDanmu, setShowDanmu] = useState(true)
 	const [showChatIcon, setShowChatIcon] = useState(true)
+	const [autoConnect, setAutoConnect] = useState(true)
 
 	// const onFinish = async values => {
 	// 	console.debug("Received values of form: ", values)
@@ -49,10 +50,15 @@ function Settings({ back, storageData }) {
 				if (data.name === "show_icon") {
 					setShowChatIcon(data.data)
 				}
+				if (data.name === "auto_connect") {
+					setAutoConnect(data.data)
+				}
 			})
 		}
 
 		if (storageData) {
+			// storageData doesn't work if chatbox iframe not same origin
+			// injection script
 			// if (storageData.showAvatar != null) {
 			// 	setShowAvatar(storageData.showAvatar)
 			// }
@@ -74,7 +80,18 @@ function Settings({ back, storageData }) {
 			/>
 
 			<div style={{ padding: 30, overflow: "auto" }}>
-				<div>
+				<div style={{ marginTop: 10 }}>
+					自动连接
+					<Switch
+						style={{ marginLeft: 10 }}
+						checked={autoConnect}
+						onChange={val => {
+							storageManager.set("autoConnect", val)
+							setAutoConnect(val)
+						}}
+					/>
+				</div>
+				<div style={{ marginTop: 30 }}>
 					显示聊天图标
 					<Switch
 						style={{ marginLeft: 10 }}

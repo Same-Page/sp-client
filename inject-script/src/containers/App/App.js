@@ -5,7 +5,7 @@ import ChatboxIframe from "../ChatboxIframe"
 import Rooms from "../Rooms"
 import Danmus from "../Danmus"
 import ChatIcon from "../ChatIcon"
-
+import { postMsgToIframe } from "utils/iframe"
 import storageManager from "storage"
 import config from "config"
 
@@ -21,6 +21,7 @@ function App() {
 	const [roomName, setRoomName] = useState()
 	const [unread, setUnread] = useState(false)
 	const [hidden, setHidden] = useState(false)
+	const [autoConnect, setAutoConnect] = useState(false)
 
 	// since connected is also set in useEffect, it causes infinite loop
 	const [disconnectedCounter, setDisconnectedCounter] = useState(0)
@@ -36,6 +37,10 @@ function App() {
 		storageManager.addEventListener("unread", (unread) => {
 			setUnread(!!unread)
 		})
+		storageManager.addEventListener("autoConnect", (autoConnect) => {
+			setAutoConnect(autoConnect)
+			postMsgToIframe("auto_connect", autoConnect)
+		})
 		// pass null as storage key to get all stored data
 		storageManager.get(null, (data) => {
 			setStorageData(data || {})
@@ -44,6 +49,11 @@ function App() {
 			}
 			if (data.unread) {
 				setUnread(!!data.unread)
+			}
+			if (data.autoConnect != null) {
+				setAutoConnect(data.autoConnect)
+			} else {
+				setAutoConnect(config.autoConnect)
 			}
 			setReady(true)
 		})
@@ -58,7 +68,27 @@ function App() {
 		setHidden(document.hidden)
 		// Not unregistering since this component is never unmounted
 	}, [])
-
+	useEffect(() => {
+		const handler = (e) => {
+			if (!e || !e.data) return
+			const data = e.data
+			if (data.name === "get_settings") {
+				postMsgToIframe("auto_connect", autoConnect)
+			}
+		}
+		window.addEventListener("message", handler)
+		return () => {
+			window.removeEventListener("message", handler)
+		}
+	}, [autoConnect])
+	useEffect(() => {
+		console.debug("token changed", token)
+		if (token) {
+			axios.defaults.headers.common["token"] = token
+		} else {
+			delete axios.defaults.headers.common["token"]
+		}
+	}, [token])
 	useEffect(() => {
 		if (!hidden && token && !socket) {
 			setDisconnectedCounter((counter) => {
@@ -68,9 +98,10 @@ function App() {
 	}, [hidden, token])
 
 	useEffect(() => {
-		// console.log("hidden", document.hidden)
-		// if (!chatboxCreated && token) {
-		if (token && !document.hidden) {
+		const shouldConnect =
+			token && !document.hidden && (autoConnect || chatboxCreated)
+		if (shouldConnect) {
+			console.debug(token, document.hidden, autoConnect, chatboxCreated)
 			console.debug("creating socket")
 			const s = new WebSocket(config.socketUrl)
 			window.spSocket = s
@@ -137,20 +168,9 @@ function App() {
 					s.closed = true
 				}
 				setSocket(null)
-				// setConnected(false)
-				// setSocketIsLoggedIn(false)
 			}
 		}
-	}, [disconnectedCounter, token])
-
-	useEffect(() => {
-		console.debug("token changed", token)
-		if (token) {
-			axios.defaults.headers.common["token"] = token
-		} else {
-			delete axios.defaults.headers.common["token"]
-		}
-	}, [token])
+	}, [disconnectedCounter, token, autoConnect, chatboxCreated])
 
 	useEffect(() => {
 		if (storageData && !storageData.unread && token) {
