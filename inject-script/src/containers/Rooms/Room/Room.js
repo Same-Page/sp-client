@@ -47,6 +47,18 @@ function Room({
 					data.self = data.user.id.toString() === userId.toString()
 					data.roomName = room.name
 					setActiveRoomId(room.id)
+
+					// treat all message as text message, except image
+					// convert here so no need to do it in both user bubble and danmu
+					if (data.content.type === "media") {
+						data.content.type = "text"
+						data.content.value = "[多媒体文件]"
+					} else if (data.content.type === "url") {
+						data.content.type = "text"
+					} else if (data.content.type === "file") {
+						data.content.type = "text"
+						data.content.value = data.content.name
+					}
 					window.queueDanmu(data)
 					setUsers((users) => {
 						const newUsers = [...users]
@@ -58,7 +70,7 @@ function Room({
 						return newUsers
 					})
 				} else if (msg.name === "delete_message") {
-					// TODO: instantly delete message bubble
+					// TODO: instantly delete message bubble and danmu
 				} else if (msg.name === "room_info") {
 					lastGoodHeartbeat = new Date()
 					data.chatHistory.forEach((msg) => {

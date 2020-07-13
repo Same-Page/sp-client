@@ -65,13 +65,13 @@ function MessageBody({ content, self, imageLoadedCb, messageActions }) {
 				{name}
 			</a>
 		)
-	}
-	if (type === "url") {
+	} else if (type === "url" || type === "media") {
+		// TODO: handle media type
 		res = (
 			<div>
 				<a target="_blank" rel="noopener noreferrer" href={value}>
 					<LinkOutlined style={{ marginRight: 5 }} />
-					{name}
+					{value}
 				</a>
 			</div>
 		)

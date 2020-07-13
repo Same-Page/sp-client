@@ -13,7 +13,6 @@ function User({ user }) {
 				user.message = null
 			}, 3000)
 			return () => {
-				user.message = null
 				setMessage(null)
 				clearTimeout(timeout)
 			}
