@@ -13,13 +13,22 @@ function User({ user }) {
 				user.message = null
 			}, 3000)
 			return () => {
+				user.message = null
+				setMessage(null)
 				clearTimeout(timeout)
 			}
 		}
 	}, [user.message])
+
+	let body = <span>{message && message.value}</span>
+	if (message && message.type === "image") {
+		body = <img alt="" src={message.value} />
+	}
+	const bubbleClassName = "sp-user-chat-bubble " + (message && message.type)
+
 	return (
 		<span>
-			{message && <div className="sp-chat-bubble">{message}</div>}
+			{message && <div className={bubbleClassName}>{body}</div>}
 
 			<span
 				title={user.name}

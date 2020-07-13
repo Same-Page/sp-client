@@ -20,7 +20,17 @@
 	background-size: cover;
 	display: inline-block;
 }
-.sp-chat-bubble {
+
+.sp-user-chat-bubble {
+	position: absolute;
+	bottom: 70px;
+}
+.sp-user-chat-bubble img {
+	max-width: 50px;
+	max-height: 100px;
+}
+
+.sp-user-chat-bubble.text {
 	padding: 10px;
 	background-color: white;
 	border-radius: 5px;
@@ -28,14 +38,12 @@
 	width: max-content;
 	min-width: 50px;
 	max-width: 250px;
-	position: absolute;
-	bottom: 70px;
 	overflow-wrap: break-word;
 	border: 1px solid #666;
 	text-align: center;
 }
 
-.sp-chat-bubble:after {
+.sp-user-chat-bubble.text:after {
 	content: " ";
 	position: absolute;
 	/* width: 29px; */
@@ -48,7 +56,7 @@
 	border-color: white transparent transparent white;
 }
 
-.sp-chat-bubble:before {
+.sp-user-chat-bubble.text:before {
 	content: " ";
 	position: absolute;
 	width: 0;

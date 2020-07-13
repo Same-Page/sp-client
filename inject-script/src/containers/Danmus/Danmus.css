@@ -17,7 +17,7 @@
 	line-height: 25px;
 	padding: 5px;
 }
-.sp-danmu-content-text {
+.sp-danmu-content.text {
 	border: 1px solid lightgray;
 	background-color: white !important;
 	color: black !important;
@@ -36,19 +36,19 @@
 	/* box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.2); */
 	text-align: left;
 }
-.sp-danmu-content-text.self {
+.sp-danmu-content.self.text {
 	background-color: #bf0 !important;
 	color: black !important;
 }
-.sp-danmu-content-text.invite {
+/* .sp-danmu-content-text.invite {
 	background-color: white !important;
 	color: #1890ff !important;
 	border-color: #1890ff !important;
-}
-.sp-danmu-content-img {
-	width: 100px;
-	height: 100px;
-	margin-top: -10px;
+} */
+.sp-danmu-content img {
+	max-width: 300px;
+	max-height: 50px;
+	margin-left: 10px;
 }
 .inline-emoji {
 	/* font-size: 18px; */

@@ -104,25 +104,25 @@ class AnimationDanmu extends Component {
 	}
 
 	createDanmuObj = (data) => {
-		const content = data.content
-		const contentType = content.type
+		// const content = data.content
+		// const contentType = content.type
 		const danmu = { ...data, id: this.danmuId++, row: 1 }
-		danmu.content = content.value
-		danmu.roomName = data.roomName
+		// danmu.content = content.value
+		// danmu.roomName = data.roomName
 		// if image body
-		if (contentType === "sticker") {
-			danmu.img = true
-			danmu.imgSrc = content.value
-		}
-		if (contentType === "image") {
-			danmu.content = "img"
-		}
-		if (contentType === "file") {
-			danmu.content = "file"
-		}
-		if (contentType === "url") {
-			danmu.content = content.title
-		}
+		// if (contentType === "sticker") {
+		// 	danmu.img = true
+		// 	danmu.imgSrc = content.value
+		// }
+		// if (contentType === "image") {
+		// 	danmu.content = "img"
+		// }
+		// if (contentType === "file") {
+		// 	danmu.content = "file"
+		// }
+		// if (contentType === "url") {
+		// 	danmu.content = content.title
+		// }
 
 		// if (data.roomName) {
 

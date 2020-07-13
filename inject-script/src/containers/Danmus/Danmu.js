@@ -43,35 +43,25 @@ class Danmu extends Component {
 		}
 	}
 	render() {
-		const user = this.props.danmu.user
+		const data = this.props.danmu
+		const user = data.user
+		const content = data.content
+		let contentClassName = "sp-danmu-content " + content.type
+
+		if (data.self) {
+			contentClassName += " self"
+		}
+
 		let avatar = ""
 		if (user.avatarSrc) {
 			avatar = (
 				<img alt="" className="sp-danmu-avatar" src={user.avatarSrc} />
 			)
 		}
-		let textContentClass = "sp-danmu-content-text"
-		if (this.props.danmu.self) {
-			textContentClass += " self"
-			// console.log(this.props.danmu);
-		}
-		textContentClass += " " + this.props.danmu.type
-		let content = (
-			<span
-				className={textContentClass}
-				// dangerouslySetInnerHTML={{ __html: this.props.danmu.content }}
-			>
-				{this.props.danmu.content}
-			</span>
-		)
-		if (this.props.danmu.img) {
-			content = (
-				<img
-					alt=""
-					className="sp-danmu-content-img"
-					src={this.props.danmu.imgSrc}
-				/>
-			)
+
+		let body = <span>{content.value}</span>
+		if (content.type === "image") {
+			body = <img alt="" src={content.value} />
 		}
 		return (
 			<div
@@ -85,8 +75,7 @@ class Danmu extends Component {
 					</span>
 				)}
 				{avatar}
-
-				{content}
+				<span className={contentClassName}>{body}</span>
 			</div>
 		)
 	}

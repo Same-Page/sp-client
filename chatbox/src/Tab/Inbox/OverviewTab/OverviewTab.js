@@ -13,6 +13,17 @@ function lastMsg(conversation) {
 	return null
 }
 
+function lastMsgDisplay(conversation) {
+	const lm = lastMsg(conversation)
+	if (lm) {
+		if (lm.content.type === "image") {
+			return "[图片]"
+		}
+		return lm.content.value
+	}
+	return "..."
+}
+
 function OverviewTab({ conversations, setInboxUser, loading, fetchData }) {
 	const [view, setView] = useState("mail")
 	return (
@@ -63,9 +74,7 @@ function OverviewTab({ conversations, setInboxUser, loading, fetchData }) {
 										</span>
 									)}
 								</div>
-								<div className="sp-lastmsg-content">
-									{(lastMsg(c) && lastMsg(c).content.value) || "..."}
-								</div>
+								<div className="sp-lastmsg-content">{lastMsgDisplay(c)}</div>
 							</span>
 							<div style={{ clear: "both" }}></div>
 						</div>

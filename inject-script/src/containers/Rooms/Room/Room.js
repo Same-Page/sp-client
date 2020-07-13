@@ -52,7 +52,7 @@ function Room({
 						const newUsers = [...users]
 						newUsers.forEach((u) => {
 							if (u.id.toString() === data.user.id.toString()) {
-								u.message = data.content.value
+								u.message = data.content
 							}
 						})
 						return newUsers
