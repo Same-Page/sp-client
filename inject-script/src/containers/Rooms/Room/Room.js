@@ -159,7 +159,7 @@ function Room({
 		} else {
 			setUsers([])
 		}
-	}, [socket, forbiddenToJoin, room, userId])
+	}, [socket, forbiddenToJoin, room.id, userId])
 
 	useEffect(() => {
 		if (activeRoomId && activeRoomId.toString() === room.id.toString()) {

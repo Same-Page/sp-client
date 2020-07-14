@@ -25,6 +25,9 @@ function Rooms({ storageData, socket, setUserCount, setRoomName, userId }) {
 	}, [showAvatar])
 	useEffect(() => {
 		storageManager.addEventListener("activeRoomId", (activeRoomId) => {
+			// Bug: if user clicks on same page or same site room
+			// active room id updated to wrong room id
+			// TODO: use window post message for this one
 			setActiveRoomId(activeRoomId)
 		})
 		storageManager.addEventListener("showAvatar", (showAvatar) => {
@@ -32,7 +35,18 @@ function Rooms({ storageData, socket, setUserCount, setRoomName, userId }) {
 			postMsgToIframe("show_avatar", showAvatar)
 		})
 		storageManager.addEventListener("rooms", (rooms) => {
-			setRooms(rooms)
+			// console.log(rooms)
+			// setRooms(rooms)
+			setRooms((rs) => {
+				// do not update same page/site room's id
+				const fixedRooms = rooms.filter((r) => {
+					return r.type !== "site" && r.type !== "page"
+				})
+				const dynamicRooms = rs.filter((r) => {
+					return r.type === "site" || r.type === "page"
+				})
+				return [...dynamicRooms, ...fixedRooms]
+			})
 		})
 		if (storageData) {
 			if (storageData.rooms) {
