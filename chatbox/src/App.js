@@ -108,7 +108,7 @@ function App({ account, setAccount, activeTab, setActiveTab }) {
 			window.spSocket = s
 			const socketOpenHandler = () => {
 				console.debug("socket connected")
-				message.success("聊天服务器连接成功！")
+				// message.success("聊天服务器连接成功！")
 				// setConnected(true)
 				s.wasConnected = true
 
@@ -125,7 +125,7 @@ function App({ account, setAccount, activeTab, setActiveTab }) {
 					// Show error to user only if it was connected before
 					// Otherwise when there is no Internet, this will be shown
 					// all the time
-					message.error("聊天服务器连接断开！")
+					// message.error("聊天服务器连接断开！")
 				}
 				s.closed = true
 				// setConnected(false)
@@ -138,7 +138,7 @@ function App({ account, setAccount, activeTab, setActiveTab }) {
 				const msg = JSON.parse(e.data)
 				if (msg.name === "login") {
 					if (msg.success) {
-						message.success("聊天服务器登录成功!")
+						// message.success("聊天服务器登录成功!")
 						setSocketIsLoggedIn(true)
 					} else {
 						// delete account data to force user re-login
